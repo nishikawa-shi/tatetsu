@@ -88,15 +88,26 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: ListView.separated(
+        child: ListView.builder(
             padding: EdgeInsets.all(16),
             itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return Container(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text("Enter participants names."));
+              }
+              if (index > _participants.length) {
+                return Container(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: TextButton(
+                      child: const Icon(Icons.add_circle_sharp, size: 40),
+                      onPressed: _incrementCounter,
+                    ));
+              }
               return TextFormField(
-                  initialValue: _participants[index].displayName);
+                  initialValue: _participants[index - 1].displayName);
             },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-            itemCount: _participants.length),
+            itemCount: _participants.length + 2),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
