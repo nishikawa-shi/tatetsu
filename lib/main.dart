@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: ListView.separated(
+            padding: EdgeInsets.all(16),
             itemBuilder: (BuildContext context, int index) {
               return TextFormField(
                   initialValue: _participants[index].displayName);
