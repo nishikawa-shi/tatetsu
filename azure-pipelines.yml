@@ -28,3 +28,6 @@ steps:
     target: 'apk'
     projectDirectory: '.'
     buildNumber: '$(Build.BuildId)'
+- task: FlutterTest@0
+  inputs:
+    projectDirectory: '.'
