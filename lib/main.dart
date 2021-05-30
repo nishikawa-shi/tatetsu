@@ -90,7 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // in the middle of the parent.
         child: ListView.separated(
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(title: Text(_participants[index].displayName));
+              return TextFormField(
+                  initialValue: _participants[index].displayName);
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
