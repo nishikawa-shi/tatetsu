@@ -2,10 +2,10 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Tatetsu());
 }
 
-class MyApp extends StatelessWidget {
+class Tatetsu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,27 +14,27 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: InputParticipantsPage(title: 'Input Participants'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+class InputParticipantsPage extends StatefulWidget {
+  InputParticipantsPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _InputParticipantsPageState createState() => _InputParticipantsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _InputParticipantsPageState extends State<InputParticipantsPage> {
   final List<Participant> _participants = [
     Participant("Alice"),
     Participant("Bob")
   ];
 
-  void _incrementCounter() {
+  void _insertParticipantToLast() {
     setState(() {
       final displayName =
           ["Dr.", generateWordPairs().first.asUpperCase].join(" ");
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _remove(int index) {
+  void _removeParticipant(int index) {
     setState(() {
       final participantsIndex = index - 1;
       _participants.removeAt(participantsIndex);
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: EdgeInsets.symmetric(vertical: 16),
                     child: TextButton(
                       child: const Icon(Icons.add_circle_sharp, size: 40),
-                      onPressed: _incrementCounter,
+                      onPressed: _insertParticipantToLast,
                     ));
               }
               return Row(
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   IconButton(
                     icon: Icon(Icons.remove, size: 16),
                     onPressed: () {
-                      _remove(index);
+                      _removeParticipant(index);
                     },
                   )
                 ],
