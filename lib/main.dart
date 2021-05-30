@@ -71,6 +71,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _remove(int index) {
+    setState(() {
+      final participantsIndex = index - 1;
+      _participants.removeAt(participantsIndex);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -104,8 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: _incrementCounter,
                     ));
               }
-              return TextFormField(
-                  initialValue: _participants[index - 1].displayName);
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                      child: TextFormField(
+                          initialValue: _participants[index - 1].displayName)),
+                  IconButton(
+                    icon: Icon(Icons.remove, size: 16),
+                    onPressed: () {
+                      _remove(index);
+                    },
+                  )
+                ],
+              );
             },
             itemCount: _participants.length + 2),
       ),
