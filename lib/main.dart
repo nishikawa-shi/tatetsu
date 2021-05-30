@@ -51,6 +51,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final List<Participant> _participants = [
+    Participant("Alice"),
+    Participant("Bob")
+  ];
 
   void _incrementCounter() {
     setState(() {
@@ -59,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      _participants.add(Participant("Charly"));
       _counter++;
     });
   }
@@ -82,11 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
         // in the middle of the parent.
         child: ListView.separated(
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(title: Text("TODO: text field"));
+              return ListTile(title: Text(_participants[index].displayName));
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
-            itemCount: 10),
+            itemCount: _participants.length),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -95,4 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class Participant {
+  String displayName;
+
+  Participant(this.displayName);
 }
