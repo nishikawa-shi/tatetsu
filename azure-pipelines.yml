@@ -27,3 +27,4 @@ steps:
   inputs:
     target: 'apk'
     projectDirectory: '.'
+    buildNumber: '$(Build.BuildId)'
