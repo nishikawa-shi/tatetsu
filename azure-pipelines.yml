@@ -5,6 +5,8 @@
 
 trigger:
 - main
+- develop
+- feature/*
 
 pool:
   vmImage: macos-latest
