@@ -6,22 +6,29 @@ trigger:
 pool:
   vmImage: macos-latest
 
-steps:
-- task: FlutterInstall@0
-  inputs:
-    channel: 'stable'
-    version: 'latest'
-- script: |
-    echo '$FLUTTERTOOLPATH/flutter pub get'
-    $FLUTTERTOOLPATH/flutter pub get
-    echo '$FLUTTERTOOLPATH/flutter analyze'
-    $FLUTTERTOOLPATH/flutter analyze
-  displayName: 'Flutter Analyze (scratch)'
-- task: FlutterTest@0
-  inputs:
-    projectDirectory: '.'
-- task: FlutterBuild@0
-  inputs:
-    target: 'apk'
-    projectDirectory: '.'
-    buildNumber: '$(Build.BuildId)'
+stages:
+- stage: qa_stage
+  displayName: 動作検証ステージ
+  condition: always()
+  jobs:
+  - job: check_job
+    displayName: 標準のcheckエラー検出
+    steps:
+    - task: FlutterInstall@0
+      inputs:
+        channel: 'stable'
+        version: 'latest'
+    - script: |
+        echo '$FLUTTERTOOLPATH/flutter pub get'
+        $FLUTTERTOOLPATH/flutter pub get
+        echo '$FLUTTERTOOLPATH/flutter analyze'
+        $FLUTTERTOOLPATH/flutter analyze
+      displayName: 'Flutter Analyze (scratch)'
+    - task: FlutterTest@0
+      inputs:
+        projectDirectory: '.'
+    - task: FlutterBuild@0
+      inputs:
+        target: 'apk'
+        projectDirectory: '.'
+        buildNumber: '$(Build.BuildId)'
