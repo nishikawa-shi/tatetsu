@@ -30,6 +30,10 @@ steps:
     target: 'apk'
     projectDirectory: '.'
     buildNumber: '$(Build.BuildId)'
+- task: FlutterCommand@0
+  inputs:
+    arguments: 'analyze'
+    projectDirectory: '.'
 - task: FlutterTest@0
   inputs:
     projectDirectory: '.'
