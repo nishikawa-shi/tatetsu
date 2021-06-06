@@ -1,4 +1,4 @@
-import 'package:tatetsu/model/usecase/ParticipantsUsecase.dart';
+import 'package:tatetsu/model/usecase/participants_usecase.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,5 +1,5 @@
 import 'package:english_words/english_words.dart';
-import 'package:tatetsu/model/entity/Participant.dart';
+import 'package:tatetsu/model/entity/participant.dart';
 
 class ParticipantsUsecase {
   static List<Participant> getDefaults() {
