@@ -11,10 +11,12 @@ steps:
   inputs:
     channel: 'stable'
     version: 'latest'
-- task: FlutterCommand@0
-  inputs:
-    arguments: 'analyze'
-    projectDirectory: '.'
+- script: |
+    echo '$FLUTTERTOOLPATH/flutter pub get'
+    $FLUTTERTOOLPATH/flutter pub get
+    echo '$FLUTTERTOOLPATH/flutter analyze'
+    $FLUTTERTOOLPATH/flutter analyze
+  displayName: 'Flutter Analyze (scratch)'
 - task: FlutterTest@0
   inputs:
     projectDirectory: '.'
