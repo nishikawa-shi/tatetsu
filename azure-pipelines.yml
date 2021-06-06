@@ -32,3 +32,16 @@ stages:
         target: 'apk'
         projectDirectory: '.'
         buildNumber: '$(Build.BuildId)'
+- stage: beta_app_deploy_stage
+  displayName: β版アプリ配布ステージ
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+  dependsOn: qa_stage
+  jobs:
+  - job: firebase_deploy_job
+    displayName: Firebaseへapk配布
+    steps:
+    - script: |
+        echo $(Build.BuildId) | xargs -I {} sed -e 's/versionCode 1/versionCode {}/g' android/app/build.gradle > android/app/build.gradle.versioned
+        diff android/app/build.gradle.versioned android/app/build.gradle
+        mv android/app/build.gradle.versioned android/app/build.gradle
+      displayName: 'build.gradleのVersionCode更新'
