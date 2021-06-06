@@ -66,8 +66,11 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Expanded(
-            child: TextFormField(
-                initialValue: _participants[participantIndex].displayName)),
+          child: TextFormField(
+            initialValue: _participants[participantIndex].displayName,
+            key: UniqueKey(),
+          ),
+        ),
         IconButton(
           icon: Icon(Icons.remove, size: 16),
           onPressed: () {
