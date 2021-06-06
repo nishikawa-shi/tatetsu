@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/Participant.dart';
 import 'package:tatetsu/model/usecase/ParticipantsUsecase.dart';
+import 'package:tatetsu/ui/input_accounting_detail/InputAccountingDetailPage.dart';
 
 class InputParticipantsPage extends StatefulWidget {
   InputParticipantsPage({required this.title}) : super();
@@ -72,8 +73,15 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       padding: EdgeInsets.symmetric(vertical: 16),
       child: TextButton(
         child: const Text("Start accounting detail input."),
-        onPressed: () {},
+        onPressed: _toInputAccounting,
       ));
+
+  void _toInputAccounting() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return InputAccountingDetailPage(participants: _participants);
+    }));
+  }
 
   Row _createParticipantInputArea(int participantIndex) {
     return Row(
