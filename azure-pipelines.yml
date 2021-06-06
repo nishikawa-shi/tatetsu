@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 - develop
@@ -12,24 +7,21 @@ pool:
   vmImage: macos-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
 - task: FlutterInstall@0
   inputs:
     channel: 'stable'
     version: 'latest'
-
+- script: |
+    echo '$FLUTTERTOOLPATH/flutter pub get'
+    $FLUTTERTOOLPATH/flutter pub get
+    echo '$FLUTTERTOOLPATH/flutter analyze'
+    $FLUTTERTOOLPATH/flutter analyze
+  displayName: 'Flutter Analyze (scratch)'
+- task: FlutterTest@0
+  inputs:
+    projectDirectory: '.'
 - task: FlutterBuild@0
   inputs:
     target: 'apk'
     projectDirectory: '.'
     buildNumber: '$(Build.BuildId)'
-- task: FlutterTest@0
-  inputs:
-    projectDirectory: '.'
