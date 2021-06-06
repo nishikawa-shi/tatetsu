@@ -3,7 +3,7 @@ import 'package:tatetsu/model/entity/Participant.dart';
 
 class ParticipantsUsecase {
   static List<Participant> getDefaults() {
-    return [Participant("Alice"), Participant("Bob")];
+    return [Participant("Alice"), Participant("Bob"), Participant("Charley")];
   }
 
   static Participant createDummy() {

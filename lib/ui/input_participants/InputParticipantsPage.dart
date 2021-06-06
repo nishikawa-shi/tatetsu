@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/Participant.dart';
 import 'package:tatetsu/model/usecase/ParticipantsUsecase.dart';
+import 'package:tatetsu/ui/input_accounting_detail/InputAccountingDetailPage.dart';
 
 class InputParticipantsPage extends StatefulWidget {
   InputParticipantsPage({required this.title}) : super();
@@ -50,16 +51,37 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
     });
   }
 
-  Container _createHeader() => Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Text("Enter participants names."));
+  Row _createHeader() => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(
+            child: Container(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  "Enter participants names.",
+                  textAlign: TextAlign.left,
+                )),
+          ),
+          TextButton(
+            child: Icon(Icons.add_circle_sharp, size: 32),
+            onPressed: _insertParticipantToLast,
+          ),
+        ],
+      );
 
   Container _createFooter() => Container(
       padding: EdgeInsets.symmetric(vertical: 16),
       child: TextButton(
-        child: const Icon(Icons.add_circle_sharp, size: 40),
-        onPressed: _insertParticipantToLast,
+        child: const Text("Start accounting detail input."),
+        onPressed: _toInputAccounting,
       ));
+
+  void _toInputAccounting() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return InputAccountingDetailPage(participants: _participants);
+    }));
+  }
 
   Row _createParticipantInputArea(int participantIndex) {
     return Row(
@@ -71,12 +93,16 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
             key: UniqueKey(),
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.remove, size: 16),
+        TextButton(
+          child: Icon(
+            Icons.remove,
+            size: 16,
+            color: Colors.grey,
+          ),
           onPressed: () {
             _removeParticipant(participantIndex);
           },
-        )
+        ),
       ],
     );
   }
