@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tatetsu/ui/input_participants/InputParticipantsPage.dart';
+import 'package:tatetsu/ui/input_participants/input_participants_page.dart';
 
 void main() {
   runApp(Tatetsu());
@@ -14,7 +14,7 @@ class Tatetsu extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: InputParticipantsPage(title: 'Input Participants'),
+      home: const InputParticipantsPage(title: 'Input Participants'),
     );
   }
 }

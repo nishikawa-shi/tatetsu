@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tatetsu/model/entity/Participant.dart';
-import 'package:tatetsu/model/usecase/ParticipantsUsecase.dart';
-import 'package:tatetsu/ui/input_accounting_detail/InputAccountingDetailPage.dart';
+import 'package:tatetsu/model/entity/participant.dart';
+import 'package:tatetsu/model/usecase/participants_usecase.dart';
+import 'package:tatetsu/ui/input_accounting_detail/input_accounting_detail_page.dart';
 
 class InputParticipantsPage extends StatefulWidget {
-  InputParticipantsPage({required this.title}) : super();
+  const InputParticipantsPage({required this.title}) : super();
 
   final String title;
 
@@ -23,7 +23,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       ),
       body: Center(
         child: ListView.builder(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
                 return _createHeader();
@@ -56,25 +56,26 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
         children: [
           Expanded(
             child: Container(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: const Text(
                   "Enter participants names.",
                   textAlign: TextAlign.left,
                 )),
           ),
           TextButton(
-            child: Icon(Icons.add_circle_sharp, size: 32),
             onPressed: _insertParticipantToLast,
+            child: const Icon(Icons.add_circle_sharp, size: 32),
           ),
         ],
       );
 
   Container _createFooter() => Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: TextButton(
-        child: const Text("Start accounting detail input."),
-        onPressed: _toInputAccounting,
-      ));
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: TextButton(
+          onPressed: _toInputAccounting,
+          child: const Text("Start accounting detail input."),
+        ),
+      );
 
   void _toInputAccounting() {
     Navigator.of(context)
@@ -94,14 +95,14 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           ),
         ),
         TextButton(
-          child: Icon(
+          onPressed: () {
+            _removeParticipant(participantIndex);
+          },
+          child: const Icon(
             Icons.remove,
             size: 16,
             color: Colors.grey,
           ),
-          onPressed: () {
-            _removeParticipant(participantIndex);
-          },
         ),
       ],
     );
