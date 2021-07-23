@@ -52,6 +52,19 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    flavorDimensions "apiEnv"
+    productFlavors {
+        dev {
+            dimension "apiEnv"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "T-dev"
+        }
+        prd {
+            dimension "apiEnv"
+            resValue "string", "app_name", "tatetsu"
+        }
+    }
 }
 
 flutter {
