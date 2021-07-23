@@ -9,3 +9,5 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 #include "Generated.xcconfig"
+
+APP_NAME=T-ProDev
