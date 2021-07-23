@@ -1004,7 +1004,7 @@
 				6725C8B72675A734003623E2 /* Profile-dev */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Release-prd";
 		};
 		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
 			isa = XCConfigurationList;
@@ -1020,7 +1020,7 @@
 				6725C8B82675A734003623E2 /* Profile-dev */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Release-prd";
 		};
 /* End XCConfigurationList section */
 	};
