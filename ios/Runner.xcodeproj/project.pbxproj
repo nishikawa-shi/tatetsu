@@ -32,6 +32,12 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		675F0B3326AA74F2005AC815 /* DebugDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugDev.xcconfig; path = Flutter/DebugDev.xcconfig; sourceTree = "<group>"; };
+		675F0B3426AA7510005AC815 /* DebugPrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugPrd.xcconfig; path = Flutter/DebugPrd.xcconfig; sourceTree = "<group>"; };
+		675F0B3626AA7548005AC815 /* ReleaseDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ReleaseDev.xcconfig; path = Flutter/ReleaseDev.xcconfig; sourceTree = "<group>"; };
+		675F0B3726AA755A005AC815 /* ReleasePrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ReleasePrd.xcconfig; path = Flutter/ReleasePrd.xcconfig; sourceTree = "<group>"; };
+		675F0B3826AA7569005AC815 /* ProfileDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ProfileDev.xcconfig; sourceTree = "<group>"; };
+		675F0B3926AA757B005AC815 /* ProfilePrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ProfilePrd.xcconfig; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -62,6 +68,12 @@
 				9740EEB21CF90195004384FC /* Debug.xcconfig */,
 				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
 				9740EEB31CF90195004384FC /* Generated.xcconfig */,
+				675F0B3326AA74F2005AC815 /* DebugDev.xcconfig */,
+				675F0B3426AA7510005AC815 /* DebugPrd.xcconfig */,
+				675F0B3626AA7548005AC815 /* ReleaseDev.xcconfig */,
+				675F0B3726AA755A005AC815 /* ReleasePrd.xcconfig */,
+				675F0B3826AA7569005AC815 /* ProfileDev.xcconfig */,
+				675F0B3926AA757B005AC815 /* ProfilePrd.xcconfig */,
 			);
 			name = Flutter;
 			sourceTree = "<group>";
