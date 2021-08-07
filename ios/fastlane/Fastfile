@@ -19,11 +19,6 @@ platform :ios do
   APP_IDENTIFIER_DEVELOP = "com.ntetz.flutter.tatetsu.dev"
   APP_IDENTIFIER_PRODUCTION = "com.ntetz.flutter.tatetsu"
 
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
-  end
-
   desc "provisioning profile読み取りlane"
   lane :load_certs do
     match(
