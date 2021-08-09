@@ -6,6 +6,9 @@ trigger:
 pool:
   vmImage: macos-latest
 
+variables:
+- group: Secrets
+
 steps:
 - task: FlutterInstall@0
   inputs:
