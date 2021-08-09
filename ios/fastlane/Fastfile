@@ -21,6 +21,8 @@ platform :ios do
 
   desc "provisioning profile読み取りlane"
   lane :load_certs do
+    setup_ci
+
     match(
       app_identifier: [
         APP_IDENTIFIER_DEVELOP,
