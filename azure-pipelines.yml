@@ -31,3 +31,58 @@ stages:
     - task: FlutterTest@0
       inputs:
         projectDirectory: '.'
+- stage: beta_app_deploy_stage
+  displayName: β版アプリ配布ステージ
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+  dependsOn: qa_stage
+  jobs:
+  - job: firebase_deploy_job
+    displayName: Firebaseへベータ版アプリ配布
+    steps:
+    - task: FlutterInstall@0
+    - script: |
+        echo '>> gem install bundler:1.17.2'
+        gem install bundler:1.17.2
+      displayName: 'Install bundler'
+    - script: |
+        echo '>> cd ios'
+        cd ios
+        echo '>> bundle install'
+        bundle install
+      displayName: 'Install iOS gem dependency'
+    - script: |
+        echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ ios/fastlane/Matchfile'
+        echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ ios/fastlane/Matchfile
+        echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
+        export MATCH_PASSWORD='$(MATCH_PASSWORD)'
+      displayName: 'Set configs for fastlane match'
+    - script: |
+        echo '>> cd ios'
+        cd ios
+        echo '>> bundle exec fastlane load_certs'
+        bundle exec fastlane load_certs
+      displayName: 'Fastlane match'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_dev.plist'
+        $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_dev.plist
+      displayName: 'Flutter build dev ipa (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_prd.plist'
+        $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_prd.plist
+      displayName: 'Flutter build prd ipa (scratch)'
+    - script: |
+        echo '>> which which npm'
+        which npm
+        echo '>> npm install -g firebase-tools'
+        npm install -g firebase-tools
+        echo '>> which firebase'
+        which firebase
+      displayName: 'Install Firebase tools'
+    - script: |
+        echo '>> ls -latr build/ios/ipa/'
+        ls -latr build/ios/ipa/
+        echo '>> firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
+        firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
+        echo '>> firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
+        firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
+      displayName: 'Deploy to Firebase App Distribution'
