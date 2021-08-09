@@ -5,6 +5,7 @@ trigger:
 
 pool:
   vmImage: macos-latest
+  demands: xcode
 
 variables:
 - group: Secrets
