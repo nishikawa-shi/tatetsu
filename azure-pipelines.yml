@@ -10,24 +10,24 @@ pool:
 variables:
 - group: Secrets
 
-steps:
-- task: FlutterInstall@0
-  inputs:
-    channel: 'stable'
-    version: 'latest'
-- script: |
-    echo '$FLUTTERTOOLPATH/flutter pub get'
-    $FLUTTERTOOLPATH/flutter pub get
-    echo '$FLUTTERTOOLPATH/flutter analyze'
-    $FLUTTERTOOLPATH/flutter analyze
-  displayName: 'Flutter Analyze (scratch)'
-- task: FlutterTest@0
-  inputs:
-    projectDirectory: '.'
-- task: FlutterBuild@0
-  inputs:
-    target: 'apk'
-    projectDirectory: '.'
-    buildFlavour: 'dev'
-    buildNumber: '$(Build.BuildId)'
-    entryPoint: 'lib/main_dev.dart'
+stages:
+- stage: qa_stage
+  displayName: 動作検証ステージ
+  condition: always()
+  jobs:
+  - job: analysis_job
+    displayName: 静的解析
+    steps:
+    - task: FlutterInstall@0
+      inputs:
+        channel: 'stable'
+        version: 'latest'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub get'
+        $FLUTTERTOOLPATH/flutter pub get
+        echo '>> $FLUTTERTOOLPATH/flutter analyze'
+        $FLUTTERTOOLPATH/flutter analyze
+      displayName: 'Flutter Analyze (scratch)'
+    - task: FlutterTest@0
+      inputs:
+        projectDirectory: '.'
