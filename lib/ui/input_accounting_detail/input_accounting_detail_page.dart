@@ -67,7 +67,8 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   Column _paymentEditBody(PaymentComponent payment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [_payerView(payment)].expand((e) => e).toList(),
+      children:
+          [_payerView(payment), _priceView(payment)].expand((e) => e).toList(),
     );
   }
 
@@ -91,6 +92,17 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(value.displayName),
           );
         }).toList(),
+      ),
+    ];
+  }
+
+  List<Widget> _priceView(PaymentComponent payment) {
+    return [
+      const SizedBox(height: 16),
+      const Text("Price"),
+      TextFormField(
+        initialValue: payment.data.price.toString(),
+        key: UniqueKey(),
       ),
     ];
   }
