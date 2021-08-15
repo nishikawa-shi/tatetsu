@@ -74,6 +74,24 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   List<Widget> _payerView(PaymentComponent payment) {
     return [
       const Text("Payer"),
+      DropdownButton<Participant>(
+        value: payment.data.payer,
+        onChanged: (Participant? newValue) {
+          setState(() {
+            if (newValue == null) {
+              return;
+            }
+            payment.data.payer = newValue;
+          });
+        },
+        items: payment.data.participants
+            .map<DropdownMenuItem<Participant>>((Participant value) {
+          return DropdownMenuItem<Participant>(
+            value: value,
+            child: Text(value.displayName),
+          );
+        }).toList(),
+      ),
     ];
   }
 }
