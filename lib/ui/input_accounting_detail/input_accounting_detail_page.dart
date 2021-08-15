@@ -5,7 +5,7 @@ import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 class InputAccountingDetailPage extends StatefulWidget {
   InputAccountingDetailPage({required this.participants})
       : payments = [
-          PaymentComponent(participants: participants)
+          PaymentComponent(participants: participants)..isExpanded = true
         ],
         super();
 
