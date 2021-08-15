@@ -67,8 +67,9 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   Column _paymentEditBody(PaymentComponent payment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children:
-          [_payerView(payment), _priceView(payment)].expand((e) => e).toList(),
+      children: [_payerView(payment), _priceView(payment), _ownerView(payment)]
+          .expand((e) => e)
+          .toList(),
     );
   }
 
@@ -105,5 +106,29 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         key: UniqueKey(),
       ),
     ];
+  }
+
+  List<Widget> _ownerView(PaymentComponent payment) {
+    final headerComponent = [
+      const SizedBox(height: 16),
+      const Text("Owners"),
+    ];
+    final ownersComponent = payment.data.owners.entries
+        .map((e) => Row(children: [
+              Checkbox(
+                value: e.value,
+                onChanged: (bool? value) {
+                  setState(() {
+                    if (value == null) {
+                      return;
+                    }
+                    payment.data.owners[e.key] = value;
+                  });
+                },
+              ),
+              Text(e.key.displayName)
+            ]))
+        .toList();
+    return [headerComponent, ownersComponent].expand((e) => e).toList();
   }
 }
