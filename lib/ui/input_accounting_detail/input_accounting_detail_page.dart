@@ -26,6 +26,12 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         ),
         body: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
+            if (index == 1) {
+              return TextButton(
+                onPressed: _insertPaymentToLast,
+                child: const Icon(Icons.add_circle_sharp, size: 32),
+              );
+            }
             return ExpansionPanelList(
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
@@ -44,8 +50,14 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
               }).toList(),
             );
           },
-          itemCount: 1,
+          itemCount: 2, // 入力部分と追加ボタンで、合計2
         ));
+  }
+
+  void _insertPaymentToLast() {
+    setState(() {
+      widget.payments.add(PaymentComponent(participants: widget.participants));
+    });
   }
 
   ListTile _paymentHeader(PaymentComponent payment) {
