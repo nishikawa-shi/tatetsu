@@ -33,6 +33,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
               );
             }
             return ExpansionPanelList(
+              key: UniqueKey(),
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
                   widget.payments[index].isExpanded = !isExpanded;
