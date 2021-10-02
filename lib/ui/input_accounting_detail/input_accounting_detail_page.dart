@@ -61,6 +61,12 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     });
   }
 
+  void _deletePayment(PaymentComponent payment) {
+    setState(() {
+      widget.payments.remove(payment);
+    });
+  }
+
   ListTile _paymentHeader(PaymentComponent payment) {
     return ListTile(
       title: TextFormField(
@@ -80,9 +86,12 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   Column _paymentEditBody(PaymentComponent payment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [_payerView(payment), _priceView(payment), _ownerView(payment)]
-          .expand((e) => e)
-          .toList(),
+      children: [
+        _payerView(payment),
+        _priceView(payment),
+        _ownerView(payment),
+        _deleteView(payment)
+      ].expand((e) => e).toList(),
     );
   }
 
@@ -143,5 +152,15 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             ]))
         .toList();
     return [headerComponent, ownersComponent].expand((e) => e).toList();
+  }
+
+  List<Widget> _deleteView(PaymentComponent payment) {
+    final bool isOnlyPayment = widget.payments.length <= 1;
+    return [
+      TextButton(
+        onPressed: isOnlyPayment ? null : () => {_deletePayment(payment)},
+        child: const Text("Delete this payment."),
+      )
+    ];
   }
 }
