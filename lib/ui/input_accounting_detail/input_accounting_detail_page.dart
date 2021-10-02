@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
+import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
   InputAccountingDetailPage({required this.participants})
@@ -27,7 +28,9 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             TextButton(
                 style: TextButton.styleFrom(
                     primary: Theme.of(context).colorScheme.onPrimary),
-                onPressed: () {},
+                onPressed: () {
+                  _toSettleAccounts();
+                },
                 child: const Text("Settle"))
           ],
         ),
@@ -60,6 +63,14 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           },
           itemCount: 2, // 入力部分と追加ボタンで、合計2
         ));
+  }
+
+  void _toSettleAccounts() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return SettleAccountsPage(
+          payments: widget.payments.map((e) => e.data).toList());
+    }));
   }
 
   void _insertPaymentToLast() {
