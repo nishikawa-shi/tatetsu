@@ -23,6 +23,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Input Accounting Detail"),
+          actions: <Widget>[
+            TextButton(
+                style: TextButton.styleFrom(
+                    primary: Theme.of(context).colorScheme.onPrimary),
+                onPressed: () {},
+                child: const Text("Settle"))
+          ],
         ),
         body: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
