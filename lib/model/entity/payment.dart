@@ -1,12 +1,14 @@
 import 'package:tatetsu/model/entity/participant.dart';
 
 class Payment {
-  String title = "Some Payment";
+  String title;
   Participant payer;
-  double price = 0.0;
-  Map<Participant, bool> owners = {};
+  double price;
+  Map<Participant, bool> owners;
 
-  Payment({required List<Participant> participants})
-      : payer = participants.first,
-        owners = Map.fromIterables(participants, participants.map((_) => true));
+  Payment(
+      {required this.title,
+      required this.payer,
+      required this.price,
+      required this.owners});
 }

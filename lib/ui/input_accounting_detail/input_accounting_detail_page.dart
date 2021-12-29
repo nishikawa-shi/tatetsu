@@ -69,7 +69,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return SettleAccountsPage(
-          payments: widget.payments.map((e) => e.data).toList());
+          payments: widget.payments.map((e) => e.toPayment()).toList());
     }));
   }
 
@@ -88,10 +88,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   ListTile _paymentHeader(PaymentComponent payment) {
     return ListTile(
       title: TextFormField(
-        initialValue: payment.data.title,
+        initialValue: payment.title,
         key: UniqueKey(),
         onChanged: (String value) {
-          payment.data.title = value;
+          payment.title = value;
         },
       ),
     );
@@ -120,16 +120,16 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     return [
       const Text("Payer"),
       DropdownButton<Participant>(
-        value: payment.data.payer,
+        value: payment.payer,
         onChanged: (Participant? newValue) {
           setState(() {
             if (newValue == null) {
               return;
             }
-            payment.data.payer = newValue;
+            payment.payer = newValue;
           });
         },
-        items: payment.data.owners.keys
+        items: payment.owners.keys
             .map<DropdownMenuItem<Participant>>((Participant value) {
           return DropdownMenuItem<Participant>(
             value: value,
@@ -145,10 +145,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       const SizedBox(height: 16),
       const Text("Price"),
       TextFormField(
-        initialValue: payment.data.price.toString(),
+        initialValue: payment.price.toString(),
         key: UniqueKey(),
         onChanged: (String value) {
-          payment.data.price = double.parse(value);
+          payment.price = double.parse(value);
         },
         keyboardType: TextInputType.number,
       ),
@@ -160,7 +160,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       const SizedBox(height: 16),
       const Text("Owners"),
     ];
-    final ownersComponent = payment.data.owners.entries
+    final ownersComponent = payment.owners.entries
         .map((e) => Row(children: [
               Checkbox(
                 value: e.value,
@@ -169,7 +169,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                     if (value == null) {
                       return;
                     }
-                    payment.data.owners[e.key] = value;
+                    payment.owners[e.key] = value;
                   });
                 },
               ),
