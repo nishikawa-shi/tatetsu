@@ -129,7 +129,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             payment.data.payer = newValue;
           });
         },
-        items: payment.data.participants
+        items: payment.data.owners.keys
             .map<DropdownMenuItem<Participant>>((Participant value) {
           return DropdownMenuItem<Participant>(
             value: value,
