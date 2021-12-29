@@ -90,6 +90,9 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       title: TextFormField(
         initialValue: payment.data.title,
         key: UniqueKey(),
+        onChanged: (String value) {
+          payment.data.title = value;
+        },
       ),
     );
   }
@@ -144,6 +147,9 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       TextFormField(
         initialValue: payment.data.price.toString(),
         key: UniqueKey(),
+        onChanged: (String value) {
+          payment.data.price = double.parse(value);
+        },
       ),
     ];
   }
