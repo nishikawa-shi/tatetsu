@@ -150,6 +150,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         onChanged: (String value) {
           payment.data.price = double.parse(value);
         },
+        keyboardType: TextInputType.number,
       ),
     ];
   }
