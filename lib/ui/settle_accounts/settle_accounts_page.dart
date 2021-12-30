@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/payment.dart';
+import 'package:tatetsu/model/entity/transaction.dart';
 
 class SettleAccountsPage extends StatefulWidget {
   const SettleAccountsPage({required this.payments}) : super();
@@ -17,6 +18,11 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         appBar: AppBar(
           title: const Text("Settle Accounts Result"),
         ),
-        body: Text(widget.payments.map((e) => e.title).toString()));
+        body: Text(Transaction(payments: widget.payments)
+            .creditor
+            .entries
+            .entries
+            .map((e) => "\nperson: ${e.key.displayName}, credit: ${e.value}\n")
+            .join()));
   }
 }

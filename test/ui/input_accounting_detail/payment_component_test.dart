@@ -18,6 +18,10 @@ void main() {
           equals(testParticipant1));
     });
 
+    test('PaymentComponent_引数に空配列を渡すとエラー', () {
+      expect(() => PaymentComponent(participants: []), throwsStateError);
+    });
+
     test('PaymentComponent_owners属性に、引数で渡した値に対してtrueのハッシュマップが設定される', () {
       final Participant testParticipant1 = Participant("testName1");
       final Participant testParticipant2 = Participant("testName2");
