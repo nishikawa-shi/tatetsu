@@ -85,6 +85,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
   }
 
   Row _createParticipantInputArea(int participantIndex) {
+    final bool hasOnlyParticipants = _participants.length <= 1;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -95,9 +96,9 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           ),
         ),
         TextButton(
-          onPressed: () {
-            _removeParticipant(participantIndex);
-          },
+          onPressed: hasOnlyParticipants
+              ? null
+              : () => {_removeParticipant(participantIndex)},
           child: const Icon(
             Icons.remove,
             size: 16,
