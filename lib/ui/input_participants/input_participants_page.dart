@@ -93,6 +93,9 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           child: TextFormField(
             initialValue: _participants[participantIndex].displayName,
             key: UniqueKey(),
+            onChanged: (String value) {
+              _participants[participantIndex].displayName = value;
+            },
           ),
         ),
         TextButton(
