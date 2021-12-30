@@ -85,6 +85,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
   }
 
   Row _createParticipantInputArea(int participantIndex) {
+    final bool hasOnlyParticipants = _participants.length <= 1;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -92,12 +93,15 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           child: TextFormField(
             initialValue: _participants[participantIndex].displayName,
             key: UniqueKey(),
+            onChanged: (String value) {
+              _participants[participantIndex].displayName = value;
+            },
           ),
         ),
         TextButton(
-          onPressed: () {
-            _removeParticipant(participantIndex);
-          },
+          onPressed: hasOnlyParticipants
+              ? null
+              : () => {_removeParticipant(participantIndex)},
           child: const Icon(
             Icons.remove,
             size: 16,
