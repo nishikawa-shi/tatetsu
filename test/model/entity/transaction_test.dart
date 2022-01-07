@@ -22,7 +22,7 @@ void main() {
       ];
 
       expect(
-          Transaction(payments: testPayments).creditor.entries,
+          Transaction(testPayments).creditor.entries,
           equals({
             testParticipant1: 4000.0,
             testParticipant2: -2000.0,
@@ -55,7 +55,7 @@ void main() {
             })
       ];
       expect(
-          Transaction(payments: testPayments).creditor.entries,
+          Transaction(testPayments).creditor.entries,
           equals({
             testParticipant1: 4000.0,
             testParticipant2: -1550.0,
@@ -98,7 +98,7 @@ void main() {
       ];
 
       expect(
-          Transaction(payments: testPayments).creditor.entries,
+          Transaction(testPayments).creditor.entries,
           equals({
             testParticipant1: -6000.0,
             testParticipant2: -11550.0,
@@ -141,7 +141,7 @@ void main() {
       ];
 
       expect(
-          Transaction(payments: testPayments).creditor.entries,
+          Transaction(testPayments).creditor.entries,
           equals({
             testParticipant1: -9333.333333333334,
             testParticipant2: -14883.333333333334,
