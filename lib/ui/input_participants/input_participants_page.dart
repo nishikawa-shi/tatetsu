@@ -13,7 +13,7 @@ class InputParticipantsPage extends StatefulWidget {
 }
 
 class _InputParticipantsPageState extends State<InputParticipantsPage> {
-  final List<Participant> _participants = ParticipantsUsecase.getDefaults();
+  final List<Participant> _participants = ParticipantsUsecase().getDefaults();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   void _insertParticipantToLast() {
     setState(() {
-      _participants.add(ParticipantsUsecase.createDummy());
+      _participants.add(ParticipantsUsecase().createDummy());
     });
   }
 
