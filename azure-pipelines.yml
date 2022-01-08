@@ -20,6 +20,7 @@ stages:
     steps:
     - task: FlutterInstall@0
       inputs:
+        mode: 'auto'
         channel: 'stable'
         version: 'latest'
     - script: |
@@ -40,6 +41,10 @@ stages:
     displayName: Firebaseへベータ版アプリ配布
     steps:
     - task: FlutterInstall@0
+      inputs:
+        mode: 'auto'
+        channel: 'stable'
+        version: 'latest'
     - script: |
         echo '>> gem install bundler:1.17.2'
         gem install bundler:1.17.2
