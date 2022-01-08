@@ -20,21 +20,27 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          TextButton(
+              style: TextButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.onPrimary),
+              onPressed: () {
+                _toInputAccounting();
+              },
+              child: const Text("Start accounting detail input"))
+        ],
       ),
       body: Center(
         child: ListView.builder(
             padding: const EdgeInsets.all(16),
             itemBuilder: (BuildContext context, int index) {
-              if (index == 0) {
-                return _createHeader();
-              }
-              if (index > _participants.length) {
+              if (index >= _participants.length) {
                 return _createFooter();
               }
-              final participantIndex = index - 1;
-              return _createParticipantInputArea(participantIndex);
+              return _createParticipantInputArea(index);
             },
-            itemCount: _participants.length + 2),
+            // 要素の数は、参加者の数 + ヘッダー1つ
+            itemCount: _participants.length + 1),
       ),
     );
   }
@@ -51,29 +57,11 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
     });
   }
 
-  Row _createHeader() => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: const Text(
-                  "Enter participants names.",
-                  textAlign: TextAlign.left,
-                )),
-          ),
-          TextButton(
-            onPressed: _insertParticipantToLast,
-            child: const Icon(Icons.add_circle_sharp, size: 32),
-          ),
-        ],
-      );
-
   Container _createFooter() => Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: TextButton(
-          onPressed: _toInputAccounting,
-          child: const Text("Start accounting detail input."),
+          onPressed: _insertParticipantToLast,
+          child: const Icon(Icons.add_circle_sharp, size: 32),
         ),
       );
 
