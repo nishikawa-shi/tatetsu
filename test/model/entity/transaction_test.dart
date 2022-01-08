@@ -4,11 +4,12 @@ import 'package:tatetsu/model/entity/transaction.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final Participant testParticipant1 = Participant("testName1");
+  final Participant testParticipant2 = Participant("testName2");
+  final Participant testParticipant3 = Participant("testName3");
+
   group('Transaction', () {
     test('Transaction_creditor属性が、Paymentが1つの時立替額が均等割される', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -31,9 +32,6 @@ void main() {
     });
 
     test('Transaction_creditor属性が、Paymentが2つの時立替額が2会計の合算', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -64,9 +62,6 @@ void main() {
     });
 
     test('Transaction_creditor属性が、Paymentが3つの時立替額が3会計の合算', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -107,9 +102,6 @@ void main() {
     });
 
     test('Transaction_creditor属性が、Paymentに割り切れない値がある時、小数点まで含んだ合算値', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
