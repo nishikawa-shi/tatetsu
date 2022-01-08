@@ -144,6 +144,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(value.displayName),
           );
         }).toList(),
+        isExpanded: true,
       ),
     ];
   }
