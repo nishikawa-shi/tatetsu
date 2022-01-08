@@ -14,15 +14,19 @@ class SettleAccountsPage extends StatefulWidget {
 class _SettleAccountsPageState extends State<SettleAccountsPage> {
   @override
   Widget build(BuildContext context) {
+    final Transaction transaction = Transaction(widget.payments);
+    final String creditorsText = transaction.creditor.entries.entries
+        .map((e) => "\nperson: ${e.key.displayName}, credit: ${e.value}\n")
+        .join();
+    final String dealsText = transaction
+        .getSettlements()
+        .map((e) => "\nfrom: ${e.from.displayName}, to: ${e.to.displayName}, price: ${e.amount}\n")
+        .join();
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Settle Accounts Result"),
         ),
-        body: Text(Transaction(widget.payments)
-            .creditor
-            .entries
-            .entries
-            .map((e) => "\nperson: ${e.key.displayName}, credit: ${e.value}\n")
-            .join()));
+        body: Text([creditorsText, "\n\n", dealsText].join()));
   }
 }

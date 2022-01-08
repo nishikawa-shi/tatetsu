@@ -1,12 +1,45 @@
+import 'dart:math';
+
 import 'package:tatetsu/model/core/no_debtors_exception.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
+import 'package:tatetsu/model/entity/settlement.dart';
 
 class Creditor {
   Map<Participant, double> entries;
 
   Creditor({required List<Payment> payments})
       : entries = payments.toCreditorEntries();
+
+  Settlement? extractSettlement(
+      {required Participant from, required Participant to}) {
+    final double? debt = entries[from];
+    final double? credit = entries[to];
+    if (debt == null || credit == null) {
+      return null;
+    }
+
+    // 立替額がプラスなのに精算元として指定されたり、マイナスなのに精算先として指定された場合を弾きたい
+    if (debt >= 0 || credit <= 0) {
+      return null;
+    }
+
+    // 絶対値の大きなものが基準とされてしまい、払い過ぎや貰い過ぎが発生してややこしくなってしまうのを防ぎたい
+    final double dealValue = min(debt.abs(), credit.abs());
+    entries.update(from, (value) => value += dealValue);
+    entries.update(to, (value) => value -= dealValue);
+    return Settlement(from: from, to: to, amount: dealValue);
+  }
+
+  List<Participant> getCreditors() => ({...entries}
+        ..removeWhere((key, value) => value.isNegative || value == 0))
+      .keys
+      .toList();
+
+  List<Participant> getDebtors() =>
+      ({...entries}..removeWhere((key, value) => !value.isNegative))
+          .keys
+          .toList();
 }
 
 extension PaymentsExt on List<Payment> {
