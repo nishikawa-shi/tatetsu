@@ -20,13 +20,17 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         .join();
     final String dealsText = transaction
         .getSettlements()
-        .map((e) => "\nfrom: ${e.from.displayName}, to: ${e.to.displayName}, price: ${e.amount}\n")
+        .map(
+          (e) =>
+              "\nfrom: ${e.from.displayName}, to: ${e.to.displayName}, price: ${e.amount}\n",
+        )
         .join();
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Settle Accounts Result"),
-        ),
-        body: Text([creditorsText, "\n\n", dealsText].join()));
+      appBar: AppBar(
+        title: const Text("Settle Accounts Result"),
+      ),
+      body: Text([creditorsText, "\n\n", dealsText].join()),
+    );
   }
 }

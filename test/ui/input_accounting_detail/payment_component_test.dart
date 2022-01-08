@@ -8,15 +8,18 @@ void main() {
 
   group('PaymentComponent', () {
     test('PaymentComponent_title属性に、クラス内で指定したデフォルト値が設定される', () {
-      expect(PaymentComponent(participants: [Participant("testName")]).title,
-          equals("Some Payment"));
+      expect(
+        PaymentComponent(participants: [Participant("testName")]).title,
+        equals("Some Payment"),
+      );
     });
 
     test('PaymentComponent_payer属性に、引数で渡した値の1番目が設定される', () {
       expect(
-          PaymentComponent(participants: [testParticipant1, testParticipant2])
-              .payer,
-          equals(testParticipant1));
+        PaymentComponent(participants: [testParticipant1, testParticipant2])
+            .payer,
+        equals(testParticipant1),
+      );
     });
 
     test('PaymentComponent_引数に空配列を渡すとエラー', () {
@@ -25,26 +28,29 @@ void main() {
 
     test('PaymentComponent_owners属性に、引数で渡した値に対してtrueのハッシュマップが設定される', () {
       expect(
-          PaymentComponent(participants: [testParticipant1, testParticipant2])
-              .owners,
-          equals({testParticipant1: true, testParticipant2: true}));
+        PaymentComponent(participants: [testParticipant1, testParticipant2])
+            .owners,
+        equals({testParticipant1: true, testParticipant2: true}),
+      );
     });
 
     test('toPayment_プロパティを外部から操作しなかった時、クラス内で指定したデフォルト値を含むPaymentオブジェクトを返す', () {
       expect(
-          PaymentComponent(participants: [testParticipant1, testParticipant2])
-              .toPayment()
-              .title,
-          equals("Some Payment"));
+        PaymentComponent(participants: [testParticipant1, testParticipant2])
+            .toPayment()
+            .title,
+        equals("Some Payment"),
+      );
     });
 
     test('toPayment_プロパティを外部から操作した時、書き換え後の値を含むPaymentオブジェクトを返す', () {
       expect(
-          (PaymentComponent(participants: [testParticipant1, testParticipant2])
-                ..title = "Modified Test Payment")
-              .toPayment()
-              .title,
-          equals("Modified Test Payment"));
+        (PaymentComponent(participants: [testParticipant1, testParticipant2])
+              ..title = "Modified Test Payment")
+            .toPayment()
+            .title,
+        equals("Modified Test Payment"),
+      );
     });
   });
 }

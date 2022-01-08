@@ -22,25 +22,28 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
         title: Text(widget.title),
         actions: <Widget>[
           TextButton(
-              style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.onPrimary),
-              onPressed: () {
-                _toInputAccounting();
-              },
-              child: const Icon(Icons.payment, size: 32))
+            style: TextButton.styleFrom(
+              primary: Theme.of(context).colorScheme.onPrimary,
+            ),
+            onPressed: () {
+              _toInputAccounting();
+            },
+            child: const Icon(Icons.payment, size: 32),
+          )
         ],
       ),
       body: Center(
         child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemBuilder: (BuildContext context, int index) {
-              if (index >= _participants.length) {
-                return _createFooter();
-              }
-              return _createParticipantInputArea(index);
-            },
-            // 要素の数は、参加者の数 + ヘッダー1つ
-            itemCount: _participants.length + 1),
+          padding: const EdgeInsets.all(16),
+          itemBuilder: (BuildContext context, int index) {
+            if (index >= _participants.length) {
+              return _createFooter();
+            }
+            return _createParticipantInputArea(index);
+          },
+          // 要素の数は、参加者の数 + ヘッダー1つ
+          itemCount: _participants.length + 1,
+        ),
       ),
     );
   }
@@ -66,10 +69,13 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       );
 
   void _toInputAccounting() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return InputAccountingDetailPage(participants: _participants);
-    }));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return InputAccountingDetailPage(participants: _participants);
+        },
+      ),
+    );
   }
 
   Row _createParticipantInputArea(int participantIndex) {

@@ -6,9 +6,10 @@ class Payment {
   double price;
   Map<Participant, bool> owners;
 
-  Payment(
-      {required this.title,
-      required this.payer,
-      required this.price,
-      required this.owners});
+  Payment({
+    required this.title,
+    required this.payer,
+    required this.price,
+    required this.owners,
+  });
 }
