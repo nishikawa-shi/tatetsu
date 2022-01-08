@@ -25,7 +25,13 @@ class Creditor {
     }
 
     // 絶対値の大きなものが基準とされてしまい、払い過ぎや貰い過ぎが発生してややこしくなってしまうのを防ぎたい
-    final double dealValue = min(debt.abs(), credit.abs());
+    final double dealTarget = min(debt.abs(), credit.abs());
+
+    // 精算額はドルにおけるセントまでと考え、0.01を下限とする。誤差は別途表示する
+    final double dealValue = dealTarget.floorAtSecondDecimal();
+    if (dealValue == 0) {
+      return null;
+    }
     entries.update(from, (value) => value += dealValue);
     entries.update(to, (value) => value -= dealValue);
     return Settlement(from: from, to: to, amount: dealValue);
@@ -49,6 +55,10 @@ extension PaymentsExt on List<Payment> {
     forEach((payment) => creditorEntries.apply(payment));
     return creditorEntries;
   }
+}
+
+extension DoubleExt on double {
+  double floorAtSecondDecimal() => this == 0 ? 0 : (this * 100).floor() / 100;
 }
 
 extension CreditorEntriesExt on Map<Participant, double> {
