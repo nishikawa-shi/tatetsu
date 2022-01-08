@@ -93,12 +93,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   ListTile _paymentHeader(PaymentComponent payment) {
+    final String paymentTitleHint = payment.title;
     return ListTile(
       title: TextFormField(
-        initialValue: payment.title,
+        decoration: InputDecoration(hintText: paymentTitleHint),
         key: UniqueKey(),
         onChanged: (String value) {
-          payment.title = value;
+          payment.title = value.isNotEmpty ? value : paymentTitleHint;
         },
       ),
     );
@@ -148,14 +149,16 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   List<Widget> _priceView(PaymentComponent payment) {
+    final double paymentPriceHintValue = payment.price;
     return [
       const SizedBox(height: 16),
       const Text("Price"),
       TextFormField(
-        initialValue: payment.price.toString(),
+        decoration: InputDecoration(hintText: paymentPriceHintValue.toString()),
         key: UniqueKey(),
         onChanged: (String value) {
-          payment.price = double.parse(value);
+          payment.price =
+              value.isNotEmpty ? double.parse(value) : paymentPriceHintValue;
         },
         keyboardType: TextInputType.number,
       ),
