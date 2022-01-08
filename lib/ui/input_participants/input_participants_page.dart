@@ -27,7 +27,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
               onPressed: () {
                 _toInputAccounting();
               },
-              child: const Text("Start accounting detail input"))
+              child: const Icon(Icons.payment, size: 32))
         ],
       ),
       body: Center(
