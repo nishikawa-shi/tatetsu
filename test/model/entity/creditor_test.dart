@@ -4,6 +4,10 @@ import 'package:tatetsu/model/entity/payment.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final Participant testParticipant1 = Participant("testName1");
+  final Participant testParticipant2 = Participant("testName2");
+  final Participant testParticipant3 = Participant("testName3");
+
   group('Creditor', () {
     test('PaymentsExt_toCreditorEntries_Paymentが空の時、エラー', () {
       final List<Payment> testPayments = [];
@@ -12,9 +16,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが1つの時立替額の合計値が0', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -36,9 +37,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが1つの時立替額が均等割される', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -61,9 +59,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが2つの時立替額の合計値が0', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -94,9 +89,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが2つの時立替額が2会計の合算', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -128,9 +120,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが3つの時立替額の合計値が0', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -170,9 +159,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが3つの時立替額が3会計の合算', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -213,9 +199,6 @@ void main() {
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentに割り切れない値がある時、小数点まで含んだ合算値', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final List<Payment> testPayments = [
         Payment(
             title: "testPaymentA",
@@ -256,7 +239,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者1人支払者1人のPaymentを与えた時、0円の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
       final creditorEntries = {testParticipant1: 0.0};
       final testPayment = Payment(
           title: "testPaymentA",
@@ -269,7 +251,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者1人支払者0人のPaymentを与えた時、例外', () {
-      final Participant testParticipant1 = Participant("testName1");
       final creditorEntries = {testParticipant1: 0.0};
       final testPayment = Payment(
           title: "testPaymentA",
@@ -281,8 +262,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者2人のPaymentを与えた時、半額移動の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
           title: "testPaymentA",
@@ -297,8 +276,6 @@ void main() {
     test(
         'CreditorEntriesExt_apply_参加者2人支払者2人のPaymentを、予め値を持つ立替に与えた時、半額移動の立替が追加',
         () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       final creditorEntries = {
         testParticipant1: -500.0,
         testParticipant2: 500.0
@@ -314,8 +291,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者1人(立替者)のPaymentを与えた時、0円の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
           title: "testPaymentA",
@@ -328,8 +303,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者1人(非立替者)のPaymentを与えた時、全額移動の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
           title: "testPaymentA",
@@ -342,8 +315,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者0人のPaymentを与えた時、例外', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
           title: "testPaymentA",
@@ -355,9 +326,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者3人のPaymentを与えた時、1/3額移動の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
@@ -385,9 +353,6 @@ void main() {
     test(
         'CreditorEntriesExt_apply_参加者3人支払者3人のPaymentを、予め値を持つ立替に与えた時、1/3額移動の立替が追加',
         () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: -200.0,
         testParticipant2: -200.0,
@@ -413,9 +378,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者2人(立替者含む)のPaymentを与えた時、半額移動の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
@@ -442,9 +404,6 @@ void main() {
 
     test('CreditorEntriesExt_apply_参加者3人支払者2人(立替者含まず)のPaymentを与えた時、合計全額移動の立替',
         () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
@@ -470,9 +429,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者1人(立替者)のPaymentを与えた時、0円の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
@@ -498,9 +454,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者1人(非立替者)のPaymentを与えた時、全額移動の立替', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
@@ -526,9 +479,6 @@ void main() {
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者0人のPaymentを与えた時、例外', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
-      final Participant testParticipant3 = Participant("testName3");
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,

@@ -3,6 +3,9 @@ import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final Participant testParticipant1 = Participant("testName1");
+  final Participant testParticipant2 = Participant("testName2");
+
   group('PaymentComponent', () {
     test('PaymentComponent_title属性に、クラス内で指定したデフォルト値が設定される', () {
       expect(PaymentComponent(participants: [Participant("testName")]).title,
@@ -10,8 +13,6 @@ void main() {
     });
 
     test('PaymentComponent_payer属性に、引数で渡した値の1番目が設定される', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       expect(
           PaymentComponent(participants: [testParticipant1, testParticipant2])
               .payer,
@@ -23,8 +24,6 @@ void main() {
     });
 
     test('PaymentComponent_owners属性に、引数で渡した値に対してtrueのハッシュマップが設定される', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       expect(
           PaymentComponent(participants: [testParticipant1, testParticipant2])
               .owners,
@@ -32,8 +31,6 @@ void main() {
     });
 
     test('toPayment_プロパティを外部から操作しなかった時、クラス内で指定したデフォルト値を含むPaymentオブジェクトを返す', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       expect(
           PaymentComponent(participants: [testParticipant1, testParticipant2])
               .toPayment()
@@ -42,8 +39,6 @@ void main() {
     });
 
     test('toPayment_プロパティを外部から操作した時、書き換え後の値を含むPaymentオブジェクトを返す', () {
-      final Participant testParticipant1 = Participant("testName1");
-      final Participant testParticipant2 = Participant("testName2");
       expect(
           (PaymentComponent(participants: [testParticipant1, testParticipant2])
                 ..title = "Modified Test Payment")

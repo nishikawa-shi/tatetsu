@@ -3,7 +3,7 @@ import 'package:tatetsu/model/entity/payment.dart';
 
 class Transaction {
   Creditor creditor;
+  List<Payment> payments;
 
-  Transaction({required List<Payment> payments})
-      : creditor = Creditor(payments: payments);
+  Transaction(this.payments) : creditor = Creditor(payments: payments);
 }

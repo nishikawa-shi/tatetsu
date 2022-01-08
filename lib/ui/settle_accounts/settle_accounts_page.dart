@@ -18,7 +18,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         appBar: AppBar(
           title: const Text("Settle Accounts Result"),
         ),
-        body: Text(Transaction(payments: widget.payments)
+        body: Text(Transaction(widget.payments)
             .creditor
             .entries
             .entries
