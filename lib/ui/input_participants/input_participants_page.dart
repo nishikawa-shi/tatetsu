@@ -61,7 +61,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: TextButton(
           onPressed: _insertParticipantToLast,
-          child: const Icon(Icons.add_circle_sharp, size: 32),
+          child: const Icon(Icons.add_circle, size: 32),
         ),
       );
 
