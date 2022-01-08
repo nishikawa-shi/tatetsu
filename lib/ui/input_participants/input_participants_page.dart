@@ -74,15 +74,19 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   Row _createParticipantInputArea(int participantIndex) {
     final bool hasOnlyParticipants = _participants.length <= 1;
+    final String participantNameHint =
+        _participants[participantIndex].displayName.toString();
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Expanded(
           child: TextFormField(
-            initialValue: _participants[participantIndex].displayName,
+            decoration: InputDecoration(hintText: participantNameHint),
             key: UniqueKey(),
             onChanged: (String value) {
-              _participants[participantIndex].displayName = value;
+              // テキストエリアに表示されている値を引き継ぎたい
+              _participants[participantIndex].displayName =
+                  value.isNotEmpty ? value : participantNameHint;
             },
           ),
         ),
