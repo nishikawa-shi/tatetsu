@@ -2,7 +2,8 @@ import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 
 class PaymentComponent {
-  bool isExpanded = false;
+  bool isInputBodyExpanded = true;
+  bool isOwnerChoiceBodyExpanded = false;
 
   String title = "Some Payment";
   Participant payer;
