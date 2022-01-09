@@ -11,8 +11,10 @@ class Creditor {
   Creditor({required List<Payment> payments})
       : entries = payments.toCreditorEntries();
 
-  Settlement? extractSettlement(
-      {required Participant from, required Participant to}) {
+  Settlement? extractSettlement({
+    required Participant from,
+    required Participant to,
+  }) {
     final double? debt = entries[from];
     final double? credit = entries[to];
     if (debt == null || credit == null) {
@@ -51,7 +53,9 @@ class Creditor {
 extension PaymentsExt on List<Payment> {
   Map<Participant, double> toCreditorEntries() {
     final Map<Participant, double> creditorEntries = Map.fromIterables(
-        first.owners.keys, List.generate(first.owners.length, (_) => 0));
+      first.owners.keys,
+      List.generate(first.owners.length, (_) => 0),
+    );
     forEach((payment) => creditorEntries.apply(payment));
     return creditorEntries;
   }

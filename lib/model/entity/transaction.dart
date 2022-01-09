@@ -14,18 +14,28 @@ class Transaction {
     final settlementBaseCreditor = Creditor(payments: payments);
     return creditor
         .getDebtors()
-        .map((debtor) => _createSettlements(
-            withDebtor: debtor, fromCreditor: settlementBaseCreditor))
+        .map(
+          (debtor) => _createSettlements(
+            withDebtor: debtor,
+            fromCreditor: settlementBaseCreditor,
+          ),
+        )
         .expand((e) => e)
         .toList();
   }
 
-  List<Settlement> _createSettlements(
-          {required Participant withDebtor, required Creditor fromCreditor}) =>
+  List<Settlement> _createSettlements({
+    required Participant withDebtor,
+    required Creditor fromCreditor,
+  }) =>
       creditor
           .getCreditors()
-          .map((creditor) =>
-              fromCreditor.extractSettlement(from: withDebtor, to: creditor))
+          .map(
+            (creditor) => fromCreditor.extractSettlement(
+              from: withDebtor,
+              to: creditor,
+            ),
+          )
           .whereNotNull()
           .toList();
 }

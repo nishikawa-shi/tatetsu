@@ -44,12 +44,13 @@ void main() {
 
   final List<Payment> dummyPayments = [
     Payment(
-        title: "dummyPaymentA",
-        payer: testParticipant1,
-        price: 6000,
-        owners: {
-          testParticipant1: true,
-        })
+      title: "dummyPaymentA",
+      payer: testParticipant1,
+      price: 6000,
+      owners: {
+        testParticipant1: true,
+      },
+    )
   ];
 
   group('Creditor', () {
@@ -58,9 +59,12 @@ void main() {
         ..entries = {...twoMinusOnePlusEntries};
 
       expect(
-          testCreditor.extractSettlement(
-              from: Participant("undefined"), to: testParticipant3),
-          null);
+        testCreditor.extractSettlement(
+          from: Participant("undefined"),
+          to: testParticipant3,
+        ),
+        null,
+      );
       expect(mapEquals(testCreditor.entries, twoMinusOnePlusEntries), true);
     });
 
@@ -69,9 +73,12 @@ void main() {
         ..entries = {...twoMinusOnePlusEntries};
 
       expect(
-          testCreditor.extractSettlement(
-              from: testParticipant1, to: Participant("undefined")),
-          null);
+        testCreditor.extractSettlement(
+          from: testParticipant1,
+          to: Participant("undefined"),
+        ),
+        null,
+      );
       expect(mapEquals(testCreditor.entries, twoMinusOnePlusEntries), true);
     });
 
@@ -80,11 +87,16 @@ void main() {
         ..entries = {...oneMinusOnePlusOneZeroEntries};
 
       expect(
-          testCreditor.extractSettlement(
-              from: testParticipant3, to: testParticipant1),
-          null);
+        testCreditor.extractSettlement(
+          from: testParticipant3,
+          to: testParticipant1,
+        ),
+        null,
+      );
       expect(
-          mapEquals(testCreditor.entries, oneMinusOnePlusOneZeroEntries), true);
+        mapEquals(testCreditor.entries, oneMinusOnePlusOneZeroEntries),
+        true,
+      );
     });
 
     test('extractSettlement_立替額がプラスの精算元を指定した時、nullで、プロパティに影響を与えない', () {
@@ -92,9 +104,12 @@ void main() {
         ..entries = {...oneMinusTwoPlusEntries};
 
       expect(
-          testCreditor.extractSettlement(
-              from: testParticipant1, to: testParticipant2),
-          null);
+        testCreditor.extractSettlement(
+          from: testParticipant1,
+          to: testParticipant2,
+        ),
+        null,
+      );
       expect(mapEquals(testCreditor.entries, oneMinusTwoPlusEntries), true);
     });
 
@@ -103,11 +118,16 @@ void main() {
         ..entries = {...oneMinusOnePlusOneZeroEntries};
 
       expect(
-          testCreditor.extractSettlement(
-              from: testParticipant2, to: testParticipant3),
-          null);
+        testCreditor.extractSettlement(
+          from: testParticipant2,
+          to: testParticipant3,
+        ),
+        null,
+      );
       expect(
-          mapEquals(testCreditor.entries, oneMinusOnePlusOneZeroEntries), true);
+        mapEquals(testCreditor.entries, oneMinusOnePlusOneZeroEntries),
+        true,
+      );
     });
 
     test('extractSettlement_立替額がマイナスの精算先を指定した時、nullで、プロパティに影響を与えない', () {
@@ -115,9 +135,12 @@ void main() {
         ..entries = {...twoMinusOnePlusEntries};
 
       expect(
-          testCreditor.extractSettlement(
-              from: testParticipant2, to: testParticipant3),
-          null);
+        testCreditor.extractSettlement(
+          from: testParticipant2,
+          to: testParticipant3,
+        ),
+        null,
+      );
       expect(mapEquals(testCreditor.entries, twoMinusOnePlusEntries), true);
     });
 
@@ -132,18 +155,25 @@ void main() {
         ..entries = testEntries;
 
       expect(
-          testCreditor
-              .extractSettlement(from: testParticipant2, to: testParticipant1)!
-              .isEqualTo(Settlement(
-                  from: testParticipant2, to: testParticipant1, amount: 180)),
-          true);
+        testCreditor
+            .extractSettlement(from: testParticipant2, to: testParticipant1)!
+            .isEqualTo(
+              Settlement(
+                from: testParticipant2,
+                to: testParticipant1,
+                amount: 180,
+              ),
+            ),
+        true,
+      );
       expect(
-          mapEquals(testCreditor.entries, {
-            testParticipant1: 120.0,
-            testParticipant2: 0,
-            testParticipant3: -120.0
-          }),
-          true);
+        mapEquals(testCreditor.entries, {
+          testParticipant1: 120.0,
+          testParticipant2: 0,
+          testParticipant3: -120.0
+        }),
+        true,
+      );
     });
 
     test(
@@ -158,15 +188,24 @@ void main() {
         ..entries = testEntries;
 
       expect(
-          testCreditor
-              .extractSettlement(from: testParticipant1, to: testParticipant2)!
-              .isEqualTo(Settlement(
-                  from: testParticipant1, to: testParticipant2, amount: 500)),
-          true);
+        testCreditor
+            .extractSettlement(from: testParticipant1, to: testParticipant2)!
+            .isEqualTo(
+              Settlement(
+                from: testParticipant1,
+                to: testParticipant2,
+                amount: 500,
+              ),
+            ),
+        true,
+      );
       expect(
-          mapEquals(testCreditor.entries,
-              {testParticipant1: 0, testParticipant2: 0, testParticipant3: 0}),
-          true);
+        mapEquals(
+          testCreditor.entries,
+          {testParticipant1: 0, testParticipant2: 0, testParticipant3: 0},
+        ),
+        true,
+      );
     });
 
     test('extractSettlement_立替費絶対値が精算元の方が大きい時、精算先基準の精算となり、プロパティに当該の精算結果が適用される',
@@ -180,18 +219,25 @@ void main() {
         ..entries = testEntries;
 
       expect(
-          testCreditor
-              .extractSettlement(from: testParticipant1, to: testParticipant2)!
-              .isEqualTo(Settlement(
-                  from: testParticipant1, to: testParticipant2, amount: 270)),
-          true);
+        testCreditor
+            .extractSettlement(from: testParticipant1, to: testParticipant2)!
+            .isEqualTo(
+              Settlement(
+                from: testParticipant1,
+                to: testParticipant2,
+                amount: 270,
+              ),
+            ),
+        true,
+      );
       expect(
-          mapEquals(testCreditor.entries, {
-            testParticipant1: -230.0,
-            testParticipant2: 0,
-            testParticipant3: 230.0
-          }),
-          true);
+        mapEquals(testCreditor.entries, {
+          testParticipant1: -230.0,
+          testParticipant2: 0,
+          testParticipant3: 230.0
+        }),
+        true,
+      );
     });
 
     test('extractSettlement_精算対象が0.01未満の時、nullで、プロパティに影響を与えない', () {
@@ -204,9 +250,12 @@ void main() {
         ..entries = testEntries;
 
       expect(
-          testCreditor.extractSettlement(
-              from: testParticipant1, to: testParticipant2),
-          null);
+        testCreditor.extractSettlement(
+          from: testParticipant1,
+          to: testParticipant2,
+        ),
+        null,
+      );
       expect(mapEquals(testCreditor.entries, testEntries), true);
     });
 
@@ -222,84 +271,99 @@ void main() {
         ..entries = testEntries;
 
       expect(
-          testCreditor
-              .extractSettlement(from: testParticipant1, to: testParticipant2)!
-              .isEqualTo(Settlement(
-                  from: testParticipant1, to: testParticipant2, amount: 28.01)),
-          equals(true));
+        testCreditor
+            .extractSettlement(from: testParticipant1, to: testParticipant2)!
+            .isEqualTo(
+              Settlement(
+                from: testParticipant1,
+                to: testParticipant2,
+                amount: 28.01,
+              ),
+            ),
+        equals(true),
+      );
       expect(
-          mapEquals(testCreditor.entries, {
-            testParticipant1: 3.552713678800501e-15,
-            testParticipant2: -3.552713678800501e-15,
-            testParticipant3: -1e-15,
-          }),
-          true);
+        mapEquals(testCreditor.entries, {
+          testParticipant1: 3.552713678800501e-15,
+          testParticipant2: -3.552713678800501e-15,
+          testParticipant3: -1e-15,
+        }),
+        true,
+      );
     });
 
     test('getCreditors_立替額0が1人の時、空配列', () {
       expect(
-          (Creditor(payments: dummyPayments)..entries = {...oneZeroEntry})
-              .getCreditors(),
-          []);
+        (Creditor(payments: dummyPayments)..entries = {...oneZeroEntry})
+            .getCreditors(),
+        [],
+      );
     });
 
     test('getCreditors_立替額マイナスが1人でプラスが1人の時、プラスの1人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...oneMinusOnePlusEntries})
-              .getCreditors(),
-          [testParticipant1]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...oneMinusOnePlusEntries})
+            .getCreditors(),
+        [testParticipant1],
+      );
     });
 
     test('getCreditors_立替額0が2人の時、空配列', () {
       expect(
-          (Creditor(payments: dummyPayments)..entries = {...twoZeroEntries})
-              .getCreditors(),
-          []);
+        (Creditor(payments: dummyPayments)..entries = {...twoZeroEntries})
+            .getCreditors(),
+        [],
+      );
     });
 
     test('getCreditors_立替額マイナスが2人でプラスが1人の時、プラスの1人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...twoMinusOnePlusEntries})
-              .getCreditors(),
-          [testParticipant1]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...twoMinusOnePlusEntries})
+            .getCreditors(),
+        [testParticipant1],
+      );
     });
 
     test('getCreditors_立替額マイナスが1人でプラスが2人の時、プラスの2人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...oneMinusTwoPlusEntries})
-              .getCreditors(),
-          [testParticipant1, testParticipant2]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...oneMinusTwoPlusEntries})
+            .getCreditors(),
+        [testParticipant1, testParticipant2],
+      );
     });
 
     test('getCreditors_立替額マイナスが1人でプラスが1人で0が1人の時、プラスの1人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...oneMinusOnePlusOneZeroEntries})
-              .getCreditors(),
-          [testParticipant1]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...oneMinusOnePlusOneZeroEntries})
+            .getCreditors(),
+        [testParticipant1],
+      );
     });
 
     test('getCreditors_立替額0が3人の時、空配列', () {
       expect(
-          (Creditor(payments: dummyPayments)..entries = {...threeZeroEntries})
-              .getCreditors(),
-          []);
+        (Creditor(payments: dummyPayments)..entries = {...threeZeroEntries})
+            .getCreditors(),
+        [],
+      );
     });
 
     test('getCreditors_実行前後で、インスタンスの持つ立替者プロパティが不変', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
       final Creditor testCreditor = Creditor(payments: testPayments);
 
@@ -312,68 +376,76 @@ void main() {
 
     test('getDebtors_立替額0が1人の時、空配列', () {
       expect(
-          (Creditor(payments: dummyPayments)..entries = {...oneZeroEntry})
-              .getDebtors(),
-          []);
+        (Creditor(payments: dummyPayments)..entries = {...oneZeroEntry})
+            .getDebtors(),
+        [],
+      );
     });
 
     test('getDebtors_立替額マイナスが1人でプラスが1人の時、マイナスの1人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...oneMinusOnePlusEntries})
-              .getDebtors(),
-          [testParticipant2]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...oneMinusOnePlusEntries})
+            .getDebtors(),
+        [testParticipant2],
+      );
     });
 
     test('getDebtors_立替額0が2人の時、空配列', () {
       expect(
-          (Creditor(payments: dummyPayments)..entries = {...twoZeroEntries})
-              .getDebtors(),
-          []);
+        (Creditor(payments: dummyPayments)..entries = {...twoZeroEntries})
+            .getDebtors(),
+        [],
+      );
     });
 
     test('getDebtors_立替額マイナスが2人でプラスが1人の時、マイナスの2人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...twoMinusOnePlusEntries})
-              .getDebtors(),
-          [testParticipant2, testParticipant3]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...twoMinusOnePlusEntries})
+            .getDebtors(),
+        [testParticipant2, testParticipant3],
+      );
     });
 
     test('getDebtors_立替額マイナスが1人でプラスが2人の時、マイナスの1人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...oneMinusTwoPlusEntries})
-              .getDebtors(),
-          [testParticipant3]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...oneMinusTwoPlusEntries})
+            .getDebtors(),
+        [testParticipant3],
+      );
     });
 
     test('getDebtors_立替額マイナスが1人でプラスが1人で0が1人の時、マイナスの1人', () {
       expect(
-          (Creditor(payments: dummyPayments)
-                ..entries = {...oneMinusOnePlusOneZeroEntries})
-              .getDebtors(),
-          [testParticipant2]);
+        (Creditor(payments: dummyPayments)
+              ..entries = {...oneMinusOnePlusOneZeroEntries})
+            .getDebtors(),
+        [testParticipant2],
+      );
     });
 
     test('getDebtors_立替額0が3人の時、空配列', () {
       expect(
-          (Creditor(payments: dummyPayments)..entries = {...threeZeroEntries})
-              .getDebtors(),
-          []);
+        (Creditor(payments: dummyPayments)..entries = {...threeZeroEntries})
+            .getDebtors(),
+        [],
+      );
     });
 
     test('getDebtors_実行前後で、インスタンスの持つ立替者プロパティが不変', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
       final Creditor testCreditor = Creditor(payments: testPayments);
 
@@ -393,224 +465,246 @@ void main() {
     test('PaymentsExt_toCreditorEntries_Paymentが1つの時立替額の合計値が0', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          testPayments
-              .toCreditorEntries()
-              .values
-              .reduce((current, next) => current + next),
-          equals(0.0));
+        testPayments
+            .toCreditorEntries()
+            .values
+            .reduce((current, next) => current + next),
+        equals(0.0),
+      );
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが1つの時立替額が均等割される', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          testPayments.toCreditorEntries(),
-          equals({
-            testParticipant1: 4000.0,
-            testParticipant2: -2000.0,
-            testParticipant3: -2000.0
-          }));
+        testPayments.toCreditorEntries(),
+        equals({
+          testParticipant1: 4000.0,
+          testParticipant2: -2000.0,
+          testParticipant3: -2000.0
+        }),
+      );
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが2つの時立替額の合計値が0', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentB",
-            payer: testParticipant2,
-            price: 900,
-            owners: {
-              testParticipant1: false,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentB",
+          payer: testParticipant2,
+          price: 900,
+          owners: {
+            testParticipant1: false,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          testPayments
-              .toCreditorEntries()
-              .values
-              .reduce((current, next) => current + next),
-          equals(0.0));
+        testPayments
+            .toCreditorEntries()
+            .values
+            .reduce((current, next) => current + next),
+        equals(0.0),
+      );
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが2つの時立替額が2会計の合算', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentB",
-            payer: testParticipant2,
-            price: 900,
-            owners: {
-              testParticipant1: false,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentB",
+          payer: testParticipant2,
+          price: 900,
+          owners: {
+            testParticipant1: false,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          Creditor(payments: testPayments).entries,
-          equals({
-            testParticipant1: 4000.0,
-            testParticipant2: -1550.0,
-            testParticipant3: -2450.0
-          }));
+        Creditor(payments: testPayments).entries,
+        equals({
+          testParticipant1: 4000.0,
+          testParticipant2: -1550.0,
+          testParticipant3: -2450.0
+        }),
+      );
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが3つの時立替額の合計値が0', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentB",
-            payer: testParticipant2,
-            price: 900,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentB",
+          payer: testParticipant2,
+          price: 900,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentC",
-            payer: testParticipant3,
-            price: 30000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentC",
+          payer: testParticipant3,
+          price: 30000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          testPayments
-              .toCreditorEntries()
-              .values
-              .reduce((current, next) => current + next),
-          equals(0.0));
+        testPayments
+            .toCreditorEntries()
+            .values
+            .reduce((current, next) => current + next),
+        equals(0.0),
+      );
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentが3つの時立替額が3会計の合算', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentB",
-            payer: testParticipant2,
-            price: 900,
-            owners: {
-              testParticipant1: false,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentB",
+          payer: testParticipant2,
+          price: 900,
+          owners: {
+            testParticipant1: false,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentC",
-            payer: testParticipant3,
-            price: 30000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentC",
+          payer: testParticipant3,
+          price: 30000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          testPayments.toCreditorEntries(),
-          equals({
-            testParticipant1: -6000.0,
-            testParticipant2: -11550.0,
-            testParticipant3: 17550.0
-          }));
+        testPayments.toCreditorEntries(),
+        equals({
+          testParticipant1: -6000.0,
+          testParticipant2: -11550.0,
+          testParticipant3: 17550.0
+        }),
+      );
     });
 
     test('PaymentsExt_toCreditorEntries_Paymentに割り切れない値がある時、小数点まで含んだ合算値', () {
       final List<Payment> testPayments = [
         Payment(
-            title: "testPaymentA",
-            payer: testParticipant1,
-            price: 6000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentB",
-            payer: testParticipant2,
-            price: 900,
-            owners: {
-              testParticipant1: false,
-              testParticipant2: true,
-              testParticipant3: true
-            }),
+          title: "testPaymentB",
+          payer: testParticipant2,
+          price: 900,
+          owners: {
+            testParticipant1: false,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
         Payment(
-            title: "testPaymentC",
-            payer: testParticipant3,
-            price: 40000,
-            owners: {
-              testParticipant1: true,
-              testParticipant2: true,
-              testParticipant3: true
-            })
+          title: "testPaymentC",
+          payer: testParticipant3,
+          price: 40000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
       ];
 
       expect(
-          testPayments.toCreditorEntries(),
-          equals({
-            testParticipant1: -9333.333333333334,
-            testParticipant2: -14883.333333333334,
-            testParticipant3: 24216.666666666664
-          }));
+        testPayments.toCreditorEntries(),
+        equals({
+          testParticipant1: -9333.333333333334,
+          testParticipant2: -14883.333333333334,
+          testParticipant3: 24216.666666666664
+        }),
+      );
     });
 
     test('DoubleExt_floorAtSecondDecimal_0の時、0', () {
@@ -628,22 +722,26 @@ void main() {
     test('CreditorEntriesExt_apply_参加者1人支払者1人のPaymentを与えた時、0円の立替', () {
       final creditorEntries = {testParticipant1: 0.0};
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: true});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: true},
+      );
 
       expect(
-          creditorEntries..apply(testPayment), equals({testParticipant1: 0.0}));
+        creditorEntries..apply(testPayment),
+        equals({testParticipant1: 0.0}),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者1人支払者0人のPaymentを与えた時、例外', () {
       final creditorEntries = {testParticipant1: 0.0};
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: false});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: false},
+      );
 
       expect(() => creditorEntries..apply(testPayment), throwsException);
     });
@@ -651,13 +749,16 @@ void main() {
     test('CreditorEntriesExt_apply_参加者2人支払者2人のPaymentを与えた時、半額移動の立替', () {
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: true, testParticipant2: true});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: true, testParticipant2: true},
+      );
 
-      expect(creditorEntries..apply(testPayment),
-          equals({testParticipant1: 3000.0, testParticipant2: -3000.0}));
+      expect(
+        creditorEntries..apply(testPayment),
+        equals({testParticipant1: 3000.0, testParticipant2: -3000.0}),
+      );
     });
 
     test(
@@ -668,46 +769,56 @@ void main() {
         testParticipant2: 500.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: true, testParticipant2: true});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: true, testParticipant2: true},
+      );
 
-      expect(creditorEntries..apply(testPayment),
-          equals({testParticipant1: 2500.0, testParticipant2: -2500.0}));
+      expect(
+        creditorEntries..apply(testPayment),
+        equals({testParticipant1: 2500.0, testParticipant2: -2500.0}),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者1人(立替者)のPaymentを与えた時、0円の立替', () {
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: true, testParticipant2: false});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: true, testParticipant2: false},
+      );
 
-      expect(creditorEntries..apply(testPayment),
-          equals({testParticipant1: 0.0, testParticipant2: 0.0}));
+      expect(
+        creditorEntries..apply(testPayment),
+        equals({testParticipant1: 0.0, testParticipant2: 0.0}),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者1人(非立替者)のPaymentを与えた時、全額移動の立替', () {
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: false, testParticipant2: true});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: false, testParticipant2: true},
+      );
 
-      expect(creditorEntries..apply(testPayment),
-          equals({testParticipant1: 6000.0, testParticipant2: -6000.0}));
+      expect(
+        creditorEntries..apply(testPayment),
+        equals({testParticipant1: 6000.0, testParticipant2: -6000.0}),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者2人支払者0人のPaymentを与えた時、例外', () {
       final creditorEntries = {testParticipant1: 0.0, testParticipant2: 0.0};
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {testParticipant1: false, testParticipant2: false});
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {testParticipant1: false, testParticipant2: false},
+      );
 
       expect(() => creditorEntries..apply(testPayment), throwsException);
     });
@@ -719,22 +830,24 @@ void main() {
         testParticipant3: 0.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: true,
-            testParticipant2: true,
-            testParticipant3: true
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: true,
+          testParticipant2: true,
+          testParticipant3: true
+        },
+      );
 
       expect(
-          creditorEntries..apply(testPayment),
-          equals({
-            testParticipant1: 4000.0,
-            testParticipant2: -2000.0,
-            testParticipant3: -2000.0
-          }));
+        creditorEntries..apply(testPayment),
+        equals({
+          testParticipant1: 4000.0,
+          testParticipant2: -2000.0,
+          testParticipant3: -2000.0
+        }),
+      );
     });
 
     test(
@@ -746,22 +859,24 @@ void main() {
         testParticipant3: 400.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: true,
-            testParticipant2: true,
-            testParticipant3: true
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: true,
+          testParticipant2: true,
+          testParticipant3: true
+        },
+      );
 
       expect(
-          creditorEntries..apply(testPayment),
-          equals({
-            testParticipant1: 3800.0,
-            testParticipant2: -2200.0,
-            testParticipant3: -1600.0
-          }));
+        creditorEntries..apply(testPayment),
+        equals({
+          testParticipant1: 3800.0,
+          testParticipant2: -2200.0,
+          testParticipant3: -1600.0
+        }),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者2人(立替者含む)のPaymentを与えた時、半額移動の立替', () {
@@ -771,22 +886,24 @@ void main() {
         testParticipant3: 0.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: true,
-            testParticipant2: true,
-            testParticipant3: false
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: true,
+          testParticipant2: true,
+          testParticipant3: false
+        },
+      );
 
       expect(
-          creditorEntries..apply(testPayment),
-          equals({
-            testParticipant1: 3000.0,
-            testParticipant2: -3000.0,
-            testParticipant3: 0.0
-          }));
+        creditorEntries..apply(testPayment),
+        equals({
+          testParticipant1: 3000.0,
+          testParticipant2: -3000.0,
+          testParticipant3: 0.0
+        }),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者2人(立替者含まず)のPaymentを与えた時、合計全額移動の立替',
@@ -797,22 +914,24 @@ void main() {
         testParticipant3: 0.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: false,
-            testParticipant2: true,
-            testParticipant3: true
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: false,
+          testParticipant2: true,
+          testParticipant3: true
+        },
+      );
 
       expect(
-          creditorEntries..apply(testPayment),
-          equals({
-            testParticipant1: 6000.0,
-            testParticipant2: -3000.0,
-            testParticipant3: -3000.0
-          }));
+        creditorEntries..apply(testPayment),
+        equals({
+          testParticipant1: 6000.0,
+          testParticipant2: -3000.0,
+          testParticipant3: -3000.0
+        }),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者1人(立替者)のPaymentを与えた時、0円の立替', () {
@@ -822,22 +941,24 @@ void main() {
         testParticipant3: 0.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: true,
-            testParticipant2: false,
-            testParticipant3: false
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: true,
+          testParticipant2: false,
+          testParticipant3: false
+        },
+      );
 
       expect(
-          creditorEntries..apply(testPayment),
-          equals({
-            testParticipant1: 0.0,
-            testParticipant2: 0.0,
-            testParticipant3: 0.0
-          }));
+        creditorEntries..apply(testPayment),
+        equals({
+          testParticipant1: 0.0,
+          testParticipant2: 0.0,
+          testParticipant3: 0.0
+        }),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者1人(非立替者)のPaymentを与えた時、全額移動の立替', () {
@@ -847,22 +968,24 @@ void main() {
         testParticipant3: 0.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: false,
-            testParticipant2: true,
-            testParticipant3: false
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: false,
+          testParticipant2: true,
+          testParticipant3: false
+        },
+      );
 
       expect(
-          creditorEntries..apply(testPayment),
-          equals({
-            testParticipant1: 6000.0,
-            testParticipant2: -6000.0,
-            testParticipant3: 0.0
-          }));
+        creditorEntries..apply(testPayment),
+        equals({
+          testParticipant1: 6000.0,
+          testParticipant2: -6000.0,
+          testParticipant3: 0.0
+        }),
+      );
     });
 
     test('CreditorEntriesExt_apply_参加者3人支払者0人のPaymentを与えた時、例外', () {
@@ -872,14 +995,15 @@ void main() {
         testParticipant3: 0.0
       };
       final testPayment = Payment(
-          title: "testPaymentA",
-          payer: testParticipant1,
-          price: 6000,
-          owners: {
-            testParticipant1: false,
-            testParticipant2: false,
-            testParticipant3: false
-          });
+        title: "testPaymentA",
+        payer: testParticipant1,
+        price: 6000,
+        owners: {
+          testParticipant1: false,
+          testParticipant2: false,
+          testParticipant3: false
+        },
+      );
 
       expect(() => creditorEntries..apply(testPayment), throwsException);
     });
@@ -891,13 +1015,19 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
+        Settlement(
+          from: fromTestParticipant,
+          to: toTestParticipant,
+          amount: 30,
+        ).isEqualTo(
           Settlement(
-                  from: fromTestParticipant, to: toTestParticipant, amount: 30)
-              .isEqualTo(Settlement(
-                  from: fromTestParticipant,
-                  to: toTestParticipant,
-                  amount: 30)),
-          equals(true));
+            from: fromTestParticipant,
+            to: toTestParticipant,
+            amount: 30,
+          ),
+        ),
+        equals(true),
+      );
     });
 
     test('isEqualTo_支払元のインスタンスが異なる時false', () {
@@ -905,13 +1035,19 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
+        Settlement(
+          from: fromTestParticipant,
+          to: toTestParticipant,
+          amount: 30,
+        ).isEqualTo(
           Settlement(
-                  from: fromTestParticipant, to: toTestParticipant, amount: 30)
-              .isEqualTo(Settlement(
-                  from: Participant("testFromName"),
-                  to: toTestParticipant,
-                  amount: 30)),
-          equals(false));
+            from: Participant("testFromName"),
+            to: toTestParticipant,
+            amount: 30,
+          ),
+        ),
+        equals(false),
+      );
     });
 
     test('isEqualTo_支払先のインスタンスが異なる時false', () {
@@ -919,13 +1055,16 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
+        Settlement(from: fromTestParticipant, to: toTestParticipant, amount: 30)
+            .isEqualTo(
           Settlement(
-                  from: fromTestParticipant, to: toTestParticipant, amount: 30)
-              .isEqualTo(Settlement(
-                  from: fromTestParticipant,
-                  to: Participant("testToName"),
-                  amount: 30)),
-          equals(false));
+            from: fromTestParticipant,
+            to: Participant("testToName"),
+            amount: 30,
+          ),
+        ),
+        equals(false),
+      );
     });
 
     test('isEqualTo_支払い量が異なる時false', () {
@@ -933,13 +1072,16 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
+        Settlement(from: fromTestParticipant, to: toTestParticipant, amount: 30)
+            .isEqualTo(
           Settlement(
-                  from: fromTestParticipant, to: toTestParticipant, amount: 30)
-              .isEqualTo(Settlement(
-                  from: fromTestParticipant,
-                  to: toTestParticipant,
-                  amount: 30.01)),
-          equals(false));
+            from: fromTestParticipant,
+            to: toTestParticipant,
+            amount: 30.01,
+          ),
+        ),
+        equals(false),
+      );
     });
   });
 }
