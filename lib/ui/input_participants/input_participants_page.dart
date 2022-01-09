@@ -81,7 +81,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
   Row _createParticipantInputArea(int participantIndex) {
     final bool hasOnlyParticipants = _participants.length <= 1;
     final String participantNameHint =
-        _participants[participantIndex].displayName.toString();
+        _participants[participantIndex].displayName;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
