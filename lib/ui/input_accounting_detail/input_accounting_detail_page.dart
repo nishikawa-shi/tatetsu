@@ -161,7 +161,8 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           payment.price =
               value.isNotEmpty ? double.parse(value) : paymentPriceHintValue;
         },
-        keyboardType: TextInputType.number,
+        keyboardType:
+            const TextInputType.numberWithOptions(decimal: true),
       ),
     ];
   }
