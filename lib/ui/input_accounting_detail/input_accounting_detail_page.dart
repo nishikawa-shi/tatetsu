@@ -6,7 +6,7 @@ import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 class InputAccountingDetailPage extends StatefulWidget {
   InputAccountingDetailPage({required this.participants})
       : payments = [
-          PaymentComponent(participants: participants)..isExpanded = true
+          PaymentComponent(participants: participants)..isInputBodyExpanded = true
         ],
         super();
 
@@ -44,11 +44,12 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
               child: const Icon(Icons.add_circle_sharp, size: 32),
             );
           }
+
           return ExpansionPanelList(
             key: UniqueKey(),
             expansionCallback: (int index, bool isExpanded) {
               setState(() {
-                widget.payments[index].isExpanded = !isExpanded;
+                widget.payments[index].isInputBodyExpanded = !isExpanded;
               });
             },
             children:
@@ -58,7 +59,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                   return _paymentHeader(payment);
                 },
                 body: _paymentBody(payment),
-                isExpanded: payment.isExpanded,
+                isExpanded: payment.isInputBodyExpanded,
               );
             }).toList(),
           );
@@ -161,18 +162,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           payment.price =
               value.isNotEmpty ? double.parse(value) : paymentPriceHintValue;
         },
-        keyboardType:
-            const TextInputType.numberWithOptions(decimal: true),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     ];
   }
 
   List<Widget> _ownerView(PaymentComponent payment) {
-    final headerComponent = [
-      const SizedBox(height: 16),
-      const Text("Owners"),
-    ];
-    final ownersComponent = payment.owners.entries
+    final checkBoxComponent = payment.owners.entries
         .map(
           (e) => Row(
             children: [
@@ -192,7 +188,27 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           ),
         )
         .toList();
-    return [headerComponent, ownersComponent].expand((e) => e).toList();
+
+    final ownersComponent = ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          payment.isOwnerChoiceBodyExpanded = !isExpanded;
+        });
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return const ListTile(title: Text("Exclude Participants"));
+          },
+          body: Column(
+            children: checkBoxComponent,
+          ),
+          isExpanded: payment.isOwnerChoiceBodyExpanded,
+        )
+      ],
+    );
+
+    return [ownersComponent];
   }
 
   List<Widget> _deleteView(PaymentComponent payment) {
