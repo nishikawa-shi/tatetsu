@@ -30,7 +30,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
               onPressed: () {
                 _toInputAccounting();
               },
-              child: const Icon(Icons.payment, size: 32),
+              child: const Icon(Icons.receipt_long, size: 32),
             )
           ],
         ),
