@@ -56,7 +56,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
               key: UniqueKey(),
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
-                  widget.payments[index].isInputBodyExpanded = !isExpanded;
+                  widget.payments[index].isExpanded = !isExpanded;
                 });
               },
               children: widget.payments
@@ -66,7 +66,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                     return _paymentHeader(payment);
                   },
                   body: _paymentBody(payment),
-                  isExpanded: payment.isInputBodyExpanded,
+                  isExpanded: payment.isExpanded,
                 );
               }).toList(),
             );
