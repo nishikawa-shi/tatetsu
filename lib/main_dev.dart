@@ -14,7 +14,7 @@ class Tatetsu extends StatelessWidget {
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const InputParticipantsPage(title: '[Dev] Input Participants'),
+      home: const InputParticipantsPage(title: '[Dev] Participants'),
     );
   }
 }

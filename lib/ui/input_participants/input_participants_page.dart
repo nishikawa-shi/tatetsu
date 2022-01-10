@@ -30,7 +30,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
               onPressed: () {
                 _toInputAccounting();
               },
-              child: const Icon(Icons.payment, size: 32),
+              child: const Icon(Icons.receipt_long, size: 32),
             )
           ],
         ),
@@ -63,11 +63,14 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
     });
   }
 
-  Container _createFooter() => Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: TextButton(
-          onPressed: _insertParticipantToLast,
-          child: const Icon(Icons.add_circle, size: 32),
+  Widget _createFooter() => Center(
+        child: Wrap(
+          children: [
+            TextButton(
+              onPressed: _insertParticipantToLast,
+              child: const Icon(Icons.person_add, size: 32),
+            )
+          ],
         ),
       );
 
@@ -104,8 +107,8 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
               ? null
               : () => {_removeParticipant(participantIndex)},
           child: const Icon(
-            Icons.remove,
-            size: 16,
+            Icons.person_remove,
+            size: 32,
             color: Colors.grey,
           ),
         ),
