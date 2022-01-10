@@ -191,11 +191,38 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: const Icon(Icons.person_off, size: 32),
           ),
           TextButton(
-            onPressed: isOnlyPayment ? null : () => {_deletePayment(payment)},
+            onPressed: isOnlyPayment
+                ? null
+                : () => showDialog(
+                      context: context,
+                      builder: (context) =>
+                          _paymentDeleteConfirmDialog(payment),
+                    ),
             child: const Icon(Icons.delete_forever, size: 32),
           ),
         ],
       )
     ];
   }
+
+  AlertDialog _paymentDeleteConfirmDialog(PaymentComponent payment) =>
+      AlertDialog(
+        content: Text('Are you sure to delete payment \n"${payment.title}"?'),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              primary: Theme.of(context).disabledColor,
+            ),
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              _deletePayment(payment);
+              Navigator.pop(context);
+            },
+            child: const Text("Delete"),
+          )
+        ],
+      );
 }
