@@ -33,7 +33,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
               onPressed: () {
                 _toSettleAccounts();
               },
-              child: const Text("Settle"),
+              child: const Icon(Icons.summarize, size: 32),
             )
           ],
         ),
