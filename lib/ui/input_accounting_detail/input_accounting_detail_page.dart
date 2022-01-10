@@ -19,50 +19,53 @@ class InputAccountingDetailPage extends StatefulWidget {
 class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Input Accounting Detail"),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              primary: Theme.of(context).colorScheme.onPrimary,
-            ),
-            onPressed: () {
-              _toSettleAccounts();
-            },
-            child: const Text("Settle"),
-          )
-        ],
-      ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 1) {
-            return TextButton(
-              onPressed: _insertPaymentToLast,
-              child: const Icon(Icons.add_circle_sharp, size: 32),
-            );
-          }
-
-          return ExpansionPanelList(
-            key: UniqueKey(),
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                widget.payments[index].isInputBodyExpanded = !isExpanded;
-              });
-            },
-            children:
-                widget.payments.map<ExpansionPanel>((PaymentComponent payment) {
-              return ExpansionPanel(
-                headerBuilder: (BuildContext _, bool __) {
-                  return _paymentHeader(payment);
-                },
-                body: _paymentBody(payment),
-                isExpanded: payment.isInputBodyExpanded,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Input Accounting Detail"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.onPrimary,
+              ),
+              onPressed: () {
+                _toSettleAccounts();
+              },
+              child: const Text("Settle"),
+            )
+          ],
+        ),
+        body: ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 1) {
+              return TextButton(
+                onPressed: _insertPaymentToLast,
+                child: const Icon(Icons.add_circle_sharp, size: 32),
               );
-            }).toList(),
-          );
-        },
-        itemCount: 2, // 入力部分と追加ボタンで、合計2
+            }
+
+            return ExpansionPanelList(
+              key: UniqueKey(),
+              expansionCallback: (int index, bool isExpanded) {
+                setState(() {
+                  widget.payments[index].isInputBodyExpanded = !isExpanded;
+                });
+              },
+              children: widget.payments
+                  .map<ExpansionPanel>((PaymentComponent payment) {
+                return ExpansionPanel(
+                  headerBuilder: (BuildContext _, bool __) {
+                    return _paymentHeader(payment);
+                  },
+                  body: _paymentBody(payment),
+                  isExpanded: payment.isInputBodyExpanded,
+                );
+              }).toList(),
+            );
+          },
+          itemCount: 2, // 入力部分と追加ボタンで、合計2
+        ),
       ),
     );
   }

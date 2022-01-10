@@ -17,32 +17,35 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              primary: Theme.of(context).colorScheme.onPrimary,
-            ),
-            onPressed: () {
-              _toInputAccounting();
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.onPrimary,
+              ),
+              onPressed: () {
+                _toInputAccounting();
+              },
+              child: const Icon(Icons.payment, size: 32),
+            )
+          ],
+        ),
+        body: Center(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemBuilder: (BuildContext context, int index) {
+              if (index >= _participants.length) {
+                return _createFooter();
+              }
+              return _createParticipantInputArea(index);
             },
-            child: const Icon(Icons.payment, size: 32),
-          )
-        ],
-      ),
-      body: Center(
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemBuilder: (BuildContext context, int index) {
-            if (index >= _participants.length) {
-              return _createFooter();
-            }
-            return _createParticipantInputArea(index);
-          },
-          // 要素の数は、参加者の数 + ヘッダー1つ
-          itemCount: _participants.length + 1,
+            // 要素の数は、参加者の数 + ヘッダー1つ
+            itemCount: _participants.length + 1,
+          ),
         ),
       ),
     );
