@@ -44,7 +44,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                   children: [
                     TextButton(
                       onPressed: _insertPaymentToLast,
-                      child: const Icon(Icons.add_circle_sharp, size: 32),
+                      child: const Icon(Icons.add_circle, size: 32),
                     )
                   ],
                 ),
