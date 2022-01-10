@@ -28,7 +28,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settle Accounts Result"),
+        title: const Text("Credit Summaries"),
       ),
       body: Text([creditorsText, "\n\n", dealsText].join()),
     );

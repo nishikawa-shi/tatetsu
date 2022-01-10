@@ -24,7 +24,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Input Accounting Detail"),
+          title: const Text("Payments"),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
