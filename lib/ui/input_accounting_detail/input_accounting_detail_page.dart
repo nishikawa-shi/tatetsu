@@ -39,9 +39,15 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         body: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             if (index == 1) {
-              return TextButton(
-                onPressed: _insertPaymentToLast,
-                child: const Icon(Icons.add_circle_sharp, size: 32),
+              return Center(
+                child: Wrap(
+                  children: [
+                    TextButton(
+                      onPressed: _insertPaymentToLast,
+                      child: const Icon(Icons.add_circle_sharp, size: 32),
+                    )
+                  ],
+                ),
               );
             }
 
@@ -215,9 +221,15 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   List<Widget> _deleteView(PaymentComponent payment) {
     final bool isOnlyPayment = widget.payments.length <= 1;
     return [
-      TextButton(
-        onPressed: isOnlyPayment ? null : () => {_deletePayment(payment)},
-        child: const Text("Delete this payment."),
+      Center(
+        child: Wrap(
+          children: [
+            TextButton(
+              onPressed: isOnlyPayment ? null : () => {_deletePayment(payment)},
+              child: const Text("Delete this payment."),
+            )
+          ],
+        ),
       )
     ];
   }

@@ -63,11 +63,14 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
     });
   }
 
-  Container _createFooter() => Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: TextButton(
-          onPressed: _insertParticipantToLast,
-          child: const Icon(Icons.add_circle, size: 32),
+  Widget _createFooter() => Center(
+        child: Wrap(
+          children: [
+            TextButton(
+              onPressed: _insertParticipantToLast,
+              child: const Icon(Icons.add_circle, size: 32),
+            )
+          ],
         ),
       );
 
