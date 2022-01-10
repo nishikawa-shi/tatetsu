@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/participant.dart';
+import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
@@ -126,8 +127,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       children: [
         _payerView(payment),
         _priceView(payment),
-        _ownerView(payment),
-        _deleteView(payment)
+        _actionsView(payment),
       ].expand((e) => e).toList(),
     );
   }
@@ -174,62 +174,27 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     ];
   }
 
-  List<Widget> _ownerView(PaymentComponent payment) {
-    final checkBoxComponent = payment.owners.entries
-        .map(
-          (e) => Row(
-            children: [
-              Checkbox(
-                value: e.value,
-                onChanged: (bool? value) {
-                  setState(() {
-                    if (value == null) {
-                      return;
-                    }
-                    payment.owners[e.key] = value;
-                  });
-                },
-              ),
-              Text(e.key.displayName)
-            ],
-          ),
-        )
-        .toList();
-
-    final ownersComponent = ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          payment.isOwnerChoiceBodyExpanded = !isExpanded;
-        });
-      },
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return const ListTile(title: Text("Exclude Participants"));
-          },
-          body: Column(
-            children: checkBoxComponent,
-          ),
-          isExpanded: payment.isOwnerChoiceBodyExpanded,
-        )
-      ],
-    );
-
-    return [ownersComponent];
-  }
-
-  List<Widget> _deleteView(PaymentComponent payment) {
+  List<Widget> _actionsView(PaymentComponent payment) {
     final bool isOnlyPayment = widget.payments.length <= 1;
     return [
-      Center(
-        child: Wrap(
-          children: [
-            TextButton(
-              onPressed: isOnlyPayment ? null : () => {_deletePayment(payment)},
-              child: const Text("Delete this payment."),
-            )
-          ],
-        ),
+      const SizedBox(height: 16),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          TextButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => ExcludeParticipantsDialog(payment: payment),
+              );
+            },
+            child: const Icon(Icons.person_off, size: 32),
+          ),
+          TextButton(
+            onPressed: isOnlyPayment ? null : () => {_deletePayment(payment)},
+            child: const Icon(Icons.delete_forever, size: 32),
+          ),
+        ],
       )
     ];
   }
