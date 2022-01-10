@@ -41,7 +41,13 @@ class _ExcludeParticipantsDialogState extends State<ExcludeParticipantsDialog> {
                       });
                     },
                   ),
-                  Text(e.key.displayName)
+                  Expanded(
+                    child: Text(
+                      e.key.displayName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
                 ],
               ),
             )

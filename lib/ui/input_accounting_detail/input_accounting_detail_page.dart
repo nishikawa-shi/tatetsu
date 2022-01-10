@@ -177,7 +177,11 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             .map<DropdownMenuItem<Participant>>((Participant value) {
           return DropdownMenuItem<Participant>(
             value: value,
-            child: Text(value.displayName),
+            child: Text(
+              value.displayName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           );
         }).toList(),
         isExpanded: true,
