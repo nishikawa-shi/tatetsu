@@ -22,60 +22,88 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Payments"),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
-              ),
-              onPressed: () {
-                _toSettleAccounts();
-              },
-              child: const Icon(Icons.summarize, size: 32),
-            )
-          ],
-        ),
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 1) {
-              return Center(
-                child: Wrap(
-                  children: [
-                    TextButton(
-                      onPressed: _insertPaymentToLast,
-                      child: const Icon(Icons.add_circle, size: 32),
-                    )
-                  ],
+      child: WillPopScope(
+        onWillPop: _showDiscardConfirmDialogIfNeeded,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Payments"),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.onPrimary,
                 ),
-              );
-            }
-
-            return ExpansionPanelList(
-              key: UniqueKey(),
-              expansionCallback: (int index, bool isExpanded) {
-                setState(() {
-                  widget.payments[index].isExpanded = !isExpanded;
-                });
-              },
-              children: widget.payments
-                  .map<ExpansionPanel>((PaymentComponent payment) {
-                return ExpansionPanel(
-                  headerBuilder: (BuildContext _, bool __) {
-                    return _paymentHeader(payment);
-                  },
-                  body: _paymentBody(payment),
-                  isExpanded: payment.isExpanded,
+                onPressed: () {
+                  _toSettleAccounts();
+                },
+                child: const Icon(Icons.summarize, size: 32),
+              )
+            ],
+          ),
+          body: ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 1) {
+                return Center(
+                  child: Wrap(
+                    children: [
+                      TextButton(
+                        onPressed: _insertPaymentToLast,
+                        child: const Icon(Icons.add_circle, size: 32),
+                      )
+                    ],
+                  ),
                 );
-              }).toList(),
-            );
-          },
-          itemCount: 2, // 入力部分と追加ボタンで、合計2
+              }
+
+              return ExpansionPanelList(
+                key: UniqueKey(),
+                expansionCallback: (int index, bool isExpanded) {
+                  setState(() {
+                    widget.payments[index].isExpanded = !isExpanded;
+                  });
+                },
+                children: widget.payments
+                    .map<ExpansionPanel>((PaymentComponent payment) {
+                  return ExpansionPanel(
+                    headerBuilder: (BuildContext _, bool __) {
+                      return _paymentHeader(payment);
+                    },
+                    body: _paymentBody(payment),
+                    isExpanded: payment.isExpanded,
+                  );
+                }).toList(),
+              );
+            },
+            itemCount: 2, // 入力部分と追加ボタンで、合計2
+          ),
         ),
       ),
     );
   }
+
+  Future<bool> _showDiscardConfirmDialogIfNeeded() => widget.payments
+          .hasOnlyDefaultElements(onParticipants: widget.participants)
+      ? Future(() => true)
+      : showDialog<bool>(
+          context: context,
+          builder: (context) => _discardConfirmDialog(),
+        ).then((value) => value ?? false);
+
+  AlertDialog _discardConfirmDialog() => AlertDialog(
+        content: const Text("Are you sure to discard the input payments?"),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              primary: Theme.of(context).disabledColor,
+            ),
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text("Discard"),
+          )
+        ],
+      );
 
   void _toSettleAccounts() {
     Navigator.of(context).push(
