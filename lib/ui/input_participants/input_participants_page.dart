@@ -68,7 +68,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           children: [
             TextButton(
               onPressed: _insertParticipantToLast,
-              child: const Icon(Icons.add_circle, size: 32),
+              child: const Icon(Icons.person_add, size: 32),
             )
           ],
         ),
@@ -107,8 +107,8 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
               ? null
               : () => {_removeParticipant(participantIndex)},
           child: const Icon(
-            Icons.remove,
-            size: 16,
+            Icons.person_remove,
+            size: 32,
             color: Colors.grey,
           ),
         ),
