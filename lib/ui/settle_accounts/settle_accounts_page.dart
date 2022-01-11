@@ -30,15 +30,14 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                 children: [
                   const ListTile(
                     title: Text(
-                      "Settlements",
+                      "Payments",
                     ),
                   ),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction
-                        .getSettlements()
-                        .map((e) => _settlementComponent(e))
+                    children: widget.transaction.payments
+                        .map((e) => _paymentComponent(e))
                         .toList(),
                   )
                 ],
@@ -68,14 +67,15 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                 children: [
                   const ListTile(
                     title: Text(
-                      "Payments",
+                      "Settlements",
                     ),
                   ),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction.payments
-                        .map((e) => _paymentComponent(e))
+                    children: widget.transaction
+                        .getSettlements()
+                        .map((e) => _settlementComponent(e))
                         .toList(),
                   )
                 ],
@@ -85,7 +85,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ),
       );
 
-  Column _settlementComponent(Settlement settlement) => Column(
+  Column _paymentComponent(Payment payment) => Column(
         children: [
           const SizedBox(height: 8),
           Row(
@@ -93,24 +93,25 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             children: [
               const SizedBox(width: 48),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Text(
-                  settlement.from.displayName,
-                  maxLines: 1,
+                  payment.title,
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
-              const Expanded(
-                child: Icon(Icons.arrow_right),
-              ),
               Expanded(
                 flex: 2,
-                child: Text(settlement.to.displayName),
+                child: Text(
+                  payment.payer.displayName,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  settlement.amount.toString(),
+                  payment.price.floorAtSecondDecimal().toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
@@ -154,7 +155,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _paymentComponent(Payment payment) => Column(
+  Column _settlementComponent(Settlement settlement) => Column(
         children: [
           const SizedBox(height: 8),
           Row(
@@ -162,25 +163,24 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             children: [
               const SizedBox(width: 48),
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: Text(
-                  payment.title,
-                  overflow: TextOverflow.ellipsis,
+                  settlement.from.displayName,
                   maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              ),
+              const Expanded(
+                child: Icon(Icons.arrow_right),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(settlement.to.displayName),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  payment.payer.displayName,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  payment.price.floorAtSecondDecimal().toString(),
+                  settlement.amount.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
