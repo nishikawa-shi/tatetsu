@@ -28,9 +28,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             Card(
               child: Column(
                 children: [
-                  const ListTile(
+                  ListTile(
                     title: Text(
                       "Payments",
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   ListView(
@@ -46,9 +47,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             Card(
               child: Column(
                 children: [
-                  const ListTile(
+                  ListTile(
                     title: Text(
                       "Creditors",
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   ListView(
@@ -65,9 +67,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             Card(
               child: Column(
                 children: [
-                  const ListTile(
+                  ListTile(
                     title: Text(
                       "Settlements",
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   ListView(
