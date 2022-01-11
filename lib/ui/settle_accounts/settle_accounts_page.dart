@@ -23,56 +23,65 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         appBar: AppBar(
           title: const Text("Credit Summaries"),
         ),
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return ExpansionPanelList(
-              key: UniqueKey(),
-              expansionCallback: (int index, bool isExpanded) {
-                setState(() {});
-              },
-              children: [
-                ExpansionPanel(
-                  headerBuilder: (_, __) =>
-                      const ListTile(title: Text("Settlement")),
-                  body: ListView(
+        body: ListView(
+          children: [
+            Card(
+              child: Column(
+                children: [
+                  const ListTile(
+                    title: Text(
+                      "Settlements",
+                    ),
+                  ),
+                  ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: widget.transaction
                         .getSettlements()
                         .map((e) => _settlementComponent(e))
                         .toList(),
+                  )
+                ],
+              ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  const ListTile(
+                    title: Text(
+                      "Creditors",
+                    ),
                   ),
-                  isExpanded: true,
-                ),
-                ExpansionPanel(
-                  headerBuilder: (_, __) =>
-                      const ListTile(title: Text("Creditors")),
-                  body: ListView(
+                  ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: widget.transaction.creditor.entries.entries
                         .toList()
                         .map((e) => _creditorComponent(e))
                         .toList(),
+                  )
+                ],
+              ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  const ListTile(
+                    title: Text(
+                      "Payments",
+                    ),
                   ),
-                  isExpanded: true,
-                ),
-                ExpansionPanel(
-                  headerBuilder: (_, __) =>
-                      const ListTile(title: Text("Payments")),
-                  body: ListView(
+                  ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: widget.transaction.payments
                         .map((e) => _paymentComponent(e))
                         .toList(),
-                  ),
-                  isExpanded: true,
-                ),
-              ],
-            );
-          },
-          itemCount: 1,
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       );
 
