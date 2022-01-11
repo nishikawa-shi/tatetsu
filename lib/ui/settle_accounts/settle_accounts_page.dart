@@ -29,6 +29,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               child: Column(
                 children: [
                   _titleComponent("Payments"),
+                  _labelComponent("Items"),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -43,6 +44,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               child: Column(
                 children: [
                   _titleComponent("Creditors"),
+                  _labelComponent("Balance"),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -58,6 +60,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               child: Column(
                 children: [
                   _titleComponent("Settlements"),
+                  _labelComponent("Procedures"),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -78,6 +81,23 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           title,
           style: Theme.of(context).textTheme.titleLarge,
         ),
+      );
+
+  Column _labelComponent(String label) => Column(
+        children: [
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const SizedBox(width: 16),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              const SizedBox(width: 16),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
       );
 
   Column _paymentComponent(Payment payment) => Column(
