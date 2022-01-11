@@ -94,7 +94,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(width: 48),
+              const SizedBox(width: 16),
               Expanded(
                 flex: 3,
                 child: Text(
@@ -120,7 +120,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                   textAlign: TextAlign.end,
                 ),
               ),
-              const SizedBox(width: 64),
+              const SizedBox(width: 16),
             ],
           ),
           const SizedBox(height: 8),
@@ -133,7 +133,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           const SizedBox(height: 8),
           Row(
             children: [
-              const SizedBox(width: 48),
+              const SizedBox(width: 16),
               Expanded(
                 flex: 5,
                 child: Text(
@@ -151,7 +151,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                   textAlign: TextAlign.end,
                 ),
               ),
-              const SizedBox(width: 64),
+              const SizedBox(width: 16),
             ],
           ),
           const SizedBox(height: 8),
@@ -164,7 +164,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(width: 48),
+              const SizedBox(width: 16),
               Expanded(
                 flex: 2,
                 child: Text(
@@ -189,7 +189,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                   textAlign: TextAlign.end,
                 ),
               ),
-              const SizedBox(width: 64),
+              const SizedBox(width: 16),
             ],
           ),
           const SizedBox(height: 8),
