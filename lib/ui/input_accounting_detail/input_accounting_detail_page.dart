@@ -162,7 +162,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   List<Widget> _payerView(PaymentComponent payment) {
     return [
-      const Text("Payer"),
+      Text("Payer", style: Theme.of(context).textTheme.labelMedium),
       DropdownButton<Participant>(
         value: payment.payer,
         onChanged: (Participant? newValue) {
@@ -193,7 +193,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     final double paymentPriceHintValue = payment.price;
     return [
       const SizedBox(height: 16),
-      const Text("Price"),
+      Text("Price", style: Theme.of(context).textTheme.labelMedium),
       TextFormField(
         decoration: InputDecoration(hintText: paymentPriceHintValue.toString()),
         key: UniqueKey(),
