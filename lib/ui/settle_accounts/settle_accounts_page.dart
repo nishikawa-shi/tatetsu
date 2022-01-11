@@ -36,6 +36,9 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                     children: widget.transaction.payments
                         .map((e) => _paymentComponent(e))
                         .toList(),
+                  ),
+                  const SizedBox(
+                    height: 16,
                   )
                 ],
               ),
@@ -52,6 +55,9 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                         .toList()
                         .map((e) => _creditorComponent(e))
                         .toList(),
+                  ),
+                  const SizedBox(
+                    height: 16,
                   )
                 ],
               ),
@@ -68,6 +74,9 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                         .getSettlements()
                         .map((e) => _settlementComponent(e))
                         .toList(),
+                  ),
+                  const SizedBox(
+                    height: 16,
                   )
                 ],
               ),
