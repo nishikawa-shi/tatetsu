@@ -28,12 +28,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             Card(
               child: Column(
                 children: [
-                  ListTile(
-                    title: Text(
-                      "Payments",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
+                  _titleComponent("Payments"),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -47,12 +42,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             Card(
               child: Column(
                 children: [
-                  ListTile(
-                    title: Text(
-                      "Creditors",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
+                  _titleComponent("Creditors"),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -67,12 +57,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
             Card(
               child: Column(
                 children: [
-                  ListTile(
-                    title: Text(
-                      "Settlements",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
+                  _titleComponent("Settlements"),
                   ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -85,6 +70,13 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
             ),
           ],
+        ),
+      );
+
+  ListTile _titleComponent(String title) => ListTile(
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       );
 
