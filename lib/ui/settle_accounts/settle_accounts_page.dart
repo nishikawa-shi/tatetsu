@@ -194,8 +194,11 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const Expanded(
-                child: Icon(Icons.arrow_right),
+              Expanded(
+                child: Icon(
+                  Icons.arrow_right,
+                  size: Theme.of(context).textTheme.bodyMedium?.fontSize,
+                ),
               ),
               Expanded(
                 flex: 2,
