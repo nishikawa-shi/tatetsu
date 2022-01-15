@@ -4,15 +4,15 @@ import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/core/no_debtors_exception.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
-import 'package:tatetsu/model/entity/settlement.dart';
+import 'package:tatetsu/model/entity/procedure.dart';
 
 class Creditor {
   Map<Participant, double> entries;
+  List<Payment> payments;
 
-  Creditor({required List<Payment> payments})
-      : entries = payments.toCreditorEntries();
+  Creditor({required this.payments}) : entries = payments.toCreditorEntries();
 
-  Settlement? extractSettlement({
+  Procedure? extractSettlement({
     required Participant from,
     required Participant to,
   }) {
@@ -37,7 +37,7 @@ class Creditor {
     }
     entries.update(from, (value) => value += dealValue);
     entries.update(to, (value) => value -= dealValue);
-    return Settlement(from: from, to: to, amount: dealValue);
+    return Procedure(from: from, to: to, amount: dealValue);
   }
 
   List<Participant> getCreditors() => ({...entries}

@@ -1,9 +1,9 @@
 import 'package:tatetsu/model/entity/participant.dart';
+import 'package:tatetsu/model/entity/procedure.dart';
 
 class Settlement {
-  Participant from;
-  Participant to;
-  double amount;
+  List<Procedure> procedures;
+  Map<Participant, double> errors;
 
-  Settlement({required this.from, required this.to, required this.amount});
+  Settlement({required this.procedures, required this.errors});
 }

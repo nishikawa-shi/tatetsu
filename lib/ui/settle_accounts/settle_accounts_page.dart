@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
-import 'package:tatetsu/model/entity/settlement.dart';
+import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/transaction.dart';
 
 class SettleAccountsPage extends StatefulWidget {
@@ -70,8 +70,9 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: widget.transaction
-                        .getSettlements()
-                        .map((e) => _settlementComponent(e))
+                        .getSettlement()
+                        .procedures
+                        .map((e) => _proceduresComponent(e))
                         .toList(),
                   ),
                   const SizedBox(
@@ -178,7 +179,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _settlementComponent(Settlement settlement) => Column(
+  Column _proceduresComponent(Procedure procedure) => Column(
         children: [
           const SizedBox(height: 8),
           Row(
@@ -188,7 +189,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  settlement.from.displayName,
+                  procedure.from.displayName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -201,12 +202,12 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
               Expanded(
                 flex: 2,
-                child: Text(settlement.to.displayName),
+                child: Text(procedure.to.displayName),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  settlement.amount.toString(),
+                  procedure.amount.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,

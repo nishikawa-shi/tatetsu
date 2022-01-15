@@ -1,6 +1,7 @@
+import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
-import 'package:tatetsu/model/entity/settlement.dart';
+import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/transaction.dart';
 import 'package:test/test.dart';
 
@@ -165,7 +166,7 @@ void main() {
       );
     });
 
-    test('getSettlements_立替費0の参加者１人の時、空配列', () {
+    test('CreditorExt_getSettlementProcedures_立替費0の参加者１人の時、空配列', () {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -177,10 +178,15 @@ void main() {
         )
       ];
 
-      expect(Transaction(testPayments).getSettlements(), equals([]));
+      expect(
+        Creditor(payments: testPayments).getSettlementProcedures(),
+        equals([]),
+      );
     });
 
-    test('getSettlements_プラス立替費者者1人とマイナス立替費者者1人の時、マイナス立替者からプラス立替者への精算1つ', () {
+    test(
+        'CreditorExt_getSettlementProcedures_プラス立替費者者1人とマイナス立替費者者1人の時、マイナス立替者からプラス立替者への精算1つ',
+        () {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -194,9 +200,11 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant2,
               to: testParticipant1,
               amount: 3000,
@@ -207,7 +215,9 @@ void main() {
       );
     });
 
-    test('getSettlements_プラス立替費者者4人とマイナス立替費者者1人の時、マイナス立替者からプラス立替者への精算4つ', () {
+    test(
+        'CreditorExt_getSettlementProcedures_プラス立替費者者4人とマイナス立替費者者1人の時、マイナス立替者からプラス立替者への精算4つ',
+        () {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -242,24 +252,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant1,
               amount: 17778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 27778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant3,
               amount: 18778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 17878,
@@ -270,7 +282,8 @@ void main() {
       );
     });
 
-    test('getSettlements_差の小さなプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、マイナス立替者2人からの精算2件ずつ',
+    test(
+        'CreditorExt_getSettlementProcedures_差の小さなプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、マイナス立替者2人からの精算2件ずつ',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -306,24 +319,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 37778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 23444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 24334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 37878,
@@ -335,7 +350,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の小さなプラス立替費者者3人と差の大きなマイナス立替費者者2人(早順番者がマイナス大)の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
+        'CreditorExt_getSettlementProcedures_差の小さなプラス立替費者者3人と差の大きなマイナス立替費者者2人(早順番者がマイナス大)の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -371,24 +386,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 27778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 37778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant4,
               amount: 5666,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 22212,
@@ -400,7 +417,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の小さなプラス立替費者者3人と差の大きなマイナス立替費者者2人(早順番者がマイナス小)の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
+        'CreditorExt_getSettlementProcedures_差の小さなプラス立替費者者3人と差の大きなマイナス立替費者者2人(早順番者がマイナス小)の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -436,24 +453,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 21222,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant1,
               amount: 6556,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 37778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 27878,
@@ -465,7 +484,7 @@ void main() {
     });
 
     test(
-        'getSettlements_1人(早順番者)が特に大きいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
+        'CreditorExt_getSettlementProcedures_1人(早順番者)が特に大きいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -501,24 +520,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 81222,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant1,
               amount: 36556,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 27778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 17878,
@@ -530,7 +551,7 @@ void main() {
     });
 
     test(
-        'getSettlements_1人(中順番者)が特に大きいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
+        'CreditorExt_getSettlementProcedures_1人(中順番者)が特に大きいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -566,24 +587,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 17778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 63444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 64334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 17878,
@@ -595,7 +618,7 @@ void main() {
     });
 
     test(
-        'getSettlements_1人(遅順番者)が特に大きいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
+        'CreditorExt_getSettlementProcedures_1人(遅順番者)が特に大きいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -631,24 +654,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 17778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 27778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant4,
               amount: 35666,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 82212,
@@ -660,7 +685,7 @@ void main() {
     });
 
     test(
-        'getSettlements_1人(早順番者)が特に小さいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
+        'CreditorExt_getSettlementProcedures_1人(早順番者)が特に小さいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -696,24 +721,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 37778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 73444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 24334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 87878,
@@ -725,7 +752,7 @@ void main() {
     });
 
     test(
-        'getSettlements_1人(中順番者)が特に小さいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
+        'CreditorExt_getSettlementProcedures_1人(中順番者)が特に小さいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -761,24 +788,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 87778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 23444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 24334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 87878,
@@ -790,7 +819,7 @@ void main() {
     });
 
     test(
-        'getSettlements_1人(遅順番者)が特に小さいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
+        'CreditorExt_getSettlementProcedures_1人(遅順番者)が特に小さいプラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -826,24 +855,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 87778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 23444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 74334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 37878,
@@ -855,7 +886,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の大きな(早<中<遅)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
+        'CreditorExt_getSettlementProcedures_差の大きな(早<中<遅)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -891,24 +922,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 7778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 67778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant4,
               amount: 15666,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 92212,
@@ -920,7 +953,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の大きな(早<遅<中)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
+        'CreditorExt_getSettlementProcedures_差の大きな(早<遅<中)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -956,24 +989,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 7778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 83444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 34334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 57878,
@@ -985,7 +1020,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の大きな(中<早<遅)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
+        'CreditorExt_getSettlementProcedures_差の大きな(中<早<遅)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算3件と遅順番マイナス立替者からの精算1件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -1021,24 +1056,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 57778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 17778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant4,
               amount: 15666,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 92212,
@@ -1050,7 +1087,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の大きな(中<遅<早)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
+        'CreditorExt_getSettlementProcedures_差の大きな(中<遅<早)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -1086,24 +1123,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 91222,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant1,
               amount: 16556,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 17778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 57878,
@@ -1115,7 +1154,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の大きな(遅<早<中)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
+        'CreditorExt_getSettlementProcedures_差の大きな(遅<早<中)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算2件と遅順番マイナス立替者からの精算2件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -1151,24 +1190,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 57778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant2,
               amount: 33444,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 84334,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 7878,
@@ -1180,7 +1221,7 @@ void main() {
     });
 
     test(
-        'getSettlements_差の大きな(遅<中<早)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
+        'CreditorExt_getSettlementProcedures_差の大きな(遅<中<早)プラス立替費者者3人と差の小さなマイナス立替費者者2人の時、早順番マイナス立替者からの精算1件と遅順番マイナス立替者からの精算3件',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -1216,24 +1257,26 @@ void main() {
       ];
 
       expect(
-        Transaction(testPayments).getSettlements().hasEquivalentElements(
+        Creditor(payments: testPayments)
+            .getSettlementProcedures()
+            .hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant3,
               to: testParticipant1,
               amount: 91222,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant1,
               amount: 16556,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant2,
               amount: 67778,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant5,
               to: testParticipant4,
               amount: 7878,
@@ -1245,38 +1288,38 @@ void main() {
     });
   });
 
-  group('SettlementsComparer', () {
+  group('ProceduresComparer', () {
     test('hasEquivalentElements_支払元のインスタンスと支払先のインスタンスと支払い量が等しい組み合わせの時true', () {
       expect(
         [
-          Settlement(
+          Procedure(
             from: testParticipant1,
             to: testParticipant3,
             amount: 100,
           ),
-          Settlement(
+          Procedure(
             from: testParticipant1,
             to: testParticipant5,
             amount: 1000,
           ),
-          Settlement(
+          Procedure(
             from: testParticipant4,
             to: testParticipant2,
             amount: 10000,
           ),
         ].hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant4,
               to: testParticipant2,
               amount: 10000,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant1,
               to: testParticipant5,
               amount: 1000,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant1,
               to: testParticipant3,
               amount: 100,
@@ -1290,29 +1333,29 @@ void main() {
     test('hasEquivalentElements_不足している要素がある時false', () {
       expect(
         [
-          Settlement(
+          Procedure(
             from: testParticipant1,
             to: testParticipant3,
             amount: 100,
           ),
-          Settlement(
+          Procedure(
             from: testParticipant1,
             to: testParticipant5,
             amount: 1000,
           ),
-          Settlement(
+          Procedure(
             from: testParticipant4,
             to: testParticipant2,
             amount: 10000,
           ),
         ].hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant4,
               to: testParticipant2,
               amount: 10000,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant1,
               to: testParticipant5,
               amount: 1000,
@@ -1326,39 +1369,39 @@ void main() {
     test('hasEquivalentElements_余分な要素がある時false', () {
       expect(
         [
-          Settlement(
+          Procedure(
             from: testParticipant1,
             to: testParticipant3,
             amount: 100,
           ),
-          Settlement(
+          Procedure(
             from: testParticipant1,
             to: testParticipant5,
             amount: 1000,
           ),
-          Settlement(
+          Procedure(
             from: testParticipant4,
             to: testParticipant2,
             amount: 10000,
           ),
         ].hasEquivalentElements(
           to: [
-            Settlement(
+            Procedure(
               from: testParticipant4,
               to: testParticipant2,
               amount: 10000,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant1,
               to: testParticipant5,
               amount: 1000,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant1,
               to: testParticipant3,
               amount: 100,
             ),
-            Settlement(
+            Procedure(
               from: testParticipant4,
               to: testParticipant2,
               amount: 100000,
@@ -1371,14 +1414,14 @@ void main() {
   });
 }
 
-extension SettlementsComparer on List<Settlement> {
-  bool hasEquivalentElements({required List<Settlement> to}) {
+extension ProceduresComparer on List<Procedure> {
+  bool hasEquivalentElements({required List<Procedure> to}) {
     if (length != to.length) {
       return false;
     }
     return map(
       (lhs) =>
-          to.cast<Settlement?>().firstWhere(
+          to.cast<Procedure?>().firstWhere(
                 (rhs) =>
                     (lhs.from == rhs!.from) &&
                     (lhs.to == rhs.to) &&
