@@ -23,31 +23,32 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         appBar: AppBar(
           title: const Text("Credit Summaries"),
         ),
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return ExpansionPanelList(
-              key: UniqueKey(),
-              expansionCallback: (int index, bool isExpanded) {
-                setState(() {});
-              },
-              children: [
-                ExpansionPanel(
-                  headerBuilder: (_, __) =>
-                      const ListTile(title: Text("Settlement")),
-                  body: ListView(
+        body: ListView(
+          children: [
+            Card(
+              child: Column(
+                children: [
+                  _titleComponent("Payments"),
+                  _labelComponent("Items"),
+                  ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction
-                        .getSettlements()
-                        .map((e) => _settlementComponent(e))
+                    children: widget.transaction.payments
+                        .map((e) => _paymentComponent(e))
                         .toList(),
                   ),
-                  isExpanded: true,
-                ),
-                ExpansionPanel(
-                  headerBuilder: (_, __) =>
-                      const ListTile(title: Text("Creditors")),
-                  body: ListView(
+                  const SizedBox(
+                    height: 16,
+                  )
+                ],
+              ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  _titleComponent("Creditors"),
+                  _labelComponent("Balance"),
+                  ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: widget.transaction.creditor.entries.entries
@@ -55,90 +56,53 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                         .map((e) => _creditorComponent(e))
                         .toList(),
                   ),
-                  isExpanded: true,
-                ),
-                ExpansionPanel(
-                  headerBuilder: (_, __) =>
-                      const ListTile(title: Text("Payments")),
-                  body: ListView(
+                  const SizedBox(
+                    height: 16,
+                  )
+                ],
+              ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  _titleComponent("Settlements"),
+                  _labelComponent("Procedures"),
+                  ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction.payments
-                        .map((e) => _paymentComponent(e))
+                    children: widget.transaction
+                        .getSettlements()
+                        .map((e) => _settlementComponent(e))
                         .toList(),
                   ),
-                  isExpanded: true,
-                ),
-              ],
-            );
-          },
-          itemCount: 1,
+                  const SizedBox(
+                    height: 16,
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       );
 
-  Column _settlementComponent(Settlement settlement) => Column(
-        children: [
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const SizedBox(width: 48),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  settlement.from.displayName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const Expanded(
-                child: Icon(Icons.arrow_right),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(settlement.to.displayName),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  settlement.amount.toString(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                ),
-              ),
-              const SizedBox(width: 64),
-            ],
-          ),
-          const SizedBox(height: 8),
-        ],
+  ListTile _titleComponent(String title) => ListTile(
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       );
 
-  Column _creditorComponent(MapEntry<Participant, double> creditorEntry) =>
-      Column(
+  Column _labelComponent(String label) => Column(
         children: [
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Row(
             children: [
-              const SizedBox(width: 48),
-              Expanded(
-                flex: 5,
-                child: Text(
-                  creditorEntry.key.displayName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              const SizedBox(width: 16),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.labelMedium,
               ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  creditorEntry.value.floorAtSecondDecimal().toString(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                ),
-              ),
-              const SizedBox(width: 64),
+              const SizedBox(width: 16),
             ],
           ),
           const SizedBox(height: 8),
@@ -151,7 +115,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(width: 48),
+              const SizedBox(width: 16),
               Expanded(
                 flex: 3,
                 child: Text(
@@ -177,7 +141,79 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                   textAlign: TextAlign.end,
                 ),
               ),
-              const SizedBox(width: 64),
+              const SizedBox(width: 16),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+
+  Column _creditorComponent(MapEntry<Participant, double> creditorEntry) =>
+      Column(
+        children: [
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const SizedBox(width: 16),
+              Expanded(
+                flex: 5,
+                child: Text(
+                  creditorEntry.key.displayName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  creditorEntry.value.floorAtSecondDecimal().toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+
+  Column _settlementComponent(Settlement settlement) => Column(
+        children: [
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const SizedBox(width: 16),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  settlement.from.displayName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                child: Icon(
+                  Icons.arrow_right,
+                  size: Theme.of(context).textTheme.bodyMedium?.fontSize,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(settlement.to.displayName),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  settlement.amount.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+              const SizedBox(width: 16),
             ],
           ),
           const SizedBox(height: 8),

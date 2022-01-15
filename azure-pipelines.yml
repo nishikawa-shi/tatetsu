@@ -21,8 +21,10 @@ stages:
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
-        channel: 'stable'
-        version: 'latest'
+        #　TODO: Material Oneが入ったバージョンがstableになったらstableにする
+        channel: 'beta'
+        version: 'custom'
+        customVersion: '2.9.0-0.1.pre'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get
@@ -43,8 +45,10 @@ stages:
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
-        channel: 'stable'
-        version: 'latest'
+        #　TODO: Material Oneが入ったバージョンがstableになったらstableにする
+        channel: 'beta'
+        version: 'custom'
+        customVersion: '2.9.0-0.1.pre'
     - script: |
         echo '>> gem install bundler:1.17.2'
         gem install bundler:1.17.2
