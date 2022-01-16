@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/core/no_debtors_exception.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -61,18 +62,16 @@ extension PaymentsExt on List<Payment> {
   }
 }
 
-extension DoubleExt on double {
-  double floorAtSecondDecimal() => this == 0 ? 0 : (this * 100).floor() / 100;
-}
-
 extension CreditorEntriesExt on Map<Participant, double> {
   void apply(Payment payment) {
     _addCredit(payment);
     _addDebut(payment);
   }
 
-  void _addCredit(Payment payment) =>
-      update(payment.payer, (value) => value += payment.price);
+  void _addCredit(Payment payment) => update(
+        payment.payer,
+        (value) => (value += payment.price).floorAtSecondDecimal(),
+      );
 
   void _addDebut(Payment payment) {
     final List<Participant> debtors = payment.owners.entries
@@ -84,7 +83,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
     }
     final fee = payment.price / debtors.length;
     for (final debtor in debtors) {
-      update(debtor, (value) => value -= fee);
+      update(debtor, (value) => (value -= fee).floorAtSecondDecimal());
     }
   }
 }

@@ -263,6 +263,39 @@ void main() {
         'extractSettlement_精算対象が0.01未満の値が含まれる浮動小数点の時、誤差の含まれる精算となり、プロパティに当該の精算結果が適用される',
         () {
       final testEntries = {
+        testParticipant1: -28.00999999999997,
+        testParticipant2: 28.00999999999998,
+        testParticipant3: -0.00000000000001,
+      };
+      final testCreditor = Creditor(payments: dummyPayments)
+        ..entries = testEntries;
+
+      expect(
+        testCreditor
+            .extractSettlement(from: testParticipant1, to: testParticipant2)!
+            .isEqualTo(
+              Settlement(
+                from: testParticipant1,
+                to: testParticipant2,
+                amount: 28,
+              ),
+            ),
+        equals(true),
+      );
+      expect(
+        mapEquals(testCreditor.entries, {
+          testParticipant1: -0.009999999999969589,
+          testParticipant2: 0.009999999999980247,
+          testParticipant3: -1e-14,
+        }),
+        true,
+      );
+    });
+
+    test(
+        'extractSettlement_精算対象が0.01以上と判断される値が含まれる浮動小数点の時、切り上げた値による精算結果がプロパティに適用される',
+        () {
+      final testEntries = {
         testParticipant1: -28.009999999999997,
         testParticipant2: 28.009999999999998,
         testParticipant3: -0.000000000000001,
@@ -288,7 +321,7 @@ void main() {
           testParticipant2: -3.552713678800501e-15,
           testParticipant3: -1e-15,
         }),
-        true,
+        equals(true),
       );
     });
 
@@ -700,23 +733,11 @@ void main() {
       expect(
         testPayments.toCreditorEntries(),
         equals({
-          testParticipant1: -9333.333333333334,
-          testParticipant2: -14883.333333333334,
-          testParticipant3: 24216.666666666664
+          testParticipant1: -9333.33,
+          testParticipant2: -14883.33,
+          testParticipant3: 24216.66
         }),
       );
-    });
-
-    test('DoubleExt_floorAtSecondDecimal_0の時、0', () {
-      expect(0.0.floorAtSecondDecimal(), equals(0));
-    });
-
-    test('DoubleExt_floorAtSecondDecimal_0.01未満と判断される値が切り捨てられる、0', () {
-      expect(28.009999999999996.floorAtSecondDecimal(), equals(28));
-    });
-
-    test('DoubleExt_floorAtSecondDecimal_0.01以上と判断される値は残る、0', () {
-      expect(28.009999999999997.floorAtSecondDecimal(), equals(28.01));
     });
 
     test('CreditorEntriesExt_apply_参加者1人支払者1人のPaymentを与えた時、0円の立替', () {

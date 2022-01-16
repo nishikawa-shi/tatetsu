@@ -28,5 +28,17 @@ void main() {
         equals("modified payment"),
       );
     });
+
+    test('Payment_price属性に、0.01未満の値を含む小数値を与えた時小数点第2位で切り捨てされる', () {
+      expect(
+        Payment(
+          title: "tesutoTitle",
+          payer: Participant("tesutoPart"),
+          price: 12.341,
+          owners: {},
+        ).price,
+        equals(12.34),
+      );
+    });
   });
 }
