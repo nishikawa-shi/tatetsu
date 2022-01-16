@@ -1,3 +1,4 @@
+import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 
 class Payment {
@@ -9,7 +10,7 @@ class Payment {
   Payment({
     required this.title,
     required this.payer,
-    required this.price,
+    required double price,
     required this.owners,
-  });
+  }) : price = price.floorAtSecondDecimal();
 }

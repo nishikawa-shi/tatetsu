@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
@@ -198,8 +199,9 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         decoration: InputDecoration(hintText: paymentPriceHintValue.toString()),
         key: UniqueKey(),
         onChanged: (String value) {
-          payment.price =
-              value.isNotEmpty ? double.parse(value) : paymentPriceHintValue;
+          payment.price = value.isNotEmpty
+              ? double.parse(value).floorAtSecondDecimal()
+              : paymentPriceHintValue;
         },
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
