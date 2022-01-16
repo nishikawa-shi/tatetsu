@@ -733,9 +733,9 @@ void main() {
       expect(
         testPayments.toCreditorEntries(),
         equals({
-          testParticipant1: -9333.333333333334,
-          testParticipant2: -14883.333333333334,
-          testParticipant3: 24216.666666666664
+          testParticipant1: -9333.33,
+          testParticipant2: -14883.33,
+          testParticipant3: 24216.66
         }),
       );
     });

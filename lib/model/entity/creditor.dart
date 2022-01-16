@@ -72,8 +72,10 @@ extension CreditorEntriesExt on Map<Participant, double> {
     _addDebut(payment);
   }
 
-  void _addCredit(Payment payment) =>
-      update(payment.payer, (value) => value += payment.price);
+  void _addCredit(Payment payment) => update(
+        payment.payer,
+        (value) => (value += payment.price).floorAtSecondDecimal(),
+      );
 
   void _addDebut(Payment payment) {
     final List<Participant> debtors = payment.owners.entries
@@ -85,7 +87,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
     }
     final fee = payment.price / debtors.length;
     for (final debtor in debtors) {
-      update(debtor, (value) => value -= fee);
+      update(debtor, (value) => (value -= fee).floorAtSecondDecimal());
     }
   }
 }

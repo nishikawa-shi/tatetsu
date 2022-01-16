@@ -166,7 +166,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  creditorEntry.value.floorAtSecondDecimal().toString(),
+                  creditorEntry.value.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
