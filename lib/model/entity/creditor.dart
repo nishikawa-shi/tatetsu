@@ -62,7 +62,8 @@ extension PaymentsExt on List<Payment> {
 }
 
 extension DoubleExt on double {
-  double floorAtSecondDecimal() => this == 0 ? 0 : (this * 100).floor() / 100;
+  double floorAtSecondDecimal() =>
+      this == 0 ? 0 : (this * 100).abs().floor() / 100 * (isNegative ? -1 : 1);
 }
 
 extension CreditorEntriesExt on Map<Participant, double> {
