@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
@@ -135,7 +134,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  payment.price.floorAtSecondDecimal().toString(),
+                  payment.price.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
