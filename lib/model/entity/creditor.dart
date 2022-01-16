@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/core/no_debtors_exception.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -59,11 +60,6 @@ extension PaymentsExt on List<Payment> {
     forEach((payment) => creditorEntries.apply(payment));
     return creditorEntries;
   }
-}
-
-extension DoubleExt on double {
-  double floorAtSecondDecimal() =>
-      this == 0 ? 0 : (this * 100).abs().floor() / 100 * (isNegative ? -1 : 1);
 }
 
 extension CreditorEntriesExt on Map<Participant, double> {
