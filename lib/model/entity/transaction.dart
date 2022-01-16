@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -50,7 +51,23 @@ extension CreditorExt on Creditor {
 
 extension ProceduresExt on List<Procedure> {
   Map<Participant, double> getSettlementErrors({required Creditor toward}) {
-    //TODO: 作り込み
-    return {};
+    final settlementBaseCreditor = Creditor(payments: toward.payments);
+    for (final procedure in this) {
+      settlementBaseCreditor.entries.update(
+        procedure.from,
+        (value) => value.plusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+      );
+      settlementBaseCreditor.entries.update(
+        procedure.to,
+        (value) => value.minusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+      );
+    }
+
+    return Map.fromEntries(
+      settlementBaseCreditor.entries.entries
+          .toList()
+          .map((e) => MapEntry(e.key, e.value.floorAtSecondDecimal()))
+          .where((element) => element.value.abs() != 0),
+    );
   }
 }

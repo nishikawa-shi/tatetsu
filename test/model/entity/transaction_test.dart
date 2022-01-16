@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -1282,6 +1283,171 @@ void main() {
               amount: 7878,
             ),
           ],
+        ),
+        equals(true),
+      );
+    });
+
+    test('ProceduresExt_getSettlementErrors_精算手順が空の時、与えた立替の合算値と同じ', () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 30,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+      final List<Procedure> testProcedures = [];
+
+      expect(
+        mapEquals(
+          testProcedures.getSettlementErrors(
+            toward: Creditor(payments: testPayments),
+          ),
+          Creditor(payments: testPayments).entries,
+        ),
+        equals(true),
+      );
+    });
+
+    test('ProceduresExt_getSettlementErrors_精算手順が1つの時、与えた立替の合算値に反映された値', () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 30,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+      final List<Procedure> testProcedures = [
+        Procedure(from: testParticipant2, to: testParticipant1, amount: 5),
+      ];
+
+      expect(
+        mapEquals(
+          testProcedures.getSettlementErrors(
+            toward: Creditor(payments: testPayments),
+          ),
+          {
+            testParticipant1: 20 - 5,
+            testParticipant2: -10 + 5,
+            testParticipant3: -10
+          },
+        ),
+        equals(true),
+      );
+    });
+
+    test('ProceduresExt_getSettlementErrors_精算手順が2つ以上の時、与えた立替の合算値に反映された値', () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 30,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+      final List<Procedure> testProcedures = [
+        Procedure(from: testParticipant2, to: testParticipant1, amount: 5),
+        Procedure(from: testParticipant2, to: testParticipant1, amount: 2),
+        Procedure(from: testParticipant3, to: testParticipant1, amount: 9),
+      ];
+
+      expect(
+        mapEquals(
+          testProcedures.getSettlementErrors(
+            toward: Creditor(payments: testPayments),
+          ),
+          {
+            testParticipant1: 20 - 5 - 2 - 9,
+            testParticipant2: -10 + 5 + 2,
+            testParticipant3: -10 + 9
+          },
+        ),
+        equals(true),
+      );
+    });
+
+    test(
+        'ProceduresExt_getSettlementErrors_0.01未満の精算値は切り捨てられて、与えた立替の合算値に反映された値',
+        () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 30,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+      final List<Procedure> testProcedures = [
+        Procedure(from: testParticipant2, to: testParticipant1, amount: 5.0099),
+      ];
+
+      expect(
+        mapEquals(
+          testProcedures.getSettlementErrors(
+            toward: Creditor(payments: testPayments),
+          ),
+          {
+            testParticipant1: 20 - 5,
+            testParticipant2: -10 + 5,
+            testParticipant3: -10
+          },
+        ),
+        equals(true),
+      );
+    });
+
+    test(
+        'ProceduresExt_getSettlementErrors_反映させると0.01未満になる精算手順を与えた時、当該の参加者に関する要素が消える',
+        () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 30,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+      final List<Procedure> testProcedures = [
+        Procedure(from: testParticipant2, to: testParticipant1, amount: 5),
+        Procedure(from: testParticipant2, to: testParticipant1, amount: 2),
+        Procedure(
+          from: testParticipant3,
+          to: testParticipant1,
+          amount: 9.9999999999999999,
+        ),
+      ];
+
+      expect(
+        mapEquals(
+          testProcedures.getSettlementErrors(
+            toward: Creditor(payments: testPayments),
+          ),
+          {
+            testParticipant1: 3,
+            testParticipant2: -3,
+          },
         ),
         equals(true),
       );
