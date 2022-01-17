@@ -70,7 +70,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
 
   void _addCredit(Payment payment) => update(
         payment.payer,
-        (value) => (value += payment.price).floorAtSecondDecimal(),
+        (value) => (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
       );
 
   void _addDebut(Payment payment) {
@@ -83,7 +83,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
     }
     final fee = payment.price / debtors.length;
     for (final debtor in debtors) {
-      update(debtor, (value) => (value -= fee).floorAtSecondDecimal());
+      update(debtor, (value) => (value.minusAtSecondDecimal(fee)).floorAtSecondDecimal());
     }
   }
 }
