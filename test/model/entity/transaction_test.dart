@@ -167,6 +167,43 @@ void main() {
       );
     });
 
+    test('getSettlement_与えたPaymentの精算結果に誤差が発生する際、手順及び精算結果誤差が含まれる', () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 20,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true,
+          },
+        )
+      ];
+      final testSettlement = Transaction(testPayments).getSettlement();
+      expect(
+        testSettlement.procedures.hasEquivalentElements(
+          to: [
+            Procedure(
+              from: testParticipant2,
+              to: testParticipant1,
+              amount: 6.66,
+            ),
+            Procedure(
+              from: testParticipant3,
+              to: testParticipant1,
+              amount: 6.66,
+            )
+          ],
+        ),
+        equals(true),
+      );
+      expect(
+        mapEquals(testSettlement.errors, {testParticipant1: 0.02}),
+        equals(true),
+      );
+    });
+
     test('CreditorExt_getSettlementProcedures_立替費0の参加者１人の時、空配列', () {
       final List<Payment> testPayments = [
         Payment(
