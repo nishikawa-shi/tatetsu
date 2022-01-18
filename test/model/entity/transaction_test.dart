@@ -160,7 +160,7 @@ void main() {
         equals({
           testParticipant1: -9333.33,
           testParticipant2: -14883.33,
-          testParticipant3: 24216.66
+          testParticipant3: 24216.67
         }),
       );
     });
