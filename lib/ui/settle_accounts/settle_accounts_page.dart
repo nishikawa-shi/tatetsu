@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
+import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
 import 'package:tatetsu/model/entity/transaction.dart';
 
@@ -62,23 +63,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
             ),
             Card(
-              child: Column(
-                children: [
-                  _titleComponent("Settlements"),
-                  _labelComponent("Procedures"),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction
-                        .getSettlements()
-                        .map((e) => _settlementComponent(e))
-                        .toList(),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  )
-                ],
-              ),
+              child: _settlementComponent(widget.transaction.getSettlement()),
             ),
           ],
         ),
@@ -178,7 +163,51 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _settlementComponent(Settlement settlement) => Column(
+  Column _settlementComponent(Settlement settlement) {
+    final List<Widget> baseSettlementElements = [
+      _titleComponent("Settlements"),
+    ];
+
+    baseSettlementElements.addAll([
+      _labelComponent("Procedures"),
+      ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children:
+            settlement.procedures.map((e) => _proceduresComponent(e)).toList(),
+      ),
+      const SizedBox(
+        height: 8,
+      )
+    ]);
+
+    if (settlement.errors.isNotEmpty) {
+      baseSettlementElements.addAll([
+        _labelComponent("Error rests"),
+        ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: settlement.errors.entries
+              .map((e) => _settlementErrorComponent(e))
+              .toList(),
+        ),
+        const SizedBox(
+          height: 8,
+        )
+      ]);
+    }
+
+    return Column(
+      children: baseSettlementElements
+        ..add(
+          const SizedBox(
+            height: 8,
+          ),
+        ),
+    );
+  }
+
+  Column _proceduresComponent(Procedure procedure) => Column(
         children: [
           const SizedBox(height: 8),
           Row(
@@ -188,7 +217,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               Expanded(
                 flex: 2,
                 child: Text(
-                  settlement.from.displayName,
+                  procedure.from.displayName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -201,12 +230,44 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
               Expanded(
                 flex: 2,
-                child: Text(settlement.to.displayName),
+                child: Text(procedure.to.displayName),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  settlement.amount.toString(),
+                  procedure.amount.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+
+  Column _settlementErrorComponent(MapEntry<Participant, double> error) =>
+      Column(
+        children: [
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const SizedBox(width: 16),
+              Expanded(
+                flex: 5,
+                child: Text(
+                  error.key.displayName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  error.value.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,

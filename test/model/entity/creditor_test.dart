@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
-import 'package:tatetsu/model/entity/settlement.dart';
+import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -158,7 +158,7 @@ void main() {
         testCreditor
             .extractSettlement(from: testParticipant2, to: testParticipant1)!
             .isEqualTo(
-              Settlement(
+              Procedure(
                 from: testParticipant2,
                 to: testParticipant1,
                 amount: 180,
@@ -191,7 +191,7 @@ void main() {
         testCreditor
             .extractSettlement(from: testParticipant1, to: testParticipant2)!
             .isEqualTo(
-              Settlement(
+              Procedure(
                 from: testParticipant1,
                 to: testParticipant2,
                 amount: 500,
@@ -222,7 +222,7 @@ void main() {
         testCreditor
             .extractSettlement(from: testParticipant1, to: testParticipant2)!
             .isEqualTo(
-              Settlement(
+              Procedure(
                 from: testParticipant1,
                 to: testParticipant2,
                 amount: 270,
@@ -274,7 +274,7 @@ void main() {
         testCreditor
             .extractSettlement(from: testParticipant1, to: testParticipant2)!
             .isEqualTo(
-              Settlement(
+              Procedure(
                 from: testParticipant1,
                 to: testParticipant2,
                 amount: 28,
@@ -307,7 +307,7 @@ void main() {
         testCreditor
             .extractSettlement(from: testParticipant1, to: testParticipant2)!
             .isEqualTo(
-              Settlement(
+              Procedure(
                 from: testParticipant1,
                 to: testParticipant2,
                 amount: 28.01,
@@ -1036,12 +1036,12 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
-        Settlement(
+        Procedure(
           from: fromTestParticipant,
           to: toTestParticipant,
           amount: 30,
         ).isEqualTo(
-          Settlement(
+          Procedure(
             from: fromTestParticipant,
             to: toTestParticipant,
             amount: 30,
@@ -1056,12 +1056,12 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
-        Settlement(
+        Procedure(
           from: fromTestParticipant,
           to: toTestParticipant,
           amount: 30,
         ).isEqualTo(
-          Settlement(
+          Procedure(
             from: Participant("testFromName"),
             to: toTestParticipant,
             amount: 30,
@@ -1076,9 +1076,9 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
-        Settlement(from: fromTestParticipant, to: toTestParticipant, amount: 30)
+        Procedure(from: fromTestParticipant, to: toTestParticipant, amount: 30)
             .isEqualTo(
-          Settlement(
+          Procedure(
             from: fromTestParticipant,
             to: Participant("testToName"),
             amount: 30,
@@ -1093,9 +1093,9 @@ void main() {
       final toTestParticipant = Participant("testToName");
 
       expect(
-        Settlement(from: fromTestParticipant, to: toTestParticipant, amount: 30)
+        Procedure(from: fromTestParticipant, to: toTestParticipant, amount: 30)
             .isEqualTo(
-          Settlement(
+          Procedure(
             from: fromTestParticipant,
             to: toTestParticipant,
             amount: 30.01,
@@ -1107,7 +1107,7 @@ void main() {
   });
 }
 
-extension SettlementComparer on Settlement {
-  bool isEqualTo(Settlement target) =>
+extension ProcedureComparer on Procedure {
+  bool isEqualTo(Procedure target) =>
       target.from == from && target.to == to && target.amount == amount;
 }
