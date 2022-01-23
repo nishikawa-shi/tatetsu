@@ -70,7 +70,8 @@ extension CreditorEntriesExt on Map<Participant, double> {
 
   void _addCredit(Payment payment) => update(
         payment.payer,
-        (value) => (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
+        (value) =>
+            (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
       );
 
   void _addDebt(Payment payment) {
