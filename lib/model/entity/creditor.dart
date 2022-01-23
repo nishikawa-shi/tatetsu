@@ -65,7 +65,7 @@ extension PaymentsExt on List<Payment> {
 extension CreditorEntriesExt on Map<Participant, double> {
   void apply(Payment payment) {
     _addCredit(payment);
-    _addDebut(payment);
+    _addDebt(payment);
   }
 
   void _addCredit(Payment payment) => update(
@@ -73,7 +73,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
         (value) => (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
       );
 
-  void _addDebut(Payment payment) {
+  void _addDebt(Payment payment) {
     final List<Participant> debtors = payment.owners.entries
         .where((element) => element.value)
         .map((e) => e.key)
