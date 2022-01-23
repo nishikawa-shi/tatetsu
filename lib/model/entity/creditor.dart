@@ -83,7 +83,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
     }
     final fee = payment.price / debtors.length;
     for (final debtor in debtors) {
-      update(debtor, (value) => (value.minusAtSecondDecimal(fee)).floorAtSecondDecimal());
+      update(debtor, (value) => (value - fee).floorAtSecondDecimal());
     }
   }
 }
