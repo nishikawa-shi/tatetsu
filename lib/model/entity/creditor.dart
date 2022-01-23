@@ -49,6 +49,11 @@ class Creditor {
       ({...entries}..removeWhere((key, value) => !value.isNegative))
           .keys
           .toList();
+
+  double getError() => entries.values
+      .reduce((value, element) => value.plusAtSecondDecimal(element));
+
+  bool hasError() => getError() != 0;
 }
 
 extension PaymentsExt on List<Payment> {
@@ -70,7 +75,8 @@ extension CreditorEntriesExt on Map<Participant, double> {
 
   void _addCredit(Payment payment) => update(
         payment.payer,
-        (value) => (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
+        (value) =>
+            (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
       );
 
   void _addDebt(Payment payment) {

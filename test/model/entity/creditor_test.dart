@@ -489,6 +489,86 @@ void main() {
       });
     });
 
+    test('getError_立替が0件の時、エラー', () {
+      expect(
+        () => (Creditor(payments: dummyPayments)..entries = {}).getError(),
+        throwsStateError,
+      );
+    });
+
+    test('getError_立替が1件の時、当該の値と等しい値', () {
+      expect(
+        (Creditor(payments: dummyPayments)..entries = {testParticipant1: 10})
+            .getError(),
+        equals(10),
+      );
+    });
+
+    test('getError_立替が2件以上で、合計値が0より大きくなる時、その合計値', () {
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 10,
+                testParticipant2: 200,
+                testParticipant3: 3000
+              })
+            .getError(),
+        equals(3210),
+      );
+    });
+
+    test('getError_立替が2件以上で、正確な合計値が0にはならないが小数点2桁以下無視した合計値が0になる時、0', () {
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 10,
+                testParticipant2: -10.00999999999999,
+              })
+            .getError(),
+        equals(0),
+      );
+    });
+
+    test('hasError_合計値が0より大きい立替の時、true', () {
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 13.33,
+                testParticipant2: -6.66,
+                testParticipant3: -6.66
+              })
+            .hasError(),
+        equals(true),
+      );
+    });
+
+    test('hasError_合計値が0の立替の時、false', () {
+      // 浮動小数点の誤差に依存するテストケースは呼び出し先で担保とする
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 20,
+                testParticipant2: -10,
+                testParticipant3: -10
+              })
+            .hasError(),
+        equals(false),
+      );
+    });
+
+    test('hasError_合計値が0未満の立替の時、true', () {
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 6.66,
+                testParticipant2: 6.66,
+                testParticipant3: -13.33
+              })
+            .hasError(),
+        equals(true),
+      );
+    });
+
     test('PaymentsExt_toCreditorEntries_Paymentが空の時、エラー', () {
       final List<Payment> testPayments = [];
 
