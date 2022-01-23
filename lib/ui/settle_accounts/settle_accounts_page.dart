@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/procedure.dart';
@@ -44,23 +45,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
             ),
             Card(
-              child: Column(
-                children: [
-                  _titleComponent("Creditors"),
-                  _labelComponent("Balance"),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction.creditor.entries.entries
-                        .toList()
-                        .map((e) => _creditorComponent(e))
-                        .toList(),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  )
-                ],
-              ),
+              child: _creditorsComponent(widget.transaction.creditor),
             ),
             Card(
               child: _settlementComponent(widget.transaction.getSettlement()),
@@ -131,6 +116,36 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           const SizedBox(height: 8),
         ],
       );
+
+  Column _creditorsComponent(Creditor creditor) {
+    final List<Widget> baseCreditorsElements = [
+      _titleComponent("Creditors"),
+    ];
+
+    baseCreditorsElements.addAll([
+      _labelComponent("Balance"),
+      ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: creditor.entries.entries
+            .toList()
+            .map((e) => _creditorComponent(e))
+            .toList(),
+      ),
+      const SizedBox(
+        height: 16,
+      )
+    ]);
+
+    return Column(
+      children: baseCreditorsElements
+        ..add(
+          const SizedBox(
+            height: 8,
+          ),
+        ),
+    );
+  }
 
   Column _creditorComponent(MapEntry<Participant, double> creditorEntry) =>
       Column(
