@@ -49,6 +49,11 @@ class Creditor {
       ({...entries}..removeWhere((key, value) => !value.isNegative))
           .keys
           .toList();
+
+  double getError() => entries.values
+      .reduce((value, element) => value.plusAtSecondDecimal(element));
+
+  bool hasError() => getError() != 0;
 }
 
 extension PaymentsExt on List<Payment> {
