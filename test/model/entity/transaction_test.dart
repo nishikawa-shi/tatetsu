@@ -162,7 +162,7 @@ void main() {
         equals({
           testParticipant1: -9333.33,
           testParticipant2: -14883.33,
-          testParticipant3: 24216.67
+          testParticipant3: 24216.66
         }),
       );
     });
@@ -199,7 +199,7 @@ void main() {
         equals(true),
       );
       expect(
-        mapEquals(testSettlement.errors, {testParticipant1: 0.02}),
+        mapEquals(testSettlement.errors, {testParticipant1: 0.01}),
         equals(true),
       );
     });
