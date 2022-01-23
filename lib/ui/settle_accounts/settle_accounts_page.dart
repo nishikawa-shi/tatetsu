@@ -137,6 +137,16 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       )
     ]);
 
+    if (creditor.hasError()) {
+      baseCreditorsElements.addAll([
+        _labelComponent("Error"),
+        _creditorErrorComponent(creditor.getError()),
+        const SizedBox(
+          height: 8,
+        )
+      ]);
+    }
+
     return Column(
       children: baseCreditorsElements
         ..add(
@@ -166,6 +176,36 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                 flex: 2,
                 child: Text(
                   creditorEntry.value.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+
+  Column _creditorErrorComponent(double errorAmount) => Column(
+        children: [
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const SizedBox(width: 16),
+              const Expanded(
+                flex: 5,
+                child: Text(
+                  "Total",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  errorAmount.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
