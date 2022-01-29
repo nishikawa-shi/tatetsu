@@ -23,6 +23,18 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text("Credit Summaries"),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.onPrimary,
+              ),
+              onPressed: () {},
+              child: const Icon(
+                Icons.share,
+                size: 32,
+              ),
+            )
+          ],
         ),
         body: ListView(
           children: [
