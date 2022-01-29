@@ -22,6 +22,13 @@ void main() {
   };
 
   group('Transaction', () {
+    test('Transaction_与える支払いが空の時、エラー', () {
+      expect(
+        () => Transaction([]),
+        throwsStateError,
+      );
+    });
+
     test('Transaction_creditor属性が、Paymentが1つの時立替額が均等割される', () {
       final List<Payment> testPayments = [
         Payment(
