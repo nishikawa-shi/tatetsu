@@ -7,20 +7,27 @@ import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
 
 class Transaction {
-  Creditor creditor;
   List<Payment> payments;
+  Creditor creditor;
+  Settlement settlement;
 
-  Transaction(this.payments) : creditor = Creditor(payments: payments);
+  Transaction(this.payments)
+      : creditor = payments.toCreditor(),
+        settlement = payments.toCreditor().toSettlement();
+}
 
-  Settlement getSettlement() {
-    final procedures = creditor.getSettlementProcedures();
-    final errors = procedures.getSettlementErrors(toward: creditor);
-
-    return Settlement(procedures: procedures, errors: errors);
-  }
+extension PaymentsExt on List<Payment> {
+  Creditor toCreditor() => Creditor(payments: this);
 }
 
 extension CreditorExt on Creditor {
+  Settlement toSettlement() {
+    final procedures = getSettlementProcedures();
+    final errors = procedures.getSettlementErrors(toward: this);
+
+    return Settlement(procedures: procedures, errors: errors);
+  }
+
   List<Procedure> getSettlementProcedures() {
     final settlementBaseCreditor = Creditor(payments: payments);
     return getDebtors()

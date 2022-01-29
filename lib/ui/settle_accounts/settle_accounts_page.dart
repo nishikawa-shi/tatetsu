@@ -60,7 +60,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               child: _creditorsComponent(widget.transaction.creditor),
             ),
             Card(
-              child: _settlementComponent(widget.transaction.getSettlement()),
+              child: _settlementComponent(widget.transaction.settlement),
             ),
           ],
         ),

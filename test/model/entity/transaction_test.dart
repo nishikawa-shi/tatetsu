@@ -167,7 +167,7 @@ void main() {
       );
     });
 
-    test('getSettlement_与えたPaymentの精算結果に誤差が発生する際、手順及び精算結果誤差が含まれる', () {
+    test('PaymentsExt_toCreditor_与えたPaymentに基づいた立替を返す', () {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -180,7 +180,27 @@ void main() {
           },
         )
       ];
-      final testSettlement = Transaction(testPayments).getSettlement();
+      expect(
+        testPayments.toCreditor().payments,
+        equals(testPayments),
+      );
+    });
+
+    test('CreditorExt_toSettlement_与えたPaymentの精算結果に誤差が発生する際、手順及び精算結果誤差が含まれる',
+        () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 20,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true,
+          },
+        )
+      ];
+      final testSettlement = Creditor(payments: testPayments).toSettlement();
       expect(
         testSettlement.procedures.hasEquivalentElements(
           to: [
