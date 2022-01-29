@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -28,7 +29,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               style: TextButton.styleFrom(
                 primary: Theme.of(context).colorScheme.onPrimary,
               ),
-              onPressed: () {},
+              onPressed: () {
+                final summaryMessage = widget.transaction.toSummaryMessage();
+                Share.share(summaryMessage.body, subject: summaryMessage.title);
+              },
               child: const Icon(
                 Icons.share,
                 size: 32,
