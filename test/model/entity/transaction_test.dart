@@ -174,6 +174,51 @@ void main() {
       );
     });
 
+    test('toSummaryMessage_title属性がSettlements on から始まる文字列である', () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      expect(
+        Transaction(testPayments)
+            .toSummaryMessage()
+            .title
+            .startsWith("Settlements on "),
+        equals(true),
+      );
+    });
+
+    test('toSummaryMessage_title属性がyMd Hm形式の文字列である', () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      expect(
+        Transaction(testPayments)
+            .toSummaryMessage(datetime: DateTime(2000, 1, 23, 16, 56))
+            .title,
+        equals("Settlements on 1/23/2000 16:56"),
+      );
+    });
+
     test(
         'toSummaryMessage_1件のPaymentを与えている時、body属性が支払、立替、精算の順に改行2つで繋がったメッセージを返す',
         () {

@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:intl/intl.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
@@ -16,8 +17,9 @@ class Transaction {
       : creditor = payments.toCreditor(),
         settlement = payments.toCreditor().toSettlement();
 
-  SummaryMessage toSummaryMessage() => SummaryMessage(
-        title: "Settlements on 1/29/2022 15:45",
+  SummaryMessage toSummaryMessage({DateTime? datetime}) => SummaryMessage(
+        title:
+            "Settlements on ${DateFormat.yMd().add_Hm().format(datetime ?? DateTime.now())}",
         body: [
           payments.toSummary(),
           creditor.toSummary(),
