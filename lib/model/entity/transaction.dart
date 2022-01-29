@@ -22,13 +22,13 @@ extension PaymentsExt on List<Payment> {
 
 extension CreditorExt on Creditor {
   Settlement toSettlement() {
-    final procedures = getSettlementProcedures();
+    final procedures = _getSettlementProcedures();
     final errors = procedures.getSettlementErrors(toward: this);
 
     return Settlement(procedures: procedures, errors: errors);
   }
 
-  List<Procedure> getSettlementProcedures() {
+  List<Procedure> _getSettlementProcedures() {
     final settlementBaseCreditor = Creditor(payments: payments);
     return getDebtors()
         .map(
