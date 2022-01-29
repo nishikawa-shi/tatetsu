@@ -55,11 +55,13 @@ extension ProceduresExt on List<Procedure> {
     for (final procedure in this) {
       settlementBaseCreditor.entries.update(
         procedure.from,
-        (value) => value.plusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+        (value) =>
+            value.plusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
       );
       settlementBaseCreditor.entries.update(
         procedure.to,
-        (value) => value.minusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+        (value) =>
+            value.minusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
       );
     }
 
