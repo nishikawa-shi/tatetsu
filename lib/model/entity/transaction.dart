@@ -1,27 +1,53 @@
 import 'package:collection/collection.dart';
+import 'package:intl/intl.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
+import 'package:tatetsu/model/entity/summary_message.dart';
 
 class Transaction {
-  Creditor creditor;
   List<Payment> payments;
+  Creditor creditor;
+  Settlement settlement;
 
-  Transaction(this.payments) : creditor = Creditor(payments: payments);
+  Transaction(this.payments)
+      : creditor = payments.toCreditor(),
+        settlement = payments.toCreditor().toSettlement();
 
-  Settlement getSettlement() {
-    final procedures = creditor.getSettlementProcedures();
-    final errors = procedures.getSettlementErrors(toward: creditor);
+  SummaryMessage toSummaryMessage({DateTime? datetime}) => SummaryMessage(
+        title:
+            "Settlements on ${DateFormat.yMd().add_Hm().format(datetime ?? DateTime.now())}",
+        body: [
+          payments.toSummary(),
+          creditor.toSummary(),
+          settlement.toSummary()
+        ].join("\n\n"),
+      );
+}
 
-    return Settlement(procedures: procedures, errors: errors);
-  }
+extension PaymentsExt on List<Payment> {
+  Creditor toCreditor() => Creditor(payments: this);
+
+  String toSummary() => [
+        "[Payments]",
+        ...map(
+          (e) => "${e.title}(${e.payer.displayName}): ${e.price.toString()}",
+        ),
+      ].join("\n");
 }
 
 extension CreditorExt on Creditor {
-  List<Procedure> getSettlementProcedures() {
+  Settlement toSettlement() {
+    final procedures = _getSettlementProcedures();
+    final errors = procedures.getSettlementErrors(toward: this);
+
+    return Settlement(procedures: procedures, errors: errors);
+  }
+
+  List<Procedure> _getSettlementProcedures() {
     final settlementBaseCreditor = Creditor(payments: payments);
     return getDebtors()
         .map(
@@ -55,11 +81,13 @@ extension ProceduresExt on List<Procedure> {
     for (final procedure in this) {
       settlementBaseCreditor.entries.update(
         procedure.from,
-        (value) => value.plusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+        (value) =>
+            value.plusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
       );
       settlementBaseCreditor.entries.update(
         procedure.to,
-        (value) => value.minusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+        (value) =>
+            value.minusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
       );
     }
 

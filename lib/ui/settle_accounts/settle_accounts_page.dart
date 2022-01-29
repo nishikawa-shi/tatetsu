@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -23,6 +24,21 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text("Credit Summaries"),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.onPrimary,
+              ),
+              onPressed: () {
+                final summaryMessage = widget.transaction.toSummaryMessage();
+                Share.share(summaryMessage.body, subject: summaryMessage.title);
+              },
+              child: const Icon(
+                Icons.share,
+                size: 32,
+              ),
+            )
+          ],
         ),
         body: ListView(
           children: [
@@ -48,7 +64,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               child: _creditorsComponent(widget.transaction.creditor),
             ),
             Card(
-              child: _settlementComponent(widget.transaction.getSettlement()),
+              child: _settlementComponent(widget.transaction.settlement),
             ),
           ],
         ),

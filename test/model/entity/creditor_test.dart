@@ -569,6 +569,69 @@ void main() {
       );
     });
 
+    test('toSummary_立替0件の時、ラベルのみを返す', () {
+      final List<Payment> dummyPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+          },
+        )
+      ];
+
+      expect(
+        (Creditor(payments: dummyPayments)..entries = {}).toSummary(),
+        equals("[Creditors]"),
+      );
+    });
+
+    test('toSummary_立替1件の時、ラベルに加えて対象者と金額を改行1つで繋げて返す', () {
+      final List<Payment> dummyPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+          },
+        )
+      ];
+
+      expect(
+        (Creditor(payments: dummyPayments)..entries = {testParticipant1: 30})
+            .toSummary(),
+        equals("[Creditors]\ntestName1: 30.0"),
+      );
+    });
+
+    test('toSummary_立替2件以上の時、全ての立替が含まれた値を改行1つで繋げて返す', () {
+      final List<Payment> dummyPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+          },
+        )
+      ];
+
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 30,
+                testParticipant2: -100,
+                testParticipant3: 4000
+              })
+            .toSummary(),
+        equals(
+          "[Creditors]\ntestName1: 30.0\ntestName2: -100.0\ntestName3: 4000.0",
+        ),
+      );
+    });
+
     test('PaymentsExt_toCreditorEntries_Paymentが空の時、エラー', () {
       final List<Payment> testPayments = [];
 

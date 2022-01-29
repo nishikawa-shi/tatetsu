@@ -6,4 +6,11 @@ class Settlement {
   Map<Participant, double> errors;
 
   Settlement({required this.procedures, required this.errors});
+
+  String toSummary() => [
+        "[Settlement]",
+        ...procedures.map(
+          (e) => "${e.from.displayName} -> ${e.to.displayName}: ${e.amount}",
+        )
+      ].join("\n");
 }
