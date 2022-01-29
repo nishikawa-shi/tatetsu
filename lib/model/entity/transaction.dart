@@ -5,6 +5,7 @@ import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
+import 'package:tatetsu/model/entity/summary_message.dart';
 
 class Transaction {
   List<Payment> payments;
@@ -14,10 +15,26 @@ class Transaction {
   Transaction(this.payments)
       : creditor = payments.toCreditor(),
         settlement = payments.toCreditor().toSettlement();
+
+  SummaryMessage toSummaryMessage() => SummaryMessage(
+        title: "Settlements on 1/29/2022 15:45",
+        body: [
+          payments.toSummary(),
+          creditor.toSummary(),
+          settlement.toSummary()
+        ].join("\n\n"),
+      );
 }
 
 extension PaymentsExt on List<Payment> {
   Creditor toCreditor() => Creditor(payments: this);
+
+  String toSummary() => [
+        "[Payments]",
+        ...map(
+          (e) => "${e.title}(${e.payer.displayName}): ${e.price.toString()}",
+        ),
+      ].join("\n");
 }
 
 extension CreditorExt on Creditor {

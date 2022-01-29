@@ -174,6 +174,100 @@ void main() {
       );
     });
 
+    test(
+        'toSummaryMessage_1件のPaymentを与えている時、body属性が支払、立替、精算の順に改行2つで繋がったメッセージを返す',
+        () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      expect(
+        Transaction(testPayments).toSummaryMessage().body,
+        equals(
+          [
+            '[Payments]\n',
+            'testPaymentA(testName1): 6000.0',
+            '\n\n',
+            '[Creditors]\n',
+            'testName1: 4000.0\n',
+            'testName2: -2000.0\n',
+            'testName3: -2000.0',
+            '\n\n',
+            '[Settlement]\n',
+            'testName2 -> testName1: 2000.0\n',
+            'testName3 -> testName1: 2000.0'
+          ].join(),
+        ),
+      );
+    });
+
+    test(
+        'toSummaryMessage_2件以上のPaymentを与えている時、body属性が支払、立替、精算の順に改行2つで繋がったメッセージを返す',
+        () {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+        Payment(
+          title: "testPaymentB",
+          payer: testParticipant2,
+          price: 900,
+          owners: {
+            testParticipant1: false,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+        Payment(
+          title: "testPaymentC",
+          payer: testParticipant3,
+          price: 30000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        )
+      ];
+
+      expect(
+        Transaction(testPayments).toSummaryMessage().body,
+        equals(
+          [
+            '[Payments]\n',
+            'testPaymentA(testName1): 6000.0\n',
+            'testPaymentB(testName2): 900.0\n',
+            'testPaymentC(testName3): 30000.0',
+            '\n\n',
+            '[Creditors]\n',
+            'testName1: -6000.0\n',
+            'testName2: -11550.0\n',
+            'testName3: 17550.0',
+            '\n\n',
+            '[Settlement]\n',
+            'testName1 -> testName3: 6000.0\n',
+            'testName2 -> testName3: 11550.0'
+          ].join(),
+        ),
+      );
+    });
+
     test('PaymentsExt_toCreditor_与えたPaymentに基づいた立替を返す', () {
       final List<Payment> testPayments = [
         Payment(
@@ -190,6 +284,71 @@ void main() {
       expect(
         testPayments.toCreditor().payments,
         equals(testPayments),
+      );
+    });
+
+    test('PaymentsExt_toSummary_空配列を与えた時、ラベルのみを返す', () {
+      expect(
+        <Payment>[].toSummary(),
+        equals("[Payments]"),
+      );
+    });
+
+    test('PaymentsExt_toSummary_1件の支払いを与えた時、ラベルに加えて支払名と支払者と金額を改行1つで繋げて返す', () {
+      expect(
+        [
+          Payment(
+            title: "testPaymentA",
+            payer: testParticipant1,
+            price: 20,
+            owners: {
+              testParticipant1: true,
+              testParticipant2: true,
+              testParticipant3: true,
+            },
+          )
+        ].toSummary(),
+        equals("[Payments]\ntestPaymentA(testName1): 20.0"),
+      );
+    });
+
+    test('PaymentsExt_toSummary_2件以上の支払いを与えた時、全ての支払いが含まれた値を改行1つで繋げて返す', () {
+      expect(
+        [
+          Payment(
+            title: "testPaymentA",
+            payer: testParticipant1,
+            price: 20,
+            owners: {
+              testParticipant1: true,
+              testParticipant2: true,
+              testParticipant3: true,
+            },
+          ),
+          Payment(
+            title: "testPaymentB",
+            payer: testParticipant2,
+            price: 300,
+            owners: {
+              testParticipant1: true,
+              testParticipant2: true,
+              testParticipant3: true,
+            },
+          ),
+          Payment(
+            title: "testPaymentC",
+            payer: testParticipant3,
+            price: 4000,
+            owners: {
+              testParticipant1: true,
+              testParticipant2: true,
+              testParticipant3: true,
+            },
+          )
+        ].toSummary(),
+        equals(
+          "[Payments]\ntestPaymentA(testName1): 20.0\ntestPaymentB(testName2): 300.0\ntestPaymentC(testName3): 4000.0",
+        ),
       );
     });
 
