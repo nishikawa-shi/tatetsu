@@ -9,5 +9,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 #include "Generated.xcconfig"
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-prd.xcconfig"
 
 APP_NAME=T-ProPrd
