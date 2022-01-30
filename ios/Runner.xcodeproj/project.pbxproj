@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,12 +36,12 @@
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		4170CA18784FE386AFC4FB81 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5771A61D5690208AC7F5574E /* Pods-Runner.release-prd.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prd.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prd.xcconfig"; sourceTree = "<group>"; };
+		67009B2327A628880070B69F /* ProfileDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ProfileDev.xcconfig; path = Flutter/ProfileDev.xcconfig; sourceTree = "<group>"; };
+		67009B2427A628AC0070B69F /* ProfilePrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ProfilePrd.xcconfig; path = Flutter/ProfilePrd.xcconfig; sourceTree = "<group>"; };
 		675F0B3326AA74F2005AC815 /* DebugDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugDev.xcconfig; path = Flutter/DebugDev.xcconfig; sourceTree = "<group>"; };
 		675F0B3426AA7510005AC815 /* DebugPrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = DebugPrd.xcconfig; path = Flutter/DebugPrd.xcconfig; sourceTree = "<group>"; };
 		675F0B3626AA7548005AC815 /* ReleaseDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ReleaseDev.xcconfig; path = Flutter/ReleaseDev.xcconfig; sourceTree = "<group>"; };
 		675F0B3726AA755A005AC815 /* ReleasePrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ReleasePrd.xcconfig; path = Flutter/ReleasePrd.xcconfig; sourceTree = "<group>"; };
-		675F0B3826AA7569005AC815 /* ProfileDev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ProfileDev.xcconfig; sourceTree = "<group>"; };
-		675F0B3926AA757B005AC815 /* ProfilePrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ProfilePrd.xcconfig; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80EA267CC7F20FA8C5D106F8 /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
@@ -77,8 +77,8 @@
 				675F0B3426AA7510005AC815 /* DebugPrd.xcconfig */,
 				675F0B3626AA7548005AC815 /* ReleaseDev.xcconfig */,
 				675F0B3726AA755A005AC815 /* ReleasePrd.xcconfig */,
-				675F0B3826AA7569005AC815 /* ProfileDev.xcconfig */,
-				675F0B3926AA757B005AC815 /* ProfilePrd.xcconfig */,
+				67009B2327A628880070B69F /* ProfileDev.xcconfig */,
+				67009B2427A628AC0070B69F /* ProfilePrd.xcconfig */,
 			);
 			name = Flutter;
 			sourceTree = "<group>";
@@ -135,7 +135,6 @@
 				C275294FF6D7D6097C8A75FA /* Pods-Runner.profile-prd.xcconfig */,
 				383145E979F85CF28168D9F3 /* Pods-Runner.profile-dev.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -713,7 +712,6 @@
 		};
 		6725C8B82675A734003623E2 /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 675F0B3826AA7569005AC815 /* ProfileDev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -795,7 +793,6 @@
 		};
 		6725C8BA2675A73B003623E2 /* Profile-prd */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 675F0B3926AA757B005AC815 /* ProfilePrd.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

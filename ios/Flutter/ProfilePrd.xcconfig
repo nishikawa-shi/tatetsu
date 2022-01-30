@@ -1,14 +1,14 @@
 //
-//  ProfileDev.xcconfig
+//  ProfilePrd.xcconfig
 //  Runner
 //
-//  Created by Tetsuya Nishikawa on 7/23/21.
+//  Created by Tetsuya Nishikawa on 1/30/22.
 //
 
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
 #include "Generated.xcconfig"
-#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-dev.xcconfig"
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-prd.xcconfig"
 
-APP_NAME=T-ProDev
+APP_NAME=T-ProPrd
