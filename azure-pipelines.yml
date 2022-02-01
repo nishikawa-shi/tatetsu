@@ -31,6 +31,10 @@ stages:
         echo '>> $FLUTTERTOOLPATH/flutter analyze'
         $FLUTTERTOOLPATH/flutter analyze
       displayName: 'Flutter Analyze (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main'
+        $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main
+      displayName: 'flutter_launcher_icons (scratch)'
     - task: FlutterTest@0
       inputs:
         projectDirectory: '.'
