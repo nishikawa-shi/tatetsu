@@ -46,3 +46,9 @@ app.*.map.json
 
 # fastlane
 **/report.xml
+
+# flutter_launcher_icons
+android/app/src/dev/
+android/app/src/prd/
+ios/Runner/Assets.xcassets/AppIcon-dev.appiconset/
+ios/Runner/Assets.xcassets/AppIcon-prd.appiconset/
