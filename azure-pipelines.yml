@@ -34,7 +34,7 @@ stages:
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main'
         $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main
-      displayName: 'flutter_launcher_icons (scratch)'
+      displayName: 'Build Icon (scratch)'
     - task: FlutterTest@0
       inputs:
         projectDirectory: '.'
