@@ -34,7 +34,7 @@ stages:
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main'
         $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main
-      displayName: 'flutter_launcher_icons (scratch)'
+      displayName: 'Build Icon (scratch)'
     - task: FlutterTest@0
       inputs:
         projectDirectory: '.'
@@ -53,6 +53,14 @@ stages:
         channel: 'beta'
         version: 'custom'
         customVersion: '2.9.0-0.1.pre'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub get'
+        $FLUTTERTOOLPATH/flutter pub get
+      displayName: 'Install Build Tools (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main'
+        $FLUTTERTOOLPATH/flutter packages pub run flutter_launcher_icons:main
+      displayName: 'Build Icon (scratch)'
     - script: |
         echo '>> gem install bundler:1.17.2'
         gem install bundler:1.17.2
