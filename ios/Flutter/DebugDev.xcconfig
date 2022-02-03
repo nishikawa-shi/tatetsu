@@ -12,3 +12,4 @@
 #include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-dev.xcconfig"
 
 APP_NAME=T-DebDev
+ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-dev
