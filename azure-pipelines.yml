@@ -21,10 +21,8 @@ stages:
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
-        #　TODO: Material Oneが入ったバージョンがstableになったらstableにする
-        channel: 'beta'
-        version: 'custom'
-        customVersion: '2.9.0-0.1.pre'
+        channel: 'stable'
+        version: 'latest'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get
@@ -49,10 +47,8 @@ stages:
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
-        #　TODO: Material Oneが入ったバージョンがstableになったらstableにする
-        channel: 'beta'
-        version: 'custom'
-        customVersion: '2.9.0-0.1.pre'
+        channel: 'stable'
+        version: 'latest'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get
