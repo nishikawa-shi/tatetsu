@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
+import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
   InputAccountingDetailPage({required this.participants})
-      : payments = [PaymentComponent(participants: participants)],
+      : payments = [
+          PaymentComponent(participants: participants)..price = 66
+        ],
         super();
 
   final List<Participant> participants;
@@ -131,13 +134,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   ListTile _paymentHeader(PaymentComponent payment) {
-    final String paymentTitleHint = payment.title;
+    final String defaultPaymentTitle = payment.title;
     return ListTile(
       title: TextFormField(
-        decoration: InputDecoration(hintText: paymentTitleHint),
+        decoration: InputDecoration(hintText: defaultPaymentTitle.toHintText()),
         key: UniqueKey(),
         onChanged: (String value) {
-          payment.title = value.isNotEmpty ? value : paymentTitleHint;
+          payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
         },
       ),
     );
@@ -191,17 +194,19 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   List<Widget> _priceView(PaymentComponent payment) {
-    final double paymentPriceHintValue = payment.price;
+    final double defaultPaymentPriceValue = payment.price;
     return [
       const SizedBox(height: 16),
       Text("Price", style: Theme.of(context).textTheme.labelMedium),
       TextFormField(
-        decoration: InputDecoration(hintText: paymentPriceHintValue.toString()),
+        decoration: InputDecoration(
+          hintText: defaultPaymentPriceValue.toString().toHintText(),
+        ),
         key: UniqueKey(),
         onChanged: (String value) {
           payment.price = value.isNotEmpty
               ? double.parse(value).floorAtSecondDecimal()
-              : paymentPriceHintValue;
+              : defaultPaymentPriceValue;
         },
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
