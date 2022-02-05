@@ -10,7 +10,7 @@ void main() {
     test('PaymentComponent_title属性に、クラス内で指定したデフォルト値が設定される', () {
       expect(
         PaymentComponent(participants: [Participant("testName")]).title,
-        equals("Some Payment"),
+        equals("Lunch at the nice cafe"),
       );
     });
 
@@ -39,7 +39,7 @@ void main() {
         PaymentComponent(participants: [testParticipant1, testParticipant2])
             .toPayment()
             .title,
-        equals("Some Payment"),
+        equals("Lunch at the nice cafe"),
       );
     });
 
@@ -59,7 +59,7 @@ void main() {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
-            ..title = "Some Payment"
+            ..title = "Lunch at the nice cafe"
             ..payer = testParticipant1
             ..price = 0.0
             ..owners = {testParticipant1: true, testParticipant2: true}

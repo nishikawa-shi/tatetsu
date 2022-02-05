@@ -8,7 +8,9 @@ import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
   InputAccountingDetailPage({required this.participants})
-      : payments = [PaymentComponent(participants: participants)],
+      : payments = [
+          PaymentComponent(participants: participants)..price = 66
+        ],
         super();
 
   final List<Participant> participants;

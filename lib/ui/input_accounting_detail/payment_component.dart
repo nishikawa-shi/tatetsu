@@ -5,7 +5,7 @@ import 'package:tatetsu/model/entity/payment.dart';
 class PaymentComponent {
   bool isExpanded = true;
 
-  String title = "Some Payment";
+  String title = "Lunch at the nice cafe";
   Participant payer;
   double price = 0.0;
   Map<Participant, bool> owners;
