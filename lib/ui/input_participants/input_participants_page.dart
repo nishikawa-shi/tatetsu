@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/usecase/participants_usecase.dart';
+import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/input_accounting_detail_page.dart';
 
 class InputParticipantsPage extends StatefulWidget {
@@ -86,19 +87,20 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   Row _createParticipantInputArea(int participantIndex) {
     final bool hasOnlyParticipants = _participants.length <= 1;
-    final String participantNameHint =
+    final String defaultParticipantName =
         _participants[participantIndex].displayName;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Expanded(
           child: TextFormField(
-            decoration: InputDecoration(hintText: participantNameHint),
+            decoration:
+                InputDecoration(hintText: defaultParticipantName.toHintText()),
             key: UniqueKey(),
             onChanged: (String value) {
               // テキストエリアに表示されている値を引き継ぎたい
               _participants[participantIndex].displayName =
-                  value.isNotEmpty ? value : participantNameHint;
+                  value.isNotEmpty ? value : defaultParticipantName;
             },
           ),
         ),
