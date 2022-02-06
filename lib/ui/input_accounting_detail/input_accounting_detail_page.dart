@@ -8,9 +8,7 @@ import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
   InputAccountingDetailPage({required this.participants})
-      : payments = [
-          PaymentComponent(participants: participants)..price = 66
-        ],
+      : payments = [PaymentComponent.sample(participants: participants)],
         super();
 
   final List<Participant> participants;
@@ -85,7 +83,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   Future<bool> _showDiscardConfirmDialogIfNeeded() => widget.payments
-          .hasOnlyDefaultElements(onParticipants: widget.participants)
+          .hasOnlySampleElement(onParticipants: widget.participants)
       ? Future(() => true)
       : showDialog<bool>(
           context: context,
