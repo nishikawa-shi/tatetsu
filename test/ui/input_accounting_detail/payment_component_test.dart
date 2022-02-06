@@ -10,7 +10,7 @@ void main() {
     test('PaymentComponent_title属性に、クラス内で指定したデフォルト値が設定される', () {
       expect(
         PaymentComponent(participants: [Participant("testName")]).title,
-        equals("Lunch at the nice cafe"),
+        equals("Some Payment"),
       );
     });
 
@@ -34,12 +34,22 @@ void main() {
       );
     });
 
+    test('PaymentComponent_sample_owners属性に、title属性に、ユーザーが想像しやすいような名前が設定される',
+        () {
+      expect(
+        PaymentComponent.sample(
+          participants: [testParticipant1, testParticipant2],
+        ).title,
+        equals("Lunch at the nice cafe"),
+      );
+    });
+
     test('toPayment_プロパティを外部から操作しなかった時、クラス内で指定したデフォルト値を含むPaymentオブジェクトを返す', () {
       expect(
         PaymentComponent(participants: [testParticipant1, testParticipant2])
             .toPayment()
             .title,
-        equals("Lunch at the nice cafe"),
+        equals("Some Payment"),
       );
     });
 
@@ -53,90 +63,86 @@ void main() {
       );
     });
 
-    test(
-        'PaymentComponentsExt_hasOnlyDefaultElements_要素数が1つでプロパティがデフォルトと同じ時true',
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が1つでプロパティがサンプルと同じ時true',
         () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
             ..title = "Lunch at the nice cafe"
             ..payer = testParticipant1
-            ..price = 0.0
+            ..price = 66.0
             ..owners = {testParticipant1: true, testParticipant2: true}
-        ].hasOnlyDefaultElements(
+        ].hasOnlySampleElement(
           onParticipants: [testParticipant1, testParticipant2],
         ),
         true,
       );
     });
 
-    test('PaymentComponentsExt_hasOnlyDefaultElements_要素数が1つで支払名が異なる時false',
-        () {
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が1つで支払名が異なる時false', () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
             ..title = "modified title"
-        ].hasOnlyDefaultElements(
+        ].hasOnlySampleElement(
           onParticipants: [testParticipant1, testParticipant2],
         ),
         false,
       );
     });
 
-    test('PaymentComponentsExt_hasOnlyDefaultElements_要素数が1つで支払者が異なる時false',
-        () {
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が1つで支払者が異なる時false', () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
             ..payer = testParticipant2
-        ].hasOnlyDefaultElements(
+        ].hasOnlySampleElement(
           onParticipants: [testParticipant1, testParticipant2],
         ),
         false,
       );
     });
 
-    test('PaymentComponentsExt_hasOnlyDefaultElements_要素数が1つで価格が異なる時false', () {
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が1つで価格が異なる時false', () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
             ..price = 0.01
-        ].hasOnlyDefaultElements(
+        ].hasOnlySampleElement(
           onParticipants: [testParticipant1, testParticipant2],
         ),
         false,
       );
     });
 
-    test('PaymentComponentsExt_hasOnlyDefaultElements_要素数が1つで精算対象者が異なる時false',
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が1つで精算対象者が異なる時false',
         () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
             ..owners = {testParticipant1: true, testParticipant2: false}
-        ].hasOnlyDefaultElements(
+        ].hasOnlySampleElement(
           onParticipants: [testParticipant1, testParticipant2],
         ),
         false,
       );
     });
 
-    test('PaymentComponentsExt_hasOnlyDefaultElements_要素数が1つだが参加者が異なる時false',
-        () {
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が1つだが参加者が異なる時false', () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2])
-        ].hasOnlyDefaultElements(onParticipants: [testParticipant1]),
+        ].hasOnlySampleElement(onParticipants: [testParticipant1]),
         false,
       );
     });
 
-    test('PaymentComponentsExt_hasOnlyDefaultElements_要素数が2以上の時false', () {
+    test('PaymentComponentsExt_hasOnlySampleElement_要素数が2以上の時false', () {
       expect(
         [
           PaymentComponent(participants: [testParticipant1, testParticipant2]),
           PaymentComponent(participants: [testParticipant1, testParticipant2])
-        ].hasOnlyDefaultElements(
+        ].hasOnlySampleElement(
           onParticipants: [testParticipant1, testParticipant2],
         ),
         false,
