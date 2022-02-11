@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
@@ -6,6 +7,7 @@ import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
 import 'package:tatetsu/model/entity/transaction.dart';
+import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
 
 class SettleAccountsPage extends StatefulWidget {
   SettleAccountsPage({required this.payments})
@@ -42,6 +44,9 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ),
         body: ListView(
           children: [
+            Card(
+              child: _adTopBannerComponent(),
+            ),
             Card(
               child: Column(
                 children: [
@@ -93,6 +98,20 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           const SizedBox(height: 8),
         ],
       );
+
+  Column _adTopBannerComponent() {
+    final banner = AdvertisementUsecase().getSettleAccountsTopBanner();
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          width: banner.size.width.toDouble(),
+          height: banner.size.height.toDouble(),
+          child: AdWidget(ad: banner),
+        )
+      ],
+    );
+  }
 
   Column _paymentComponent(Payment payment) => Column(
         children: [
