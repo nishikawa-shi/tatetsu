@@ -48,7 +48,5 @@ app.*.map.json
 **/report.xml
 
 # flutter_launcher_icons
-android/app/src/dev/
-android/app/src/prd/
-ios/Runner/Assets.xcassets/AppIcon-dev.appiconset/
-ios/Runner/Assets.xcassets/AppIcon-prd.appiconset/
+android/app/src/*/res/*/ic_launcher.png
+ios/Runner/Assets.xcassets/AppIcon-*.appiconset/
