@@ -39,15 +39,19 @@ stages:
       inputs:
         secureFile: tatetsu-GoogleService-Info-prd.plist
     - script: |
+        echo '>> sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json'
         sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
       displayName: 'Set Android dev Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(FirebaseAndroidPrdSettings.secureFilePath) android/app/src/prd/google-services.json'
         sudo ln -s $(FirebaseAndroidPrdSettings.secureFilePath) android/app/src/prd/google-services.json
       displayName: 'Set Android prd Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist'
         sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist
       displayName: 'Set iOS dev Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist'
         sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
       displayName: 'Set iOS prd Firebase config file reference'
     - task: JavaToolInstaller@0
@@ -102,15 +106,19 @@ stages:
       inputs:
         secureFile: tatetsu-GoogleService-Info-prd.plist
     - script: |
+        echo '>> sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json'
         sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
       displayName: 'Set Android dev Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(FirebaseAndroidPrdSettings.secureFilePath) android/app/src/prd/google-services.json'
         sudo ln -s $(FirebaseAndroidPrdSettings.secureFilePath) android/app/src/prd/google-services.json
       displayName: 'Set Android prd Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist'
         sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist
       displayName: 'Set iOS dev Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist'
         sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
       displayName: 'Set iOS prd Firebase config file reference'
     - task: JavaToolInstaller@0
