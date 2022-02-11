@@ -50,6 +50,11 @@ stages:
     - script: |
         sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
       displayName: 'Set iOS prd Firebase config file reference'
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '11'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
@@ -108,6 +113,11 @@ stages:
     - script: |
         sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
       displayName: 'Set iOS prd Firebase config file reference'
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '11'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
