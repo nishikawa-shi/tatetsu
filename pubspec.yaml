@@ -17,6 +17,7 @@ dependencies:
   firebase_crashlytics: ^2.5.1
   flutter:
     sdk: flutter
+  flutter_flavor: ^3.0.3
   intl: ^0.17.0
   share_plus: ^3.0.4
 
