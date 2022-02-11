@@ -18,6 +18,38 @@ stages:
   - job: analysis_job
     displayName: 静的解析
     steps:
+    - task: DownloadSecureFile@1
+      displayName: 'Download Android dev Firebase config file'
+      name: FirebaseAndroidDevSettings
+      inputs:
+        secureFile: tatetsu-google-services-dev.json
+    - task: DownloadSecureFile@1
+      displayName: 'Download Android prd Firebase config file'
+      name: FirebaseAndroidPrdSettings
+      inputs:
+        secureFile: tatetsu-google-services-prd.json
+    - task: DownloadSecureFile@1
+      displayName: 'Download iOS dev Firebase config file'
+      name: FirebaseIosDevSettings
+      inputs:
+        secureFile: tatetsu-GoogleService-Info-dev.plist
+    - task: DownloadSecureFile@1
+      displayName: 'Download iOS prd Firebase config file'
+      name: FirebaseIosPrdSettings
+      inputs:
+        secureFile: tatetsu-GoogleService-Info-prd.plist
+    - script: |
+        sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
+      displayName: 'Set Android dev Firebase config file reference'
+    - script: |
+        sudo ln -s $(FirebaseAndroidPrdSettings.secureFilePath) android/app/src/prd/google-services.json
+      displayName: 'Set Android prd Firebase config file reference'
+    - script: |
+        sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist
+      displayName: 'Set iOS dev Firebase config file reference'
+    - script: |
+        sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
+      displayName: 'Set iOS prd Firebase config file reference'
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'
@@ -44,6 +76,38 @@ stages:
   - job: firebase_deploy_job
     displayName: Firebaseへベータ版アプリ配布
     steps:
+    - task: DownloadSecureFile@1
+      displayName: 'Download Android dev Firebase config file'
+      name: FirebaseAndroidDevSettings
+      inputs:
+        secureFile: tatetsu-google-services-dev.json
+    - task: DownloadSecureFile@1
+      displayName: 'Download Android prd Firebase config file'
+      name: FirebaseAndroidPrdSettings
+      inputs:
+        secureFile: tatetsu-google-services-prd.json
+    - task: DownloadSecureFile@1
+      displayName: 'Download iOS dev Firebase config file'
+      name: FirebaseIosDevSettings
+      inputs:
+        secureFile: tatetsu-GoogleService-Info-dev.plist
+    - task: DownloadSecureFile@1
+      displayName: 'Download iOS prd Firebase config file'
+      name: FirebaseIosPrdSettings
+      inputs:
+        secureFile: tatetsu-GoogleService-Info-prd.plist
+    - script: |
+        sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
+      displayName: 'Set Android dev Firebase config file reference'
+    - script: |
+        sudo ln -s $(FirebaseAndroidPrdSettings.secureFilePath) android/app/src/prd/google-services.json
+      displayName: 'Set Android prd Firebase config file reference'
+    - script: |
+        sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist
+      displayName: 'Set iOS dev Firebase config file reference'
+    - script: |
+        sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
+      displayName: 'Set iOS prd Firebase config file reference'
     - task: FlutterInstall@0
       inputs:
         mode: 'auto'

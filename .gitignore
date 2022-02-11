@@ -50,3 +50,7 @@ app.*.map.json
 # flutter_launcher_icons
 android/app/src/*/res/*/ic_launcher.png
 ios/Runner/Assets.xcassets/AppIcon-*.appiconset/
+
+# Firebase
+android/app/src/*/google-services.json
+ios/Firebase/GoogleService-Info-*.plist
