@@ -46,6 +46,9 @@
 		675F0B3726AA755A005AC815 /* ReleasePrd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ReleasePrd.xcconfig; path = Flutter/ReleasePrd.xcconfig; sourceTree = "<group>"; };
 		67950ACE27B5F91100263B03 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		67950ACF27B5F91100263B03 /* GoogleService-Info-prd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prd.plist"; sourceTree = "<group>"; };
+		67AAB01A27B76A5000922E54 /* AdMob-dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AdMob-dev.xcconfig"; sourceTree = "<group>"; };
+		67AAB01B27B76A6100922E54 /* AdMob-prd.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AdMob-prd.xcconfig"; sourceTree = "<group>"; };
+		67AAB01C27B76A8900922E54 /* AdMob-sample.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AdMob-sample.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80EA267CC7F20FA8C5D106F8 /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
@@ -81,6 +84,16 @@
 			path = Firebase;
 			sourceTree = "<group>";
 		};
+		67C2EA5427B69CEC00BC87F9 /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				67AAB01A27B76A5000922E54 /* AdMob-dev.xcconfig */,
+				67AAB01B27B76A6100922E54 /* AdMob-prd.xcconfig */,
+				67AAB01C27B76A8900922E54 /* AdMob-sample.xcconfig */,
+			);
+			path = AdMob;
+			sourceTree = "<group>";
+		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +115,7 @@
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				67950ACD27B5F8F600263B03 /* Firebase */,
+				67C2EA5427B69CEC00BC87F9 /* AdMob */,
 				97C146EF1CF9000F007C117D /* Products */,
 				ECC9B3F4D30FE1CD7538707D /* Pods */,
 				D807BD38E2B3111EAD6D8D87 /* Frameworks */,
