@@ -743,6 +743,7 @@
 		};
 		6725C8B82675A734003623E2 /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 383145E979F85CF28168D9F3 /* Pods-Runner.profile-dev.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -823,6 +824,7 @@
 		};
 		6725C8BA2675A73B003623E2 /* Profile-prd */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C275294FF6D7D6097C8A75FA /* Pods-Runner.profile-prd.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
