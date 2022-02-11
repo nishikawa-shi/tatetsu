@@ -19,6 +19,16 @@ stages:
     displayName: 静的解析
     steps:
     - task: DownloadSecureFile@1
+      displayName: 'Download dev Flavor config file'
+      name: FlavorDevSettings
+      inputs:
+        secureFile: dev.dart
+    - task: DownloadSecureFile@1
+      displayName: 'Download prd Flavor config file'
+      name: FlavorPrdSettings
+      inputs:
+        secureFile: prd.dart
+    - task: DownloadSecureFile@1
       displayName: 'Download Android dev Firebase config file'
       name: FirebaseAndroidDevSettings
       inputs:
@@ -38,6 +48,14 @@ stages:
       name: FirebaseIosPrdSettings
       inputs:
         secureFile: tatetsu-GoogleService-Info-prd.plist
+    - script: |
+        echo '>> sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart'
+        sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart
+      displayName: 'Set dev Flavor config file reference'
+    - script: |
+        echo '>> sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart'
+        sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart
+      displayName: 'Set prd Flavor config file reference'
     - script: |
         echo '>> sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json'
         sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
@@ -86,6 +104,16 @@ stages:
     displayName: Firebaseへベータ版アプリ配布
     steps:
     - task: DownloadSecureFile@1
+      displayName: 'Download dev Flavor config file'
+      name: FlavorDevSettings
+      inputs:
+        secureFile: dev.dart
+    - task: DownloadSecureFile@1
+      displayName: 'Download prd Flavor config file'
+      name: FlavorPrdSettings
+      inputs:
+        secureFile: prd.dart
+    - task: DownloadSecureFile@1
       displayName: 'Download Android dev Firebase config file'
       name: FirebaseAndroidDevSettings
       inputs:
@@ -105,6 +133,14 @@ stages:
       name: FirebaseIosPrdSettings
       inputs:
         secureFile: tatetsu-GoogleService-Info-prd.plist
+    - script: |
+        echo '>> sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart'
+        sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart
+      displayName: 'Set dev Flavor config file reference'
+    - script: |
+        echo '>> sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart'
+        sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart
+      displayName: 'Set prd Flavor config file reference'
     - script: |
         echo '>> sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json'
         sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
