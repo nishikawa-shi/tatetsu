@@ -1,0 +1,11 @@
+//
+//  AdMob-sample.xcconfig
+//  Runner
+//
+//  Created by Tetsuya Nishikawa on 2/12/22.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+ADMOB_APP_ID=ca-app-pub-xxxxxxxxxxxxxxxx~xxxxxxxxxx

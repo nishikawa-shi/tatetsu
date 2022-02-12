@@ -58,3 +58,10 @@ ios/Runner/Assets.xcassets/AppIcon-*.appiconset/
 # Firebase
 android/app/src/*/google-services.json
 ios/Firebase/GoogleService-Info-*.plist
+
+# Android Secret Build Config
+android/gradle_secret.properties
+
+# AdMob for iOS
+ios/AdMob/AdMob-dev.xcconfig
+ios/AdMob/AdMob-prd.xcconfig

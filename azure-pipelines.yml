@@ -29,6 +29,11 @@ stages:
       inputs:
         secureFile: prd.dart
     - task: DownloadSecureFile@1
+      displayName: 'Download Android build config file'
+      name: AndroidBuildSettings
+      inputs:
+        secureFile: gradle_secret.properties
+    - task: DownloadSecureFile@1
       displayName: 'Download Android dev Firebase config file'
       name: FirebaseAndroidDevSettings
       inputs:
@@ -44,10 +49,20 @@ stages:
       inputs:
         secureFile: tatetsu-GoogleService-Info-dev.plist
     - task: DownloadSecureFile@1
+      displayName: 'Download iOS dev AdMob config file'
+      name: AdmobIosDevSettings
+      inputs:
+        secureFile: AdMob-dev.xcconfig
+    - task: DownloadSecureFile@1
       displayName: 'Download iOS prd Firebase config file'
       name: FirebaseIosPrdSettings
       inputs:
         secureFile: tatetsu-GoogleService-Info-prd.plist
+    - task: DownloadSecureFile@1
+      displayName: 'Download iOS prd AdMob config file'
+      name: AdmobIosPrdSettings
+      inputs:
+        secureFile: AdMob-prd.xcconfig
     - script: |
         echo '>> sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart'
         sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart
@@ -56,6 +71,10 @@ stages:
         echo '>> sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart'
         sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart
       displayName: 'Set prd Flavor config file reference'
+    - script: |
+        echo '>> sudo ln -s $(AndroidBuildSettings.secureFilePath) android/gradle_secret.properties'
+        sudo ln -s $(AndroidBuildSettings.secureFilePath) android/gradle_secret.properties
+      displayName: 'Set Android build config file reference'
     - script: |
         echo '>> sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json'
         sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
@@ -69,9 +88,17 @@ stages:
         sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist
       displayName: 'Set iOS dev Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(AdmobIosDevSettings.secureFilePath) ios/AdMob/AdMob-dev.xcconfig'
+        sudo ln -s $(AdmobIosDevSettings.secureFilePath) ios/AdMob/AdMob-dev.xcconfig
+      displayName: 'Set iOS dev AdMob config file reference'
+    - script: |
         echo '>> sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist'
         sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
       displayName: 'Set iOS prd Firebase config file reference'
+    - script: |
+        echo '>> sudo ln -s $(AdmobIosPrdSettings.secureFilePath) ios/AdMob/AdMob-prd.xcconfig'
+        sudo ln -s $(AdmobIosPrdSettings.secureFilePath) ios/AdMob/AdMob-prd.xcconfig
+      displayName: 'Set iOS prd AdMob config file reference'
     - task: JavaToolInstaller@0
       inputs:
         versionSpec: '11'
@@ -114,6 +141,11 @@ stages:
       inputs:
         secureFile: prd.dart
     - task: DownloadSecureFile@1
+      displayName: 'Download Android build config file'
+      name: AndroidBuildSettings
+      inputs:
+        secureFile: gradle_secret.properties
+    - task: DownloadSecureFile@1
       displayName: 'Download Android dev Firebase config file'
       name: FirebaseAndroidDevSettings
       inputs:
@@ -129,10 +161,20 @@ stages:
       inputs:
         secureFile: tatetsu-GoogleService-Info-dev.plist
     - task: DownloadSecureFile@1
+      displayName: 'Download iOS dev AdMob config file'
+      name: AdmobIosDevSettings
+      inputs:
+        secureFile: AdMob-dev.xcconfig
+    - task: DownloadSecureFile@1
       displayName: 'Download iOS prd Firebase config file'
       name: FirebaseIosPrdSettings
       inputs:
         secureFile: tatetsu-GoogleService-Info-prd.plist
+    - task: DownloadSecureFile@1
+      displayName: 'Download iOS prd AdMob config file'
+      name: AdmobIosPrdSettings
+      inputs:
+        secureFile: AdMob-prd.xcconfig
     - script: |
         echo '>> sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart'
         sudo ln -s $(FlavorDevSettings.secureFilePath) lib/config/dev.dart
@@ -141,6 +183,10 @@ stages:
         echo '>> sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart'
         sudo ln -s $(FlavorPrdSettings.secureFilePath) lib/config/prd.dart
       displayName: 'Set prd Flavor config file reference'
+    - script: |
+        echo '>> sudo ln -s $(AndroidBuildSettings.secureFilePath) android/gradle_secret.properties'
+        sudo ln -s $(AndroidBuildSettings.secureFilePath) android/gradle_secret.properties
+      displayName: 'Set Android build config file reference'
     - script: |
         echo '>> sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json'
         sudo ln -s $(FirebaseAndroidDevSettings.secureFilePath) android/app/src/dev/google-services.json
@@ -154,9 +200,17 @@ stages:
         sudo ln -s $(FirebaseIosDevSettings.secureFilePath) ios/Firebase/GoogleService-Info-dev.plist
       displayName: 'Set iOS dev Firebase config file reference'
     - script: |
+        echo '>> sudo ln -s $(AdmobIosDevSettings.secureFilePath) ios/AdMob/AdMob-dev.xcconfig'
+        sudo ln -s $(AdmobIosDevSettings.secureFilePath) ios/AdMob/AdMob-dev.xcconfig
+      displayName: 'Set iOS dev AdMob config file reference'
+    - script: |
         echo '>> sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist'
         sudo ln -s $(FirebaseIosPrdSettings.secureFilePath) ios/Firebase/GoogleService-Info-prd.plist
       displayName: 'Set iOS prd Firebase config file reference'
+    - script: |
+        echo '>> sudo ln -s $(AdmobIosPrdSettings.secureFilePath) ios/AdMob/AdMob-prd.xcconfig'
+        sudo ln -s $(AdmobIosPrdSettings.secureFilePath) ios/AdMob/AdMob-prd.xcconfig
+      displayName: 'Set iOS prd AdMob config file reference'
     - task: JavaToolInstaller@0
       inputs:
         versionSpec: '11'

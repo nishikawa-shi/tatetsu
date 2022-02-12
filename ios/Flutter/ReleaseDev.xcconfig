@@ -11,5 +11,7 @@
 #include "Generated.xcconfig"
 #include "Pods/Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"
 
+#include "AdMob/AdMob-dev.xcconfig"
+
 APP_NAME=T-RelDev
 ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-dev
