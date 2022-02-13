@@ -5,13 +5,25 @@ import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
 void main() {
   group('AdvertisementUsecase', () {
     test(
-        'getSettleAccountsTopBanner_devのsetConfigとWidgetsFlutterBindingの初期化実施後に実行した時、IDがテスト用の広告を返す',
+        'settleAccountsTopBanner_devのsetConfigとWidgetsFlutterBindingの初期化実施後に取得した時、IDがテスト用の広告を返す',
         () {
       dev.setConfig();
       TestWidgetsFlutterBinding.ensureInitialized();
       expect(
-        AdvertisementUsecase().getSettleAccountsTopBanner().adUnitId,
+        AdvertisementUsecase.shared().settleAccountsTopBanner.adUnitId,
         equals("ca-app-pub-3940256099942544/2934735716"),
+      );
+    });
+
+    test(
+        'isSettleAccountsTopBannerSuccessfullyLoaded_devのsetConfigとWidgetsFlutterBindingの初期化実施後に取得した時、正常応答がない時false',
+        () {
+      dev.setConfig();
+      TestWidgetsFlutterBinding.ensureInitialized();
+      AdvertisementUsecase.shared().settleAccountsTopBanner.responseInfo = null;
+      expect(
+        AdvertisementUsecase.shared().isSettleAccountsTopBannerSuccessfullyLoaded(),
+        equals(false),
       );
     });
   });

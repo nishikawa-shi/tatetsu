@@ -10,12 +10,15 @@ import 'package:tatetsu/model/entity/transaction.dart';
 import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
 
 class SettleAccountsPage extends StatefulWidget {
-  SettleAccountsPage({required this.payments})
-      : transaction = Transaction(payments),
+  SettleAccountsPage({
+    required this.payments,
+    required this.advertisementUsecase,
+  })  : transaction = Transaction(payments),
         super();
 
   final List<Payment> payments;
   final Transaction transaction;
+  final AdvertisementUsecase advertisementUsecase;
 
   @override
   _SettleAccountsPageState createState() => _SettleAccountsPageState();
@@ -43,37 +46,48 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           ],
         ),
         body: ListView(
-          children: [
-            Card(
-              child: _adTopBannerComponent(),
-            ),
-            Card(
-              child: Column(
-                children: [
-                  _titleComponent("Payments"),
-                  _labelComponent("Items"),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction.payments
-                        .map((e) => _paymentComponent(e))
-                        .toList(),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  )
-                ],
-              ),
-            ),
-            Card(
-              child: _creditorsComponent(widget.transaction.creditor),
-            ),
-            Card(
-              child: _settlementComponent(widget.transaction.settlement),
-            ),
-          ],
+          children: _settleAccountsComponents(this),
         ),
       );
+
+  List<Card> _settleAccountsComponents(State<SettleAccountsPage> state) {
+    final components = <Card>[];
+    if (state.widget.advertisementUsecase
+        .isSettleAccountsTopBannerSuccessfullyLoaded()) {
+      components.add(
+        Card(
+          child: _adTopBannerComponent(state.widget.advertisementUsecase),
+        ),
+      );
+    }
+    return components
+      ..addAll([
+        Card(
+          child: Column(
+            children: [
+              _titleComponent("Payments"),
+              _labelComponent("Items"),
+              ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: state.widget.transaction.payments
+                    .map((e) => _paymentComponent(e))
+                    .toList(),
+              ),
+              const SizedBox(
+                height: 16,
+              )
+            ],
+          ),
+        ),
+        Card(
+          child: _creditorsComponent(state.widget.transaction.creditor),
+        ),
+        Card(
+          child: _settlementComponent(state.widget.transaction.settlement),
+        ),
+      ]);
+  }
 
   ListTile _titleComponent(String title) => ListTile(
         title: Text(
@@ -99,8 +113,8 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _adTopBannerComponent() {
-    final banner = AdvertisementUsecase().getSettleAccountsTopBanner();
+  Column _adTopBannerComponent(AdvertisementUsecase advertisementUsecase) {
+    final banner = advertisementUsecase.settleAccountsTopBanner;
     return Column(
       children: [
         Container(
