@@ -46,37 +46,41 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           ],
         ),
         body: ListView(
-          children: [
-            Card(
-              child: _adTopBannerComponent(widget.advertisementUsecase),
-            ),
-            Card(
-              child: Column(
-                children: [
-                  _titleComponent("Payments"),
-                  _labelComponent("Items"),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: widget.transaction.payments
-                        .map((e) => _paymentComponent(e))
-                        .toList(),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  )
-                ],
-              ),
-            ),
-            Card(
-              child: _creditorsComponent(widget.transaction.creditor),
-            ),
-            Card(
-              child: _settlementComponent(widget.transaction.settlement),
-            ),
-          ],
+          children: _settleAccountsComponents(this),
         ),
       );
+
+  List<Card> _settleAccountsComponents(State<SettleAccountsPage> state) {
+    return [
+      Card(
+        child: _adTopBannerComponent(state.widget.advertisementUsecase),
+      ),
+      Card(
+        child: Column(
+          children: [
+            _titleComponent("Payments"),
+            _labelComponent("Items"),
+            ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: state.widget.transaction.payments
+                  .map((e) => _paymentComponent(e))
+                  .toList(),
+            ),
+            const SizedBox(
+              height: 16,
+            )
+          ],
+        ),
+      ),
+      Card(
+        child: _creditorsComponent(state.widget.transaction.creditor),
+      ),
+      Card(
+        child: _settlementComponent(state.widget.transaction.settlement),
+      ),
+    ];
+  }
 
   ListTile _titleComponent(String title) => ListTile(
         title: Text(
