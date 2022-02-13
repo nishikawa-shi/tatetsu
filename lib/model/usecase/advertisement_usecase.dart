@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tatetsu/config/application_meta.dart';
 
@@ -13,7 +14,15 @@ class AdvertisementUsecase {
       : settleAccountsTopBanner = BannerAd(
           size: AdSize.banner,
           adUnitId: getSettleAccountsTopBannerId(),
-          listener: const BannerAdListener(),
+          listener: BannerAdListener(
+            onAdFailedToLoad: (Ad ad, LoadAdError error) async {
+              await FirebaseCrashlytics.instance.recordError(
+                error,
+                StackTrace.current,
+                reason: 'Ad failed to load: $error',
+              );
+            },
+          ),
           request: const AdRequest(),
         );
 

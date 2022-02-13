@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tatetsu/config/application_meta.dart';
 import 'package:tatetsu/config/dev.dart';
@@ -8,6 +9,7 @@ void main() {
   setConfig();
   WidgetsFlutterBinding.ensureInitialized(); // この処理を行わないとAdMobの初期化がうまくいかない
   AdvertisementUsecase.shared().initialize();
+  Firebase.initializeApp();
   runApp(Tatetsu());
 }
 
