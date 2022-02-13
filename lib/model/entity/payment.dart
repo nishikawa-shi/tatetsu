@@ -12,5 +12,5 @@ class Payment {
     required this.payer,
     required double price,
     required this.owners,
-  }) : price = price.floorAtSecondDecimal();
+  }) : price = price.roundAtSecondDecimal();
 }

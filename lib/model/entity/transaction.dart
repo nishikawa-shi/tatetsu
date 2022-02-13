@@ -82,19 +82,19 @@ extension ProceduresExt on List<Procedure> {
       settlementBaseCreditor.entries.update(
         procedure.from,
         (value) =>
-            value.plusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+            value.plusAtSecondDecimal(procedure.amount.roundAtSecondDecimal()),
       );
       settlementBaseCreditor.entries.update(
         procedure.to,
         (value) =>
-            value.minusAtSecondDecimal(procedure.amount.floorAtSecondDecimal()),
+            value.minusAtSecondDecimal(procedure.amount.roundAtSecondDecimal()),
       );
     }
 
     return Map.fromEntries(
       settlementBaseCreditor.entries.entries
           .toList()
-          .map((e) => MapEntry(e.key, e.value.floorAtSecondDecimal()))
+          .map((e) => MapEntry(e.key, e.value.roundAtSecondDecimal()))
           .where((element) => element.value.abs() != 0),
     );
   }

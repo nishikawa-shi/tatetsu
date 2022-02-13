@@ -242,8 +242,8 @@ void main() {
 
     test('extractSettlement_精算対象が0.01未満の時、nullで、プロパティに影響を与えない', () {
       final testEntries = {
-        testParticipant1: -21.00999999999999999,
-        testParticipant2: 0.00999999999999999,
+        testParticipant1: -21.0049999999999999996,
+        testParticipant2: 0.0049999999999999996,
         testParticipant3: 21.0,
       };
       final testCreditor = Creditor(payments: dummyPayments)
@@ -259,12 +259,47 @@ void main() {
       expect(mapEquals(testCreditor.entries, testEntries), true);
     });
 
+    test('extractSettlement_精算対象が0.01未満だが浮動小数点的に0.01の表現に近い時、精算が発生し、プロパティに反映される',
+        () {
+      final testEntries = {
+        testParticipant1: -21.0049999999999999997,
+        testParticipant2: 0.0049999999999999997,
+        testParticipant3: 21.0,
+      };
+      final testCreditor = Creditor(payments: dummyPayments)
+        ..entries = testEntries;
+
+      expect(
+        testCreditor
+            .extractSettlement(
+              from: testParticipant1,
+              to: testParticipant2,
+            )!
+            .isEqualTo(
+              Procedure(
+                from: testParticipant1,
+                to: testParticipant2,
+                amount: 0.01,
+              ),
+            ),
+        equals(true),
+      );
+      expect(
+        mapEquals(testCreditor.entries, {
+          testParticipant1: -20.994999999999997,
+          testParticipant2: -0.005,
+          testParticipant3: 21.0
+        }),
+        true,
+      );
+    });
+
     test(
         'extractSettlement_精算対象が0.01未満の値が含まれる浮動小数点の時、誤差の含まれる精算となり、プロパティに当該の精算結果が適用される',
         () {
       final testEntries = {
-        testParticipant1: -28.00999999999997,
-        testParticipant2: 28.00999999999998,
+        testParticipant1: -28.00499999999997,
+        testParticipant2: 28.00499999999998,
         testParticipant3: -0.00000000000001,
       };
       final testCreditor = Creditor(payments: dummyPayments)
@@ -284,11 +319,11 @@ void main() {
       );
       expect(
         mapEquals(testCreditor.entries, {
-          testParticipant1: -0.009999999999969589,
-          testParticipant2: 0.009999999999980247,
+          testParticipant1: -0.0049999999999705835,
+          testParticipant2: 0.004999999999981242,
           testParticipant3: -1e-14,
         }),
-        true,
+        equals(true),
       );
     });
 
@@ -517,12 +552,24 @@ void main() {
       );
     });
 
+    test('getError_立替が2件以上で、合計値が小数点2桁まで見れば0だが浮動小数点数として0でない時、値が存在する', () {
+      expect(
+        (Creditor(payments: dummyPayments)
+              ..entries = {
+                testParticipant1: 10,
+                testParticipant2: -10.0049999999999999,
+              })
+            .getError(),
+        equals(-0.01),
+      );
+    });
+
     test('getError_立替が2件以上で、正確な合計値が0にはならないが小数点2桁以下無視した合計値が0になる時、0', () {
       expect(
         (Creditor(payments: dummyPayments)
               ..entries = {
                 testParticipant1: 10,
-                testParticipant2: -10.00999999999999,
+                testParticipant2: -10.0049999999999998,
               })
             .getError(),
         equals(0),
@@ -878,7 +925,7 @@ void main() {
         equals({
           testParticipant1: -9333.33,
           testParticipant2: -14883.33,
-          testParticipant3: 24216.66
+          testParticipant3: 24216.67
         }),
       );
     });

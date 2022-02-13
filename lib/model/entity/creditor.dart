@@ -31,7 +31,7 @@ class Creditor {
     final double dealTarget = min(debt.abs(), credit.abs());
 
     // 精算額はドルにおけるセントまでと考え、0.01を下限とする。誤差は別途表示する
-    final double dealValue = dealTarget.floorAtSecondDecimal();
+    final double dealValue = dealTarget.roundAtSecondDecimal();
     if (dealValue == 0) {
       return null;
     }
@@ -81,7 +81,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
   void _addCredit(Payment payment) => update(
         payment.payer,
         (value) =>
-            (value.plusAtSecondDecimal(payment.price)).floorAtSecondDecimal(),
+            (value.plusAtSecondDecimal(payment.price)).roundAtSecondDecimal(),
       );
 
   void _addDebt(Payment payment) {
@@ -94,7 +94,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
     }
     final fee = payment.price / debtors.length;
     for (final debtor in debtors) {
-      update(debtor, (value) => (value - fee).floorAtSecondDecimal());
+      update(debtor, (value) => (value - fee).roundAtSecondDecimal());
     }
   }
 }

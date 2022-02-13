@@ -205,7 +205,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         key: UniqueKey(),
         onChanged: (String value) {
           payment.price = value.isNotEmpty
-              ? double.parse(value).floorAtSecondDecimal()
+              ? double.parse(value).roundAtSecondDecimal()
               : defaultPaymentPriceValue;
         },
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
