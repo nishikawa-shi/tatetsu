@@ -25,4 +25,7 @@ class AdvertisementUsecase {
   void _loadAllAdBanner() {
     settleAccountsTopBanner.load();
   }
+
+  bool isSettleAccountsTopBannerSuccessfullyLoaded() =>
+      settleAccountsTopBanner.responseInfo != null;
 }

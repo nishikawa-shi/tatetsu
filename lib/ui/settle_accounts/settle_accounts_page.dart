@@ -51,35 +51,42 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       );
 
   List<Card> _settleAccountsComponents(State<SettleAccountsPage> state) {
-    return [
-      Card(
-        child: _adTopBannerComponent(state.widget.advertisementUsecase),
-      ),
-      Card(
-        child: Column(
-          children: [
-            _titleComponent("Payments"),
-            _labelComponent("Items"),
-            ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: state.widget.transaction.payments
-                  .map((e) => _paymentComponent(e))
-                  .toList(),
-            ),
-            const SizedBox(
-              height: 16,
-            )
-          ],
+    final components = <Card>[];
+    if (state.widget.advertisementUsecase
+        .isSettleAccountsTopBannerSuccessfullyLoaded()) {
+      components.add(
+        Card(
+          child: _adTopBannerComponent(state.widget.advertisementUsecase),
         ),
-      ),
-      Card(
-        child: _creditorsComponent(state.widget.transaction.creditor),
-      ),
-      Card(
-        child: _settlementComponent(state.widget.transaction.settlement),
-      ),
-    ];
+      );
+    }
+    return components
+      ..addAll([
+        Card(
+          child: Column(
+            children: [
+              _titleComponent("Payments"),
+              _labelComponent("Items"),
+              ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: state.widget.transaction.payments
+                    .map((e) => _paymentComponent(e))
+                    .toList(),
+              ),
+              const SizedBox(
+                height: 16,
+              )
+            ],
+          ),
+        ),
+        Card(
+          child: _creditorsComponent(state.widget.transaction.creditor),
+        ),
+        Card(
+          child: _settlementComponent(state.widget.transaction.settlement),
+        ),
+      ]);
   }
 
   ListTile _titleComponent(String title) => ListTile(
