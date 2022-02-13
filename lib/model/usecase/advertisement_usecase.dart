@@ -15,5 +15,14 @@ class AdvertisementUsecase {
           adUnitId: getSettleAccountsTopBannerId(),
           listener: const BannerAdListener(),
           request: const AdRequest(),
-        )..load();
+        );
+
+  void initialize() {
+    MobileAds.instance.initialize();
+    _loadAllAdBanner();
+  }
+
+  void _loadAllAdBanner() {
+    settleAccountsTopBanner.load();
+  }
 }
