@@ -138,8 +138,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     return ListTile(
       title: TextFormField(
         decoration: InputDecoration(hintText: defaultPaymentTitle.toHintText()),
+        initialValue: payment.hasUserSpecifiedTitle ? payment.title : null,
         key: UniqueKey(),
         onChanged: (String value) {
+          payment.hasUserSpecifiedTitle = true;
           payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
         },
       ),
@@ -202,8 +204,11 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         decoration: InputDecoration(
           hintText: defaultPaymentPriceValue.toString().toHintText(),
         ),
+        initialValue:
+            payment.hasUserSpecifiedPrice ? payment.price.toString() : null,
         key: UniqueKey(),
         onChanged: (String value) {
+          payment.hasUserSpecifiedPrice = true;
           payment.price = value.isNotEmpty
               ? double.parse(value).roundAtSecondDecimal()
               : defaultPaymentPriceValue;

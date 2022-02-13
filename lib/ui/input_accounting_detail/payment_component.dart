@@ -10,6 +10,9 @@ class PaymentComponent {
   double price = 0.0;
   Map<Participant, bool> owners;
 
+  bool hasUserSpecifiedTitle = false;
+  bool hasUserSpecifiedPrice = false;
+
   PaymentComponent({required List<Participant> participants})
       : payer = participants.first,
         owners = Map.fromIterables(participants, participants.map((_) => true));
