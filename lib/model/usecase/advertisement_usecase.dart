@@ -16,6 +16,7 @@ class AdvertisementUsecase {
           adUnitId: getSettleAccountsTopBannerId(),
           listener: BannerAdListener(
             onAdFailedToLoad: (Ad ad, LoadAdError error) async {
+              ad.dispose();
               await FirebaseCrashlytics.instance.recordError(
                 error,
                 StackTrace.current,
