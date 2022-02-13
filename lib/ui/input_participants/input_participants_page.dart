@@ -87,8 +87,8 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   Row _createParticipantInputArea(int participantIndex) {
     final bool hasOnlyParticipants = _participants.length <= 1;
-    final String defaultParticipantName =
-        _participants[participantIndex].displayName;
+    final participant = _participants[participantIndex];
+    final String defaultParticipantName = participant.displayName;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -99,7 +99,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
             key: UniqueKey(),
             onChanged: (String value) {
               // テキストエリアに表示されている値を引き継ぎたい
-              _participants[participantIndex].displayName =
+              participant.displayName =
                   value.isNotEmpty ? value : defaultParticipantName;
             },
           ),
