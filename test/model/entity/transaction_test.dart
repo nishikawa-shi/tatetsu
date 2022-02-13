@@ -169,7 +169,7 @@ void main() {
         equals({
           testParticipant1: -9333.33,
           testParticipant2: -14883.33,
-          testParticipant3: 24216.66
+          testParticipant3: 24216.67
         }),
       );
     });
@@ -418,7 +418,7 @@ void main() {
             Procedure(
               from: testParticipant2,
               to: testParticipant1,
-              amount: 6.66,
+              amount: 6.67,
             ),
             Procedure(
               from: testParticipant3,
@@ -430,7 +430,7 @@ void main() {
         equals(true),
       );
       expect(
-        mapEquals(testSettlement.errors, {testParticipant1: 0.01}),
+        mapEquals(testSettlement.errors, {testParticipant3: -0.01}),
         equals(true),
       );
     });
@@ -1666,7 +1666,7 @@ void main() {
     });
 
     test(
-        'ProceduresExt_getSettlementErrors_0.01未満の精算値は切り捨てられて、与えた立替の合算値に反映された値',
+        'ProceduresExt_getSettlementErrors_0.01未満の精算値は四捨五入されて、与えた立替の合算値に反映された値',
         () {
       final List<Payment> testPayments = [
         Payment(
@@ -1690,8 +1690,8 @@ void main() {
             toward: Creditor(payments: testPayments),
           ),
           {
-            testParticipant1: 20 - 5,
-            testParticipant2: -10 + 5,
+            testParticipant1: 20 - 5.01,
+            testParticipant2: -10 + 5.01,
             testParticipant3: -10
           },
         ),
