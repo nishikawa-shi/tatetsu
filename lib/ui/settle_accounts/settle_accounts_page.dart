@@ -10,12 +10,15 @@ import 'package:tatetsu/model/entity/transaction.dart';
 import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
 
 class SettleAccountsPage extends StatefulWidget {
-  SettleAccountsPage({required this.payments})
-      : transaction = Transaction(payments),
+  SettleAccountsPage({
+    required this.payments,
+    required this.advertisementUsecase,
+  })  : transaction = Transaction(payments),
         super();
 
   final List<Payment> payments;
   final Transaction transaction;
+  final AdvertisementUsecase advertisementUsecase;
 
   @override
   _SettleAccountsPageState createState() => _SettleAccountsPageState();
@@ -45,7 +48,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         body: ListView(
           children: [
             Card(
-              child: _adTopBannerComponent(),
+              child: _adTopBannerComponent(widget.advertisementUsecase),
             ),
             Card(
               child: Column(
@@ -99,8 +102,8 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _adTopBannerComponent() {
-    final banner = AdvertisementUsecase.shared().settleAccountsTopBanner;
+  Column _adTopBannerComponent(AdvertisementUsecase advertisementUsecase) {
+    final banner = advertisementUsecase.settleAccountsTopBanner;
     return Column(
       children: [
         Container(

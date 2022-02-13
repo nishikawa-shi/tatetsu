@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
+import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
@@ -113,6 +114,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         builder: (BuildContext context) {
           return SettleAccountsPage(
             payments: widget.payments.map((e) => e.toPayment()).toList(),
+            advertisementUsecase: AdvertisementUsecase.shared(),
           );
         },
       ),
