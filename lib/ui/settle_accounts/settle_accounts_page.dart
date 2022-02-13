@@ -100,7 +100,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       );
 
   Column _adTopBannerComponent() {
-    final banner = AdvertisementUsecase().getSettleAccountsTopBanner();
+    final banner = AdvertisementUsecase.shared().settleAccountsTopBanner;
     return Column(
       children: [
         Container(
