@@ -83,13 +83,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     );
   }
 
-  Future<bool> _showDiscardConfirmDialogIfNeeded() => widget.payments
-          .hasOnlySampleElement(onParticipants: widget.participants)
-      ? Future(() => true)
-      : showDialog<bool>(
-          context: context,
-          builder: (context) => _discardConfirmDialog(),
-        ).then((value) => value ?? false);
+  Future<bool> _showDiscardConfirmDialogIfNeeded() =>
+      widget.payments.hasOnlySampleElement(onParticipants: widget.participants)
+          ? Future(() => true)
+          : showDialog<bool>(
+              context: context,
+              builder: (context) => _discardConfirmDialog(),
+            ).then((value) => value ?? false);
 
   AlertDialog _discardConfirmDialog() => AlertDialog(
         content: const Text("Are you sure to discard the input payments?"),
