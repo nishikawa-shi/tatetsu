@@ -97,7 +97,11 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
             decoration:
                 InputDecoration(hintText: defaultParticipantName.toHintText()),
             key: UniqueKey(),
+            initialValue: participant.hasUserSpecifiedDisplayName
+                ? participant.displayName
+                : null,
             onChanged: (String value) {
+              participant.hasUserSpecifiedDisplayName = true;
               // テキストエリアに表示されている値を引き継ぎたい
               participant.displayName =
                   value.isNotEmpty ? value : defaultParticipantName;
