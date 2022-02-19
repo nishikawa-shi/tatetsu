@@ -18,6 +18,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_flavor: ^3.0.3
+  flutter_localizations:
+    sdk: flutter
   google_mobile_ads: ^1.1.0
   intl: ^0.17.0
   share_plus: ^3.0.4
