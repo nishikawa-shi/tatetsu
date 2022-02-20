@@ -31,6 +31,9 @@
 .pub/
 /build/
 
+# Flutter customize
+lib/l10n/built
+
 # Web related
 lib/generated_plugin_registrant.dart
 
