@@ -9,7 +9,7 @@ void setConfig() => FlavorConfig(
           primarySwatch: Colors.red,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        "entry_page_title": "title",
+        "entry_page_title_prefix": "[Env]",
         "settle_accounts_top_banner_id_ios":
             "ca-app-pub-3940256099942544/2934735716",
         "settle_accounts_top_banner_id_android":

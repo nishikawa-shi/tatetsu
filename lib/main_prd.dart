@@ -28,7 +28,7 @@ class Tatetsu extends StatelessWidget {
         title: getAppTitle(),
         theme: getAppTheme(),
         home: InputParticipantsPage(
-          title: getEntryPageTitle(),
+          titlePrefix: getEntryPageTitlePrefix(),
         ),
       );
 }

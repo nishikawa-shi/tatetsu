@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/usecase/participants_usecase.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/input_accounting_detail_page.dart';
 
 class InputParticipantsPage extends StatefulWidget {
-  const InputParticipantsPage({required this.title}) : super();
+  const InputParticipantsPage({required this.titlePrefix}) : super();
 
-  final String title;
+  final String titlePrefix;
 
   @override
   _InputParticipantsPageState createState() => _InputParticipantsPageState();
@@ -22,7 +23,12 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(
+            [
+              widget.titlePrefix,
+              AppLocalizations.of(context)?.participants ?? "Participants"
+            ].join(" "),
+          ),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
