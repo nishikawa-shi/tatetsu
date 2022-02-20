@@ -101,7 +101,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
         Expanded(
           child: TextFormField(
             decoration:
-                InputDecoration(hintText: defaultParticipantName.toHintText()),
+                InputDecoration(hintText: defaultParticipantName.toHintText(context)),
             key: UniqueKey(),
             initialValue: participant.hasUserSpecifiedDisplayName
                 ? participant.displayName

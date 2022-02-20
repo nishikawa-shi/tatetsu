@@ -2,5 +2,9 @@
   "participants": "Participants",
   "@participants": {
     "description": "activities participants"
+  },
+  "examplePrefix": "e.g.",
+  "@examplePrefix": {
+    "description": "input form information"
   }
 }
