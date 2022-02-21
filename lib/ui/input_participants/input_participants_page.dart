@@ -4,6 +4,7 @@ import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/usecase/participants_usecase.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/input_accounting_detail_page.dart';
+import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 
 class InputParticipantsPage extends StatefulWidget {
   const InputParticipantsPage({required this.titlePrefix}) : super();
@@ -85,7 +86,15 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return InputAccountingDetailPage(participants: _participants);
+          return InputAccountingDetailPage(
+            participants: _participants,
+            payments: [
+              PaymentComponent.sample(
+                participants: _participants,
+                context: context,
+              )
+            ],
+          );
         },
       ),
     );

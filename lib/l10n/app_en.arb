@@ -6,5 +6,9 @@
   "examplePrefix": "e.g.",
   "@examplePrefix": {
     "description": "input form information"
+  },
+  "samplePaymentTitle": "Lunch at the nice cafe",
+  "@samplePaymentTitle": {
+    "description": "payment input form information"
   }
 }

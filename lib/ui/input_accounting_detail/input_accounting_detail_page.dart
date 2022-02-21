@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
+import 'package:tatetsu/ui/core/double_ext.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
-  InputAccountingDetailPage({required this.participants})
-      : payments = [PaymentComponent.sample(participants: participants)],
-        super();
+  const InputAccountingDetailPage({
+    required this.participants,
+    required this.payments,
+  }) : super();
 
   final List<Participant> participants;
   final List<PaymentComponent> payments;
@@ -84,7 +87,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   Future<bool> _showDiscardConfirmDialogIfNeeded() =>
-      widget.payments.hasOnlySampleElement(onParticipants: widget.participants)
+      widget.payments.hasOnlySampleElement(
+        onParticipants: widget.participants,
+        context: context,
+      )
           ? Future(() => true)
           : showDialog<bool>(
               context: context,
