@@ -1,6 +1,18 @@
 {
   "participants": "メンバー",
+  "payments": "会計",
+  "creditSummaries": "立替まとめ",
   "examplePrefix": "例.",
   "samplePaymentTitle": "昼食代",
-  "samplePaymentPrice": "4980"
+  "samplePaymentPrice": "4980",
+  "paymentPayerLabel": "払った人",
+  "paymentPriceLabel": "値段",
+  "summaryPaymentsTitle": "会計",
+  "summaryPaymentsItemLabel": "品目",
+  "summaryCreditorsTitle": "立替",
+  "summaryCreditorsBalanceLabel": "貸借状況",
+  "summaryCreditorsErrorLabel": "誤差",
+  "summarySettlementsTitle": "精算",
+  "summarySettlementsProceduresLabel": "手順",
+  "summarySettlementsErrorRestsLabel": "残り誤差"
 }

@@ -32,7 +32,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         onWillPop: _showDiscardConfirmDialogIfNeeded,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Payments"),
+            title: Text(AppLocalizations.of(context)?.payments ?? "Payments"),
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
@@ -175,7 +175,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   List<Widget> _payerView(PaymentComponent payment) {
     return [
-      Text("Payer", style: Theme.of(context).textTheme.labelMedium),
+      Text(
+        AppLocalizations.of(context)?.paymentPayerLabel ?? "Payer",
+        style: Theme.of(context).textTheme.labelMedium,
+      ),
       DropdownButton<Participant>(
         value: payment.payer,
         onChanged: (Participant? newValue) {
@@ -206,7 +209,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     final double defaultPaymentPriceValue = payment.price;
     return [
       const SizedBox(height: 16),
-      Text("Price", style: Theme.of(context).textTheme.labelMedium),
+      Text(
+        AppLocalizations.of(context)?.paymentPriceLabel ?? "Price",
+        style: Theme.of(context).textTheme.labelMedium,
+      ),
       TextFormField(
         decoration: InputDecoration(
           hintText: defaultPaymentPriceValue.toHintText(context),
