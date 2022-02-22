@@ -27,14 +27,14 @@ void main() {
       expect(getAppTheme().primaryColor, tatetsuViolet);
     });
 
-    test('getEntryPageTitle_devのsetConfig実施後に実行した時、devの接頭辞のついたページ名を返す', () {
+    test('getEntryPageTitlePrefix_devのsetConfig実施後に実行した時、接頭辞devを返す', () {
       dev.setConfig();
-      expect(getEntryPageTitle(), equals("[Dev] Participants"));
+      expect(getEntryPageTitlePrefix(), equals("[Dev]"));
     });
 
-    test('getEntryPageTitle_prdのsetConfig実施後に実行した時、接頭辞のないページ名を返す', () {
+    test('getEntryPageTitlePrefix_prdのsetConfig実施後に実行した時、空を返す', () {
       prd.setConfig();
-      expect(getEntryPageTitle(), equals("Participants"));
+      expect(getEntryPageTitlePrefix(), equals(""));
     });
 
     test('getSettleAccountsTopBannerId_devのsetConfig実施後に実行した時、AdMobのテスト広告IDを返す', () {

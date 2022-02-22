@@ -110,6 +110,10 @@ stages:
         channel: 'stable'
         version: 'latest'
     - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
+        $FLUTTERTOOLPATH/flutter gen-l10n
+      displayName: 'Build l10n (scratch)'
+    - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get
         echo '>> $FLUTTERTOOLPATH/flutter analyze'
@@ -221,6 +225,10 @@ stages:
         mode: 'auto'
         channel: 'stable'
         version: 'latest'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
+        $FLUTTERTOOLPATH/flutter gen-l10n
+      displayName: 'Build l10n (scratch)'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get

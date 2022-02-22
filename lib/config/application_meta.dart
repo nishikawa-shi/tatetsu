@@ -23,11 +23,11 @@ ThemeData getAppTheme() {
   }
 }
 
-String getEntryPageTitle() {
+String getEntryPageTitlePrefix() {
   try {
-    return FlavorConfig.instance.variables["entry_page_title"] as String;
+    return FlavorConfig.instance.variables["entry_page_title_prefix"] as String;
   } catch (e) {
-    return "Participants";
+    return "";
   }
 }
 
