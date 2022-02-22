@@ -1,5 +1,6 @@
 {
   "participants": "メンバー",
   "examplePrefix": "例.",
-  "samplePaymentTitle": "昼食代"
+  "samplePaymentTitle": "昼食代",
+  "samplePaymentPrice": "4980"
 }

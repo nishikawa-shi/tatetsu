@@ -10,5 +10,9 @@
   "samplePaymentTitle": "Lunch at the nice cafe",
   "@samplePaymentTitle": {
     "description": "payment input form information"
+  },
+  "samplePaymentPrice": "66",
+  "@samplePaymentPrice": {
+    "description": "payment input form information"
   }
 }

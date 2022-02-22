@@ -25,7 +25,9 @@ class PaymentComponent {
   })  : title =
             AppLocalizations.of(context)?.samplePaymentTitle ?? "Lunch at the nice cafe",
         payer = participants.first,
-        price = 66,
+        price = double.parse(
+          AppLocalizations.of(context)?.samplePaymentPrice ?? "66",
+        ),
         owners = Map.fromIterables(participants, participants.map((_) => true));
 
   Payment toPayment() =>

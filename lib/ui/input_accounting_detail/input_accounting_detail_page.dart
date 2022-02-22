@@ -209,7 +209,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       Text("Price", style: Theme.of(context).textTheme.labelMedium),
       TextFormField(
         decoration: InputDecoration(
-          hintText: defaultPaymentPriceValue.toString().toHintText(context),
+          hintText: defaultPaymentPriceValue.toHintText(context),
         ),
         initialValue:
             payment.hasUserSpecifiedPrice ? payment.price.toString() : null,
