@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
@@ -17,13 +19,29 @@ class Transaction {
       : creditor = payments.toCreditor(),
         settlement = payments.toCreditor().toSettlement();
 
-  SummaryMessage toSummaryMessage({DateTime? datetime}) => SummaryMessage(
-        title:
-            "Settlements on ${DateFormat.yMd().add_Hm().format(datetime ?? DateTime.now())}",
+  SummaryMessage toSummaryMessage({
+    required BuildContext context,
+    DateTime? datetime,
+  }) =>
+      SummaryMessage(
+        title: [
+          AppLocalizations.of(context)?.summaryMessageTitle ??
+              "Settlements summary",
+          "[ ${DateFormat.yMd(Localizations.localeOf(context).languageCode).add_Hm().format(datetime ?? DateTime.now())} ]"
+        ].join(" "),
         body: [
-          payments.toSummary(),
-          creditor.toSummary(),
-          settlement.toSummary()
+          payments.toSummary(
+            AppLocalizations.of(context)?.summaryMessagePaymentsLabel ??
+                "Payments",
+          ),
+          creditor.toSummary(
+            AppLocalizations.of(context)?.summaryMessageCreditorsLabel ??
+                "Creditors",
+          ),
+          settlement.toSummary(
+            AppLocalizations.of(context)?.summaryMessageSettlementLabel ??
+                "Settlement",
+          )
         ].join("\n\n"),
       );
 }
@@ -31,8 +49,8 @@ class Transaction {
 extension PaymentsExt on List<Payment> {
   Creditor toCreditor() => Creditor(payments: this);
 
-  String toSummary() => [
-        "[Payments]",
+  String toSummary(String label) => [
+        "[$label]",
         ...map(
           (e) => "${e.title}(${e.payer.displayName}): ${e.price.toString()}",
         ),

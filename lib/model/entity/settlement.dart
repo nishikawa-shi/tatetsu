@@ -7,8 +7,8 @@ class Settlement {
 
   Settlement({required this.procedures, required this.errors});
 
-  String toSummary() => [
-        "[Settlement]",
+  String toSummary(String label) => [
+        "[$label]",
         ...procedures.map(
           (e) => "${e.from.displayName} -> ${e.to.displayName}: ${e.amount}",
         )

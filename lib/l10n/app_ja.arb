@@ -14,5 +14,9 @@
   "summaryCreditorsErrorLabel": "誤差",
   "summarySettlementsTitle": "精算",
   "summarySettlementsProceduresLabel": "手順",
-  "summarySettlementsErrorRestsLabel": "残り誤差"
+  "summarySettlementsErrorRestsLabel": "残り誤差",
+  "summaryMessageTitle": "精算概要",
+  "summaryMessagePaymentsLabel": "会計",
+  "summaryMessageCreditorsLabel": "立替",
+  "summaryMessageSettlementLabel": "精算"
 }

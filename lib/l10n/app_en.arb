@@ -62,5 +62,21 @@
   "summarySettlementsErrorRestsLabel": "Error rests",
   "@summarySettlementsErrorRestsLabel": {
     "description": "summary label"
+  },
+  "summaryMessageTitle": "Settlements summary",
+  "@summaryMessageTitle": {
+    "description": "summary message title"
+  },
+  "summaryMessagePaymentsLabel": "Payments",
+  "@summaryMessagePaymentsLabel": {
+    "description": "summary message label"
+  },
+  "summaryMessageCreditorsLabel": "Creditors",
+  "@summaryMessageCreditorsLabel": {
+    "description": "summary message label"
+  },
+  "summaryMessageSettlementLabel": "Settlement",
+  "@summaryMessageSettlementLabel": {
+    "description": "summary message label"
   }
 }

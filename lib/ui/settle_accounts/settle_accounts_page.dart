@@ -38,7 +38,8 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                 primary: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
-                final summaryMessage = widget.transaction.toSummaryMessage();
+                final summaryMessage =
+                    widget.transaction.toSummaryMessage(context: context);
                 Share.share(summaryMessage.body, subject: summaryMessage.title);
               },
               child: const Icon(
