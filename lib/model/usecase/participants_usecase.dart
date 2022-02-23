@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:japanese_family_name_generator/japanese_family_name_generator.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 
@@ -21,9 +22,12 @@ class ParticipantsUsecase {
     ];
   }
 
-  Participant createDummy() {
-    final displayName =
-        ["Dr.", generateWordPairs().first.asUpperCase].join(" ");
-    return Participant(displayName);
+  Participant createDummy(BuildContext context) {
+    if (Localizations.localeOf(context).languageCode == "ja") {
+      return Participant(generateKanjiCombinedFamilyNameText());
+    }
+    return Participant(
+      ["Dr.", generateWordPairs().first.asUpperCase].join(" "),
+    );
   }
 }

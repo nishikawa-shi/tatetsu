@@ -64,7 +64,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   void _insertParticipantToLast() {
     setState(() {
-      _participants.add(ParticipantsUsecase().createDummy());
+      _participants.add(ParticipantsUsecase().createDummy(context));
     });
   }
 

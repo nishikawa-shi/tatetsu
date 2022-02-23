@@ -79,10 +79,71 @@ void main() {
       );
     });
 
-    test('createDummy_Dr.から始まる名前が設定されていること', () {
-      expect(
-        ParticipantsUsecase().createDummy().displayName,
-        startsWith("Dr."),
+    testWidgets('createDummy_英語設定の時、Dr.から始まる名前が設定されていること',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                ParticipantsUsecase().createDummy(context).displayName,
+                startsWith("Dr."),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('createDummy_日本語設定の時、特定の漢字から始まる名前が設定されていること',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('ja'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                ['桜', '松', '竹', '梅', '神', '東', '西', '本', '大', '中', '小'],
+                contains(
+                  ParticipantsUsecase().createDummy(context).displayName[0],
+                ),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('createDummy_英語でも日本語でもない設定の時、Dr.から始まる名前が設定されていること',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('es'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                ParticipantsUsecase().createDummy(context).displayName,
+                startsWith("Dr."),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
   });
