@@ -11,6 +11,7 @@
   "sampleCommonParticipantsNameSecond": "佐藤",
   "sampleCommonParticipantsNameThird": "田中",
   "samplePaymentTitle": "昼食代",
+  "sampleMeaninglessPaymentTitle": "例の会計",
   "samplePaymentPrice": "4980",
   "paymentPayerLabel": "払った人",
   "paymentPriceLabel": "値段",

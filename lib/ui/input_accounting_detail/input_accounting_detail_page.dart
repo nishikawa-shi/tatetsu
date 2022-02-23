@@ -136,7 +136,12 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   void _insertPaymentToLast() {
     setState(() {
-      widget.payments.add(PaymentComponent(participants: widget.participants));
+      widget.payments.add(
+        PaymentComponent(
+          participants: widget.participants,
+          context: context,
+        ),
+      );
     });
   }
 

@@ -10,30 +10,149 @@ void main() {
   final Participant testParticipant2 = Participant("testName2");
 
   group('PaymentComponent', () {
-    test('PaymentComponent_title属性に、クラス内で指定したデフォルト値が設定される', () {
-      expect(
-        PaymentComponent(participants: [Participant("testName")]).title,
-        equals("Some Payment"),
+    testWidgets('PaymentComponent_英語設定の時、title属性に、英語の値が設定される',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                PaymentComponent(
+                  participants: [Participant("testName")],
+                  context: context,
+                ).title,
+                equals("Some payment"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
-    test('PaymentComponent_payer属性に、引数で渡した値の1番目が設定される', () {
-      expect(
-        PaymentComponent(participants: [testParticipant1, testParticipant2])
-            .payer,
-        equals(testParticipant1),
+    testWidgets('PaymentComponent_日本語設定の時、title属性に、日本語の値が設定される',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('ja'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                PaymentComponent(
+                  participants: [Participant("testName")],
+                  context: context,
+                ).title,
+                equals("例の会計"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
-    test('PaymentComponent_引数に空配列を渡すとエラー', () {
-      expect(() => PaymentComponent(participants: []), throwsStateError);
+    testWidgets('PaymentComponent_英語でも日本でもない設定の時、title属性に、英語の値が設定される',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('es'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                PaymentComponent(
+                  participants: [Participant("testName")],
+                  context: context,
+                ).title,
+                equals("Some payment"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
     });
 
-    test('PaymentComponent_owners属性に、引数で渡した値に対してtrueのハッシュマップが設定される', () {
-      expect(
-        PaymentComponent(participants: [testParticipant1, testParticipant2])
-            .owners,
-        equals({testParticipant1: true, testParticipant2: true}),
+    testWidgets('PaymentComponent_payer属性に、引数で渡した値の1番目が設定される',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                PaymentComponent(
+                  participants: [testParticipant1, testParticipant2],
+                  context: context,
+                ).payer,
+                equals(testParticipant1),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('PaymentComponent_引数に空配列を渡すとエラー', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                () => PaymentComponent(participants: [], context: context),
+                throwsStateError,
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('PaymentComponent_owners属性に、引数で渡した値に対してtrueのハッシュマップが設定される',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                PaymentComponent(
+                  participants: [testParticipant1, testParticipant2],
+                  context: context,
+                ).owners,
+                equals({testParticipant1: true, testParticipant2: true}),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
@@ -112,22 +231,56 @@ void main() {
       );
     });
 
-    test('toPayment_プロパティを外部から操作しなかった時、クラス内で指定したデフォルト値を含むPaymentオブジェクトを返す', () {
-      expect(
-        PaymentComponent(participants: [testParticipant1, testParticipant2])
-            .toPayment()
-            .title,
-        equals("Some Payment"),
+    testWidgets(
+        'toPayment_プロパティを外部から操作しなかった時、クラス内で指定したデフォルト値を含むPaymentオブジェクトを返す',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                PaymentComponent(
+                  participants: [testParticipant1, testParticipant2],
+                  context: context,
+                ).toPayment().title,
+                equals("Some payment"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
-    test('toPayment_プロパティを外部から操作した時、書き換え後の値を含むPaymentオブジェクトを返す', () {
-      expect(
-        (PaymentComponent(participants: [testParticipant1, testParticipant2])
-              ..title = "Modified Test Payment")
-            .toPayment()
-            .title,
-        equals("Modified Test Payment"),
+    testWidgets('toPayment_プロパティを外部から操作した時、書き換え後の値を含むPaymentオブジェクトを返す',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                (PaymentComponent(
+                  participants: [testParticipant1, testParticipant2],
+                  context: context,
+                )..title = "Modified Test Payment")
+                    .toPayment()
+                    .title,
+                equals("Modified Test Payment"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
@@ -147,6 +300,7 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )
                     ..title = "Lunch at the nice cafe"
                     ..payer = testParticipant1
@@ -181,6 +335,7 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )..title = "modified title"
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
@@ -211,6 +366,7 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )..payer = testParticipant2
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
@@ -240,6 +396,7 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )..price = 0.01
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
@@ -270,6 +427,7 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )..owners = {testParticipant1: true, testParticipant2: false}
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
@@ -300,6 +458,7 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1],
@@ -329,9 +488,11 @@ void main() {
                 [
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   ),
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
+                    context: context,
                   )
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],

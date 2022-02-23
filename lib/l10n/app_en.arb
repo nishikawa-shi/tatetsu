@@ -47,6 +47,10 @@
   "@samplePaymentTitle": {
     "description": "payment input form information"
   },
+  "sampleMeaninglessPaymentTitle": "Some payment",
+  "@sampleMeaninglessPaymentTitle": {
+    "description": "payment input form information"
+  },
   "samplePaymentPrice": "66",
   "@samplePaymentPrice": {
     "description": "payment input form information"
