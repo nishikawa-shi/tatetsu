@@ -21,7 +21,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
   @override
   Widget build(BuildContext context) {
     if (_participants.isEmpty) {
-      _participants.addAll(ParticipantsUsecase().getDefaults(context));
+      _participants.addAll(ParticipantsUsecase.shared().getDefaults(context));
     }
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -64,7 +64,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   void _insertParticipantToLast() {
     setState(() {
-      _participants.add(ParticipantsUsecase().createDummy(context));
+      _participants.add(ParticipantsUsecase.shared().createDummy(context));
     });
   }
 

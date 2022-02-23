@@ -19,7 +19,7 @@ void main() {
           child: Builder(
             builder: (BuildContext context) {
               expect(
-                ParticipantsUsecase()
+                ParticipantsUsecase.shared()
                     .getDefaults(context)
                     .map((e) => e.displayName),
                 equals(["Smith", "Johnson", "Williams"]),
@@ -43,7 +43,7 @@ void main() {
           child: Builder(
             builder: (BuildContext context) {
               expect(
-                ParticipantsUsecase()
+                ParticipantsUsecase.shared()
                     .getDefaults(context)
                     .map((e) => e.displayName),
                 equals(["鈴木", "佐藤", "田中"]),
@@ -67,7 +67,7 @@ void main() {
           child: Builder(
             builder: (BuildContext context) {
               expect(
-                ParticipantsUsecase()
+                ParticipantsUsecase.shared()
                     .getDefaults(context)
                     .map((e) => e.displayName),
                 equals(["Smith", "Johnson", "Williams"]),
@@ -91,7 +91,7 @@ void main() {
           child: Builder(
             builder: (BuildContext context) {
               expect(
-                ParticipantsUsecase().createDummy(context).displayName,
+                ParticipantsUsecase.shared().createDummy(context).displayName,
                 startsWith("Dr."),
               );
               return const Placeholder();
@@ -115,7 +115,9 @@ void main() {
               expect(
                 ['桜', '松', '竹', '梅', '神', '東', '西', '本', '大', '中', '小'],
                 contains(
-                  ParticipantsUsecase().createDummy(context).displayName[0],
+                  ParticipantsUsecase.shared()
+                      .createDummy(context)
+                      .displayName[0],
                 ),
               );
               return const Placeholder();
@@ -137,7 +139,7 @@ void main() {
           child: Builder(
             builder: (BuildContext context) {
               expect(
-                ParticipantsUsecase().createDummy(context).displayName,
+                ParticipantsUsecase.shared().createDummy(context).displayName,
                 startsWith("Dr."),
               );
               return const Placeholder();
