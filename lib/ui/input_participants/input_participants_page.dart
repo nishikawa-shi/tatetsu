@@ -16,10 +16,13 @@ class InputParticipantsPage extends StatefulWidget {
 }
 
 class _InputParticipantsPageState extends State<InputParticipantsPage> {
-  final List<Participant> _participants = ParticipantsUsecase().getDefaults();
+  final List<Participant> _participants = [];
 
   @override
   Widget build(BuildContext context) {
+    if (_participants.isEmpty) {
+      _participants.addAll(ParticipantsUsecase().getDefaults(context));
+    }
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -61,7 +64,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   void _insertParticipantToLast() {
     setState(() {
-      _participants.add(ParticipantsUsecase().createDummy());
+      _participants.add(ParticipantsUsecase().createDummy(context));
     });
   }
 
@@ -109,8 +112,9 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       children: [
         Expanded(
           child: TextFormField(
-            decoration:
-                InputDecoration(hintText: defaultParticipantName.toHintText(context)),
+            decoration: InputDecoration(
+              hintText: defaultParticipantName.toHintText(context),
+            ),
             key: UniqueKey(),
             initialValue: participant.hasUserSpecifiedDisplayName
                 ? participant.displayName

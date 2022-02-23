@@ -15,6 +15,18 @@
   "@examplePrefix": {
     "description": "input form information"
   },
+  "sampleCommonParticipantsNameFirst": "Smith",
+  "@sampleCommonParticipantsNameFirst": {
+    "description": "participant input form information"
+  },
+  "sampleCommonParticipantsNameSecond": "Johnson",
+  "@sampleCommonParticipantsNameSecond": {
+    "description": "participant input form information"
+  },
+  "sampleCommonParticipantsNameThird": "Williams",
+  "@sampleCommonParticipantsNameThird": {
+    "description": "participant input form information"
+  },
   "samplePaymentTitle": "Lunch at the nice cafe",
   "@samplePaymentTitle": {
     "description": "payment input form information"
