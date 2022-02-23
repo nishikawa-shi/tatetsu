@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatetsu/main_dev.dart';
+import 'package:tatetsu/tatetsu.dart';
 
 void main() {
   testWidgets('Participants label test', (WidgetTester tester) async {
