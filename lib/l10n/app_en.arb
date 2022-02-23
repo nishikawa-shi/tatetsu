@@ -15,6 +15,22 @@
   "@examplePrefix": {
     "description": "input form information"
   },
+  "dialogOkLabel": "OK",
+  "@dialogOkLabel": {
+    "description": "support dialog button"
+  },
+  "dialogCancelLabel": "Cancel",
+  "@dialogCancelLabel": {
+    "description": "support dialog button"
+  },
+  "dialogDeleteLabel": "Delete",
+  "@dialogDeleteLabel": {
+    "description": "support dialog button"
+  },
+  "dialogDiscardLabel": "Discard",
+  "@dialogDiscardLabel": {
+    "description": "support dialog button"
+  },
   "sampleCommonParticipantsNameFirst": "Smith",
   "@sampleCommonParticipantsNameFirst": {
     "description": "participant input form information"
@@ -42,6 +58,18 @@
   "paymentPriceLabel": "Price",
   "@paymentPriceLabel": {
     "description": "payment input form label"
+  },
+  "paymentExcludeDialogTitle": "Exclude Participants",
+  "@paymentExcludeDialogTitle": {
+    "description": "payment support dialog title"
+  },
+  "paymentDeleteConfirmDialogBody": "Are you sure to delete below payment?",
+  "@paymentDeleteConfirmDialogBody": {
+    "description": "payment support dialog body"
+  },
+  "paymentDiscardConfirmDialogBody": "Are you sure to discard the input payments?",
+  "@paymentDiscardConfirmDialogBody": {
+    "description": "payment support dialog body"
   },
   "summaryPaymentsTitle": "Payments",
   "@summaryPaymentsTitle": {

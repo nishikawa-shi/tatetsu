@@ -98,18 +98,25 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             ).then((value) => value ?? false);
 
   AlertDialog _discardConfirmDialog() => AlertDialog(
-        content: const Text("Are you sure to discard the input payments?"),
+        content: Text(
+          AppLocalizations.of(context)?.paymentDiscardConfirmDialogBody ??
+              "Are you sure to discard the input payments?",
+        ),
         actions: [
           TextButton(
             style: TextButton.styleFrom(
               primary: Theme.of(context).disabledColor,
             ),
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text("Cancel"),
+            child: Text(
+              AppLocalizations.of(context)?.dialogCancelLabel ?? "Cancel",
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text("Discard"),
+            child: Text(
+              AppLocalizations.of(context)?.dialogDiscardLabel ?? "Discard",
+            ),
           )
         ],
       );
@@ -264,21 +271,31 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   AlertDialog _paymentDeleteConfirmDialog(PaymentComponent payment) =>
       AlertDialog(
-        content: Text('Are you sure to delete payment \n"${payment.title}"?'),
+        content: Text(
+          [
+            AppLocalizations.of(context)?.paymentDeleteConfirmDialogBody ??
+                "Are you sure to delete below payment?",
+            "\n [ ${payment.title} ]"
+          ].join("\n"),
+        ),
         actions: [
           TextButton(
             style: TextButton.styleFrom(
               primary: Theme.of(context).disabledColor,
             ),
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: Text(
+              AppLocalizations.of(context)?.dialogCancelLabel ?? "Cancel",
+            ),
           ),
           TextButton(
             onPressed: () {
               _deletePayment(payment);
               Navigator.pop(context);
             },
-            child: const Text("Delete"),
+            child: Text(
+              AppLocalizations.of(context)?.dialogDeleteLabel ?? "Delete",
+            ),
           )
         ],
       );
