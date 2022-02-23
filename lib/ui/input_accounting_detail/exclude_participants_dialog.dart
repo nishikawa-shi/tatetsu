@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 
 class ExcludeParticipantsDialog extends StatefulWidget {
@@ -13,13 +14,18 @@ class ExcludeParticipantsDialog extends StatefulWidget {
 class _ExcludeParticipantsDialogState extends State<ExcludeParticipantsDialog> {
   @override
   Widget build(BuildContext context) => AlertDialog(
-        title: const Text("Exclude Participants"),
+        title: Text(
+          AppLocalizations.of(context)?.paymentExcludeDialogTitle ??
+              "Exclude Participants",
+        ),
         content: SingleChildScrollView(
           child: _checkBoxComponent(),
         ),
         actions: [
           TextButton(
-            child: const Text("OK"),
+            child: Text(
+              AppLocalizations.of(context)?.dialogOkLabel ?? "OK",
+            ),
             onPressed: () => Navigator.pop(context),
           )
         ],

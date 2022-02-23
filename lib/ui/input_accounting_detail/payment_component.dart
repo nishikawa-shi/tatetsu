@@ -7,7 +7,7 @@ import 'package:tatetsu/model/entity/payment.dart';
 class PaymentComponent {
   bool isExpanded = true;
 
-  String title = "Some Payment";
+  String title;
   Participant payer;
   double price = 0.0;
   Map<Participant, bool> owners;
@@ -15,15 +15,19 @@ class PaymentComponent {
   bool hasUserSpecifiedTitle = false;
   bool hasUserSpecifiedPrice = false;
 
-  PaymentComponent({required List<Participant> participants})
-      : payer = participants.first,
+  PaymentComponent({
+    required List<Participant> participants,
+    required BuildContext context,
+  })  : title = AppLocalizations.of(context)?.sampleMeaninglessPaymentTitle ??
+            "Some payment",
+        payer = participants.first,
         owners = Map.fromIterables(participants, participants.map((_) => true));
 
   PaymentComponent.sample({
     required List<Participant> participants,
     required BuildContext context,
-  })  : title =
-            AppLocalizations.of(context)?.samplePaymentTitle ?? "Lunch at the nice cafe",
+  })  : title = AppLocalizations.of(context)?.samplePaymentTitle ??
+            "Lunch at the nice cafe",
         payer = participants.first,
         price = double.parse(
           AppLocalizations.of(context)?.samplePaymentPrice ?? "66",
