@@ -5,6 +5,12 @@ import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 
 class ParticipantsUsecase {
+  static final ParticipantsUsecase _singleton = ParticipantsUsecase._internal();
+
+  factory ParticipantsUsecase.shared() => _singleton;
+
+  ParticipantsUsecase._internal();
+
   List<Participant> getDefaults(BuildContext context) {
     return [
       Participant(
