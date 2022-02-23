@@ -2,5 +2,81 @@
   "participants": "Participants",
   "@participants": {
     "description": "activities participants"
+  },
+  "payments": "Payments",
+  "@payments": {
+    "description": "activities payments"
+  },
+  "creditSummaries": "Credit Summaries",
+  "@creditSummaries": {
+    "description": "activities credit summaries"
+  },
+  "examplePrefix": "e.g.",
+  "@examplePrefix": {
+    "description": "input form information"
+  },
+  "samplePaymentTitle": "Lunch at the nice cafe",
+  "@samplePaymentTitle": {
+    "description": "payment input form information"
+  },
+  "samplePaymentPrice": "66",
+  "@samplePaymentPrice": {
+    "description": "payment input form information"
+  },
+  "paymentPayerLabel": "Payer",
+  "@paymentPayerLabel": {
+    "description": "payment input form label"
+  },
+  "paymentPriceLabel": "Price",
+  "@paymentPriceLabel": {
+    "description": "payment input form label"
+  },
+  "summaryPaymentsTitle": "Payments",
+  "@summaryPaymentsTitle": {
+    "description": "summary title"
+  },
+  "summaryPaymentsItemLabel": "Items",
+  "@summaryPaymentsItemLabel": {
+    "description": "summary label"
+  },
+  "summaryCreditorsTitle": "Creditors",
+  "@summaryCreditorsTitle": {
+    "description": "summary title"
+  },
+  "summaryCreditorsBalanceLabel": "Balance",
+  "@summaryCreditorsBalanceLabel": {
+    "description": "summary label"
+  },
+  "summaryCreditorsErrorLabel": "Error",
+  "@summaryCreditorsErrorLabel": {
+    "description": "summary label"
+  },
+  "summarySettlementsTitle": "Settlements",
+  "@summarySettlementsTitle": {
+    "description": "summary title"
+  },
+  "summarySettlementsProceduresLabel": "Procedures",
+  "@summarySettlementsProceduresLabel": {
+    "description": "summary label"
+  },
+  "summarySettlementsErrorRestsLabel": "Error rests",
+  "@summarySettlementsErrorRestsLabel": {
+    "description": "summary label"
+  },
+  "summaryMessageTitle": "Settlements summary",
+  "@summaryMessageTitle": {
+    "description": "summary message title"
+  },
+  "summaryMessagePaymentsLabel": "Payments",
+  "@summaryMessagePaymentsLabel": {
+    "description": "summary message label"
+  },
+  "summaryMessageCreditorsLabel": "Creditors",
+  "@summaryMessageCreditorsLabel": {
+    "description": "summary message label"
+  },
+  "summaryMessageSettlementLabel": "Settlement",
+  "@summaryMessageSettlementLabel": {
+    "description": "summary message label"
   }
 }

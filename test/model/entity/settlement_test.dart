@@ -37,7 +37,7 @@ void main() {
 
     test('toSummary_procedures属性に空配列を渡した時、ラベルのみを返す', () {
       expect(
-        Settlement(procedures: [], errors: {}).toSummary(),
+        Settlement(procedures: [], errors: {}).toSummary("Settlement"),
         equals("[Settlement]"),
       );
     });
@@ -49,7 +49,7 @@ void main() {
             Procedure(from: testParticipant1, to: testParticipant2, amount: 30),
           ],
           errors: {},
-        ).toSummary(),
+        ).toSummary("Settlement"),
         equals(
           "[Settlement]\ntestName1 -> testName2: 30.0",
         ),
@@ -73,7 +73,7 @@ void main() {
             ),
           ],
           errors: {},
-        ).toSummary(),
+        ).toSummary("Settlement"),
         equals(
           "[Settlement]\ntestName1 -> testName2: 30.0\ntestName2 -> testName3: 400.0\ntestName4 -> testName1: 5000.0",
         ),

@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/transaction.dart';
-import 'package:test/test.dart';
 
 void main() {
   final Participant testParticipant1 = Participant("testName1");
@@ -174,7 +177,9 @@ void main() {
       );
     });
 
-    test('toSummaryMessage_title属性がSettlements on から始まる文字列である', () {
+    testWidgets(
+        'toSummaryMessage_英語設定の時、title属性がSettlements summary [から始まる英語文字列である',
+        (WidgetTester tester) async {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -188,16 +193,33 @@ void main() {
         ),
       ];
 
-      expect(
-        Transaction(testPayments)
-            .toSummaryMessage()
-            .title
-            .startsWith("Settlements on "),
-        equals(true),
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(context: context)
+                    .title
+                    .startsWith("Settlements summary ["),
+                equals(true),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
-    test('toSummaryMessage_title属性がyMd Hm形式の文字列である', () {
+    testWidgets('toSummaryMessage_日本語設定の時、title属性が精算概要 [から始まる英語文字列である',
+        (WidgetTester tester) async {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -211,17 +233,201 @@ void main() {
         ),
       ];
 
-      expect(
-        Transaction(testPayments)
-            .toSummaryMessage(datetime: DateTime(2000, 1, 23, 16, 56))
-            .title,
-        equals("Settlements on 1/23/2000 16:56"),
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('ja'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(context: context)
+                    .title
+                    .startsWith("精算概要 ["),
+                equals(true),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
       );
     });
 
-    test(
+    testWidgets(
+        'toSummaryMessage_英語でも日本語でもない設定の時、title属性がSettlements summary [から始まる英語文字列である',
+        (WidgetTester tester) async {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('kn'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(context: context)
+                    .title
+                    .startsWith("Settlements summary ["),
+                equals(true),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('toSummaryMessage_英語設定の時、title属性が英語圏向け順番のyMd Hm形式の文字列である',
+        (WidgetTester tester) async {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(
+                      datetime: DateTime(2000, 1, 23, 16, 56),
+                      context: context,
+                    )
+                    .title,
+                equals("Settlements summary [ 1/23/2000 16:56 ]"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('toSummaryMessage_日本語設定の時、title属性が日本語圏向け順番のyMd Hm形式の文字列である',
+        (WidgetTester tester) async {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('ja'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(
+                      datetime: DateTime(2000, 1, 23, 16, 56),
+                      context: context,
+                    )
+                    .title,
+                equals("精算概要 [ 2000/1/23 16:56 ]"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets('toSummaryMessage_スペイン語設定の時、title属性がスペイン語圏向け順番のyMd Hm形式の文字列である',
+        (WidgetTester tester) async {
+      final List<Payment> testPayments = [
+        Payment(
+          title: "testPaymentA",
+          payer: testParticipant1,
+          price: 6000,
+          owners: {
+            testParticipant1: true,
+            testParticipant2: true,
+            testParticipant3: true
+          },
+        ),
+      ];
+
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('es'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(
+                      datetime: DateTime(2000, 1, 23, 16, 56),
+                      context: context,
+                    )
+                    .title,
+                equals("Settlements summary [ 23/1/2000 16:56 ]"),
+              );
+              return const Placeholder();
+            },
+          ),
+        ),
+      );
+    });
+
+    testWidgets(
         'toSummaryMessage_1件のPaymentを与えている時、body属性が支払、立替、精算の順に改行2つで繋がったメッセージを返す',
-        () {
+        (WidgetTester tester) async {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -235,29 +441,47 @@ void main() {
         ),
       ];
 
-      expect(
-        Transaction(testPayments).toSummaryMessage().body,
-        equals(
-          [
-            '[Payments]\n',
-            'testPaymentA(testName1): 6000.0',
-            '\n\n',
-            '[Creditors]\n',
-            'testName1: 4000.0\n',
-            'testName2: -2000.0\n',
-            'testName3: -2000.0',
-            '\n\n',
-            '[Settlement]\n',
-            'testName2 -> testName1: 2000.0\n',
-            'testName3 -> testName1: 2000.0'
-          ].join(),
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(context: context)
+                    .body,
+                equals(
+                  [
+                    '[Payments]\n',
+                    'testPaymentA(testName1): 6000.0',
+                    '\n\n',
+                    '[Creditors]\n',
+                    'testName1: 4000.0\n',
+                    'testName2: -2000.0\n',
+                    'testName3: -2000.0',
+                    '\n\n',
+                    '[Settlement]\n',
+                    'testName2 -> testName1: 2000.0\n',
+                    'testName3 -> testName1: 2000.0'
+                  ].join(),
+                ),
+              );
+              return const Placeholder();
+            },
+          ),
         ),
       );
     });
 
-    test(
+    testWidgets(
         'toSummaryMessage_2件以上のPaymentを与えている時、body属性が支払、立替、精算の順に改行2つで繋がったメッセージを返す',
-        () {
+        (WidgetTester tester) async {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -291,29 +515,48 @@ void main() {
         )
       ];
 
-      expect(
-        Transaction(testPayments).toSummaryMessage().body,
-        equals(
-          [
-            '[Payments]\n',
-            'testPaymentA(testName1): 6000.0\n',
-            'testPaymentB(testName2): 900.0\n',
-            'testPaymentC(testName3): 30000.0',
-            '\n\n',
-            '[Creditors]\n',
-            'testName1: -6000.0\n',
-            'testName2: -11550.0\n',
-            'testName3: 17550.0',
-            '\n\n',
-            '[Settlement]\n',
-            'testName1 -> testName3: 6000.0\n',
-            'testName2 -> testName3: 11550.0'
-          ].join(),
+      await tester.pumpWidget(
+        Localizations(
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          locale: const Locale('en'),
+          child: Builder(
+            builder: (BuildContext context) {
+              expect(
+                Transaction(testPayments)
+                    .toSummaryMessage(context: context)
+                    .body,
+                equals(
+                  [
+                    '[Payments]\n',
+                    'testPaymentA(testName1): 6000.0\n',
+                    'testPaymentB(testName2): 900.0\n',
+                    'testPaymentC(testName3): 30000.0',
+                    '\n\n',
+                    '[Creditors]\n',
+                    'testName1: -6000.0\n',
+                    'testName2: -11550.0\n',
+                    'testName3: 17550.0',
+                    '\n\n',
+                    '[Settlement]\n',
+                    'testName1 -> testName3: 6000.0\n',
+                    'testName2 -> testName3: 11550.0'
+                  ].join(),
+                ),
+              );
+              return const Placeholder();
+            },
+          ),
         ),
       );
     });
 
-    test('PaymentsExt_toCreditor_与えたPaymentに基づいた立替を返す', () {
+    testWidgets('PaymentsExt_toCreditor_与えたPaymentに基づいた立替を返す',
+        (WidgetTester tester) async {
       final List<Payment> testPayments = [
         Payment(
           title: "testPaymentA",
@@ -332,14 +575,17 @@ void main() {
       );
     });
 
-    test('PaymentsExt_toSummary_空配列を与えた時、ラベルのみを返す', () {
+    testWidgets('PaymentsExt_toSummary_空配列を与えた時、ラベルのみを返す',
+        (WidgetTester tester) async {
       expect(
-        <Payment>[].toSummary(),
+        <Payment>[].toSummary("Payments"),
         equals("[Payments]"),
       );
     });
 
-    test('PaymentsExt_toSummary_1件の支払いを与えた時、ラベルに加えて支払名と支払者と金額を改行1つで繋げて返す', () {
+    testWidgets(
+        'PaymentsExt_toSummary_1件の支払いを与えた時、ラベルに加えて支払名と支払者と金額を改行1つで繋げて返す',
+        (WidgetTester tester) async {
       expect(
         [
           Payment(
@@ -352,12 +598,13 @@ void main() {
               testParticipant3: true,
             },
           )
-        ].toSummary(),
+        ].toSummary("Payments"),
         equals("[Payments]\ntestPaymentA(testName1): 20.0"),
       );
     });
 
-    test('PaymentsExt_toSummary_2件以上の支払いを与えた時、全ての支払いが含まれた値を改行1つで繋げて返す', () {
+    testWidgets('PaymentsExt_toSummary_2件以上の支払いを与えた時、全ての支払いが含まれた値を改行1つで繋げて返す',
+        (WidgetTester tester) async {
       expect(
         [
           Payment(
@@ -390,7 +637,7 @@ void main() {
               testParticipant3: true,
             },
           )
-        ].toSummary(),
+        ].toSummary("Payments"),
         equals(
           "[Payments]\ntestPaymentA(testName1): 20.0\ntestPaymentB(testName2): 300.0\ntestPaymentC(testName3): 4000.0",
         ),

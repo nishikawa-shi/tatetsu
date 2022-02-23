@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/entity/creditor.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
@@ -28,14 +29,17 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text("Credit Summaries"),
+          title: Text(
+            AppLocalizations.of(context)?.creditSummaries ?? "Credit Summaries",
+          ),
           actions: [
             TextButton(
               style: TextButton.styleFrom(
                 primary: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
-                final summaryMessage = widget.transaction.toSummaryMessage();
+                final summaryMessage =
+                    widget.transaction.toSummaryMessage(context: context);
                 Share.share(summaryMessage.body, subject: summaryMessage.title);
               },
               child: const Icon(
@@ -65,8 +69,14 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         Card(
           child: Column(
             children: [
-              _titleComponent("Payments"),
-              _labelComponent("Items"),
+              _titleComponent(
+                AppLocalizations.of(context)?.summaryPaymentsTitle ??
+                    "Payments",
+              ),
+              _labelComponent(
+                AppLocalizations.of(context)?.summaryPaymentsItemLabel ??
+                    "Items",
+              ),
               ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -168,11 +178,15 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
 
   Column _creditorsComponent(Creditor creditor) {
     final List<Widget> baseCreditorsElements = [
-      _titleComponent("Creditors"),
+      _titleComponent(
+        AppLocalizations.of(context)?.summaryCreditorsTitle ?? "Creditors",
+      ),
     ];
 
     baseCreditorsElements.addAll([
-      _labelComponent("Balance"),
+      _labelComponent(
+        AppLocalizations.of(context)?.summaryCreditorsBalanceLabel ?? "Balance",
+      ),
       ListView(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -188,7 +202,9 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
 
     if (creditor.hasError()) {
       baseCreditorsElements.addAll([
-        _labelComponent("Error"),
+        _labelComponent(
+          AppLocalizations.of(context)?.summaryCreditorsErrorLabel ?? "Error",
+        ),
         _creditorErrorComponent(creditor.getError()),
         const SizedBox(
           height: 8,
@@ -269,11 +285,16 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
 
   Column _settlementComponent(Settlement settlement) {
     final List<Widget> baseSettlementElements = [
-      _titleComponent("Settlements"),
+      _titleComponent(
+        AppLocalizations.of(context)?.summarySettlementsTitle ?? "Settlements",
+      ),
     ];
 
     baseSettlementElements.addAll([
-      _labelComponent("Procedures"),
+      _labelComponent(
+        AppLocalizations.of(context)?.summarySettlementsProceduresLabel ??
+            "Procedures",
+      ),
       ListView(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -287,7 +308,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
 
     if (settlement.errors.isNotEmpty) {
       baseSettlementElements.addAll([
-        _labelComponent("Error rests"),
+        _labelComponent(
+          AppLocalizations.of(context)?.summarySettlementsErrorRestsLabel ??
+              "Error rests",
+        ),
         ListView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

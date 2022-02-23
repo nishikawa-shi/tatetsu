@@ -55,10 +55,10 @@ class Creditor {
 
   bool hasError() => getError() != 0;
 
-  String toSummary() => [
-    "[Creditors]",
-    ...entries.entries.map((e) => "${e.key.displayName}: ${e.value}")
-  ].join("\n");
+  String toSummary(String label) => [
+        "[$label]",
+        ...entries.entries.map((e) => "${e.key.displayName}: ${e.value}")
+      ].join("\n");
 }
 
 extension PaymentsExt on List<Payment> {

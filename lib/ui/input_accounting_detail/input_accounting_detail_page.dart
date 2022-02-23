@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
+import 'package:tatetsu/ui/core/double_ext.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
-  InputAccountingDetailPage({required this.participants})
-      : payments = [PaymentComponent.sample(participants: participants)],
-        super();
+  const InputAccountingDetailPage({
+    required this.participants,
+    required this.payments,
+  }) : super();
 
   final List<Participant> participants;
   final List<PaymentComponent> payments;
@@ -29,7 +32,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         onWillPop: _showDiscardConfirmDialogIfNeeded,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Payments"),
+            title: Text(AppLocalizations.of(context)?.payments ?? "Payments"),
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
@@ -84,7 +87,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   Future<bool> _showDiscardConfirmDialogIfNeeded() =>
-      widget.payments.hasOnlySampleElement(onParticipants: widget.participants)
+      widget.payments.hasOnlySampleElement(
+        onParticipants: widget.participants,
+        context: context,
+      )
           ? Future(() => true)
           : showDialog<bool>(
               context: context,
@@ -137,7 +143,8 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     final String defaultPaymentTitle = payment.title;
     return ListTile(
       title: TextFormField(
-        decoration: InputDecoration(hintText: defaultPaymentTitle.toHintText()),
+        decoration:
+            InputDecoration(hintText: defaultPaymentTitle.toHintText(context)),
         initialValue: payment.hasUserSpecifiedTitle ? payment.title : null,
         key: UniqueKey(),
         onChanged: (String value) {
@@ -168,7 +175,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   List<Widget> _payerView(PaymentComponent payment) {
     return [
-      Text("Payer", style: Theme.of(context).textTheme.labelMedium),
+      Text(
+        AppLocalizations.of(context)?.paymentPayerLabel ?? "Payer",
+        style: Theme.of(context).textTheme.labelMedium,
+      ),
       DropdownButton<Participant>(
         value: payment.payer,
         onChanged: (Participant? newValue) {
@@ -199,10 +209,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     final double defaultPaymentPriceValue = payment.price;
     return [
       const SizedBox(height: 16),
-      Text("Price", style: Theme.of(context).textTheme.labelMedium),
+      Text(
+        AppLocalizations.of(context)?.paymentPriceLabel ?? "Price",
+        style: Theme.of(context).textTheme.labelMedium,
+      ),
       TextFormField(
         decoration: InputDecoration(
-          hintText: defaultPaymentPriceValue.toString().toHintText(),
+          hintText: defaultPaymentPriceValue.toHintText(context),
         ),
         initialValue:
             payment.hasUserSpecifiedPrice ? payment.price.toString() : null,

@@ -629,7 +629,8 @@ void main() {
       ];
 
       expect(
-        (Creditor(payments: dummyPayments)..entries = {}).toSummary(),
+        (Creditor(payments: dummyPayments)..entries = {})
+            .toSummary("Creditors"),
         equals("[Creditors]"),
       );
     });
@@ -648,7 +649,7 @@ void main() {
 
       expect(
         (Creditor(payments: dummyPayments)..entries = {testParticipant1: 30})
-            .toSummary(),
+            .toSummary("Creditors"),
         equals("[Creditors]\ntestName1: 30.0"),
       );
     });
@@ -672,7 +673,7 @@ void main() {
                 testParticipant2: -100,
                 testParticipant3: 4000
               })
-            .toSummary(),
+            .toSummary("Creditors"),
         equals(
           "[Creditors]\ntestName1: 30.0\ntestName2: -100.0\ntestName3: 4000.0",
         ),
