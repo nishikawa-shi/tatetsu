@@ -91,6 +91,10 @@
   "@summaryCreditorsErrorLabel": {
     "description": "summary label"
   },
+  "summaryCreditorsErrorDescription": "Total",
+  "@summaryCreditorsErrorDescription": {
+    "description": "summary label"
+  },
   "summarySettlementsTitle": "Settlements",
   "@summarySettlementsTitle": {
     "description": "summary title"

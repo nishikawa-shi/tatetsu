@@ -22,6 +22,7 @@
   "summaryCreditorsTitle": "立替",
   "summaryCreditorsBalanceLabel": "貸借状況",
   "summaryCreditorsErrorLabel": "誤差",
+  "summaryCreditorsErrorDescription": "合計",
   "summarySettlementsTitle": "精算",
   "summarySettlementsProceduresLabel": "手順",
   "summarySettlementsErrorRestsLabel": "残り誤差",

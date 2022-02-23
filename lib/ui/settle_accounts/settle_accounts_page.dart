@@ -259,10 +259,12 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           Row(
             children: [
               const SizedBox(width: 16),
-              const Expanded(
+              Expanded(
                 flex: 5,
                 child: Text(
-                  "Total",
+                  AppLocalizations.of(context)
+                          ?.summaryCreditorsErrorDescription ??
+                      "Total",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
