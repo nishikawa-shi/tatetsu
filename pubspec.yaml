@@ -22,6 +22,7 @@ dependencies:
     sdk: flutter
   google_mobile_ads: ^1.1.0
   intl: ^0.17.0
+  japanese_family_name_generator: ^0.0.1
   share_plus: ^3.0.4
 
 dev_dependencies:
