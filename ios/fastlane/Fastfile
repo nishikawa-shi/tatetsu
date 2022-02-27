@@ -109,4 +109,12 @@ platform :ios do
       readonly: false
     )
   end
+
+  desc "AppStore向けipaアップロードlane"
+  lane :upload_ipa_to_store do
+    deliver(
+      app_identifier: APP_IDENTIFIER_PRODUCTION
+    )
+  end
+
 end

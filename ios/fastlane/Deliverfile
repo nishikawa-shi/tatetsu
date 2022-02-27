@@ -1,0 +1,8 @@
+# The Deliverfile allows you to store various App Store Connect metadata
+# For more information, check out the docs
+# https://docs.fastlane.tools/actions/deliver/
+
+api_key_path("appstore_api_key.json")
+force(true)
+ipa("../build/ios/ipa/tatetsu.ipa")
+precheck_include_in_app_purchases(false)

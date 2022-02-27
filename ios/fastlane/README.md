@@ -31,6 +31,11 @@ provisioning profileへの端末追加lane
 fastlane ios produce_certs
 ```
 provisioning profile生成lane
+### ios upload_ipa_to_store
+```
+fastlane ios upload_ipa_to_store
+```
+AppStore向けipaアップロードlane
 
 ----
 
