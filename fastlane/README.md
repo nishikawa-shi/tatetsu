@@ -36,6 +36,11 @@ provisioning profile生成lane
 fastlane ios upload_ipa_to_store
 ```
 AppStore向けipaアップロードlane
+### ios upload_aab_to_store
+```
+fastlane ios upload_aab_to_store
+```
+PlayStore向けaabアップロードlane
 
 ----
 
