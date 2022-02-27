@@ -51,10 +51,13 @@ app.*.map.json
 **/report.xml
 
 # iOS deploy
-ios/appstore_api_key.json
-ios/fastlane/metadata/review_information/email_address.txt
-ios/fastlane/metadata/review_information/phone_number.txt
-ios/fastlane/Preview.html
+appstore_api_key.json
+fastlane/metadata/review_information/email_address.txt
+fastlane/metadata/review_information/phone_number.txt
+fastlane/Preview.html
+
+# Android deploy
+playstore_credential.json
 
 # configs
 lib/config/dev.dart
@@ -70,6 +73,7 @@ ios/Firebase/GoogleService-Info-*.plist
 
 # Android Secret Build Config
 android/gradle_secret.properties
+android/app/tatetsu_android_release.jks
 
 # AdMob for iOS
 ios/AdMob/AdMob-dev.xcconfig

@@ -98,20 +98,16 @@ stages:
         gem install bundler:1.17.2
       displayName: 'Install bundler'
     - script: |
-        echo '>> cd ios'
-        cd ios
         echo '>> bundle install'
         bundle install
       displayName: 'Install iOS gem dependency'
     - script: |
-        echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ ios/fastlane/Matchfile'
-        echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ ios/fastlane/Matchfile
+        echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile'
+        echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile
         echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
         export MATCH_PASSWORD='$(MATCH_PASSWORD)'
       displayName: 'Set configs for fastlane match'
     - script: |
-        echo '>> cd ios'
-        cd ios
         echo '>> bundle exec fastlane load_certs'
         bundle exec fastlane load_certs
       displayName: 'Fastlane match'
@@ -197,20 +193,16 @@ stages:
             gem install bundler:1.17.2
           displayName: 'Install bundler'
         - script: |
-            echo '>> cd ios'
-            cd ios
             echo '>> bundle install'
             bundle install
           displayName: 'Install iOS gem dependency'
         - script: |
-            echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ ios/fastlane/Matchfile'
-            echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ ios/fastlane/Matchfile
+            echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile'
+            echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile
             echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
             export MATCH_PASSWORD='$(MATCH_PASSWORD)'
           displayName: 'Set configs for fastlane match'
         - script: |
-            echo '>> cd ios'
-            cd ios
             echo '>> bundle exec fastlane load_certs'
             bundle exec fastlane load_certs
           displayName: 'Fastlane match'
@@ -219,8 +211,14 @@ stages:
             $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppStore.plist
           displayName: 'Flutter build store ipa (scratch)'
         - script: |
-            echo '>> cd ios'
-            cd ios
+            echo '>> $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)'
+            $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
+          displayName: 'Flutter build aab (scratch)'
+        - script: |
             echo '>> bundle exec fastlane upload_ipa_to_store'
             bundle exec fastlane upload_ipa_to_store
           displayName: 'Deploy to AppStore'
+        - script: |
+            echo '>> bundle exec fastlane upload_aab_to_store'
+            bundle exec fastlane upload_aab_to_store
+          displayName: 'Deploy to PlayStore'
