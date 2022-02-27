@@ -70,6 +70,7 @@ ios/Firebase/GoogleService-Info-*.plist
 
 # Android Secret Build Config
 android/gradle_secret.properties
+android/app/tatetsu_android_release.jks
 
 # AdMob for iOS
 ios/AdMob/AdMob-dev.xcconfig
