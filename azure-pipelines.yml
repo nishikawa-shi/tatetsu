@@ -211,6 +211,14 @@ stages:
             $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppStore.plist
           displayName: 'Flutter build store ipa (scratch)'
         - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)'
+            $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
+          displayName: 'Flutter build aab (scratch)'
+        - script: |
             echo '>> bundle exec fastlane upload_ipa_to_store'
             bundle exec fastlane upload_ipa_to_store
           displayName: 'Deploy to AppStore'
+        - script: |
+            echo '>> bundle exec fastlane upload_aab_to_store'
+            bundle exec fastlane upload_aab_to_store
+          displayName: 'Deploy to PlayStore'
