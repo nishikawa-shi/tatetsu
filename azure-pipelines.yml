@@ -116,12 +116,12 @@ stages:
         bundle exec fastlane load_certs
       displayName: 'Fastlane match'
     - script: |
-        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_dev.plist'
-        $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_dev.plist
+        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_dev.plist'
+        $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_dev.plist
       displayName: 'Flutter build dev ipa (scratch)'
     - script: |
-        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_prd.plist'
-        $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_prd.plist
+        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_prd.plist'
+        $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_prd.plist
       displayName: 'Flutter build prd ipa (scratch)'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter build apk --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildId)'
