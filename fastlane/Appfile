@@ -1,8 +1,6 @@
 # app_identifier("com.ntetz.flutter.tatetsu,com.ntetz.flutter.tatetsu.dev") # The bundle identifier of your app
 # apple_id("[[APPLE_ID]]") # Your Apple email address
 
-json_key_file("playstore_credential.json")
-package_name("com.ntetz.flutter.tatetsu")
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
