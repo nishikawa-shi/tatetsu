@@ -51,10 +51,10 @@ app.*.map.json
 **/report.xml
 
 # iOS deploy
-ios/appstore_api_key.json
-ios/fastlane/metadata/review_information/email_address.txt
-ios/fastlane/metadata/review_information/phone_number.txt
-ios/fastlane/Preview.html
+appstore_api_key.json
+fastlane/metadata/review_information/email_address.txt
+fastlane/metadata/review_information/phone_number.txt
+fastlane/Preview.html
 
 # configs
 lib/config/dev.dart
