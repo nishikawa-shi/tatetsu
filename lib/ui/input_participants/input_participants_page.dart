@@ -131,10 +131,10 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           onPressed: hasOnlyParticipants
               ? null
               : () => {_removeParticipant(participantIndex)},
-          child: const Icon(
+          child: Icon(
             Icons.person_remove,
             size: 32,
-            color: Colors.grey,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ],
