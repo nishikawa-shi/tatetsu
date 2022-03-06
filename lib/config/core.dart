@@ -15,3 +15,5 @@ const MaterialColor tatetsuViolet = MaterialColor(
     900: Color(0xFF54598E),
   },
 );
+
+const Color tatetsuGrey = Color(0xFFBDBDBD); // materialのDropDownの下線の色から持ってきた色
