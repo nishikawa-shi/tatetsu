@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';
@@ -42,8 +44,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                     widget.transaction.toSummaryMessage(context: context);
                 Share.share(summaryMessage.body, subject: summaryMessage.title);
               },
-              child: const Icon(
-                Icons.share,
+              child: Icon(
+                (Platform.isMacOS || Platform.isIOS)
+                    ? Icons.ios_share
+                    : Icons.share,
                 size: 32,
               ),
             )
