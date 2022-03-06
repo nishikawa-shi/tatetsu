@@ -13,6 +13,7 @@ void setConfig() => FlavorConfig(
           ),
           primarySwatch: Colors.red, // これを設定しないとチェックボックス(立替参加者除外画面)の色にprimaryが設定されない
           hintColor: tatetsuGrey,
+          useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         "entry_page_title_prefix": "[Env]",
