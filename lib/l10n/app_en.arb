@@ -67,8 +67,12 @@
   "@paymentExcludeDialogTitle": {
     "description": "payment support dialog title"
   },
-  "paymentDeleteConfirmDialogBody": "Are you sure to delete below payment?",
-  "@paymentDeleteConfirmDialogBody": {
+  "paymentDeleteConfirmDescriptionPrefix": "Are you sure to delete the payment [",
+  "@paymentDeleteConfirmDescriptionPrefix": {
+    "description": "payment support dialog body"
+  },
+  "paymentDeleteConfirmDescriptionSuffix": "] ?",
+  "@paymentDeleteConfirmDescriptionSuffix": {
     "description": "payment support dialog body"
   },
   "paymentDiscardConfirmDialogBody": "Are you sure to discard the input payments?",
