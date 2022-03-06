@@ -278,10 +278,14 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       AlertDialog(
         content: Text(
           [
-            AppLocalizations.of(context)?.paymentDeleteConfirmDialogBody ??
-                "Are you sure to delete below payment?",
-            "\n [ ${payment.title} ]"
-          ].join("\n"),
+            AppLocalizations.of(context)
+                    ?.paymentDeleteConfirmDescriptionPrefix ??
+                "Are you sure to discard the payment [",
+            payment.title,
+            AppLocalizations.of(context)
+                    ?.paymentDeleteConfirmDescriptionSuffix ??
+                "] ?",
+          ].join(" "),
         ),
         actions: [
           TextButton(
