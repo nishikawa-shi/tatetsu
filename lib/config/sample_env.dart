@@ -9,7 +9,7 @@ void setConfig() => FlavorConfig(
         "application_theme": ThemeData(
           colorScheme: const ColorScheme.light(
             primary: Colors.red,
-            onSurface: tatetsuGrey,
+            onSurface: tatetsuGrey, // これを設定しないと、非活性状態アイコンと入力域下線の基準色にデフォルト値黒が設定され、アプリテーマカラーの他アイコンとのコントラストが低くなってしまう
           ),
           primarySwatch: Colors.red, // これを設定しないとチェックボックス(立替参加者除外画面)の色にprimaryが設定されない
           hintColor: tatetsuGrey,
