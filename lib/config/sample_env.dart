@@ -13,6 +13,7 @@ void setConfig() => FlavorConfig(
           ),
           primarySwatch: Colors.red, // これを設定しないとチェックボックス(立替参加者除外画面)の色にprimaryが設定されない
           hintColor: tatetsuGrey,
+          disabledColor: tatetsuGrey, // これを設定しないと、編集破棄ダイアログキャンセル文字色にデフォルト値濃いめ灰色が設定され、アプリテーマカラーの破棄ボタンとのコントラストが低くなってしまう
           useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
