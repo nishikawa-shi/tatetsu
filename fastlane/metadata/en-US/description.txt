@@ -1,1 +1,2 @@
-
+Distribution calculations of either trips or meals paid by several members is difficult, when wanting split bill.
+This app calculate payer statuses and settlement procedures simply.
