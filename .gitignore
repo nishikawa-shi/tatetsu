@@ -50,6 +50,9 @@ app.*.map.json
 # fastlane
 **/report.xml
 
+# npm
+node_modules
+
 # iOS deploy
 appstore_api_key.json
 fastlane/metadata/review_information/email_address.txt
