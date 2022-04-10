@@ -81,3 +81,6 @@ android/app/tatetsu_android_release.jks
 # AdMob for iOS
 ios/AdMob/AdMob-dev.xcconfig
 ios/AdMob/AdMob-prd.xcconfig
+
+# Firebase Hosting
+.firebase
