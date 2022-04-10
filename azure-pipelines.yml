@@ -130,24 +130,24 @@ stages:
     - script: |
         echo '>> which which npm'
         which npm
-        echo '>> npm install -g firebase-tools'
-        npm install -g firebase-tools
-        echo '>> which firebase'
-        which firebase
+        echo '>> npm install'
+        npm install
+        echo '>> npx firebase --version'
+        npx firebase --version
       displayName: 'Install Firebase tools'
     - script: |
         echo '>> ls -latr build/ios/ipa/'
         ls -latr build/ios/ipa/
         echo '>> ls -latr build/app/outputs/flutter-apk'
         ls -latr build/app/outputs/flutter-apk
-        echo '>> firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
-        firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
-        echo '>> firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
-        firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
-        echo '>> firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
-        firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
-        echo '>> firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
-        firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
       displayName: 'Deploy to Firebase App Distribution'
 - stage: store_app_deploy_stage
   displayName: ストアアプリ配布ステージ
