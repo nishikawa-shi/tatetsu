@@ -5,6 +5,7 @@
 api_key_path("appstore_api_key.json")
 force(true)
 price_tier(0)
+automatic_release(false)
 ipa("build/ios/ipa/tatetsu.ipa")
 app_rating_config_path("fastlane/metadata/app_rating_config.json")
 precheck_include_in_app_purchases(false)
