@@ -50,6 +50,9 @@ app.*.map.json
 # fastlane
 **/report.xml
 
+# npm
+node_modules
+
 # iOS deploy
 appstore_api_key.json
 fastlane/metadata/review_information/email_address.txt
@@ -78,3 +81,6 @@ android/app/tatetsu_android_release.jks
 # AdMob for iOS
 ios/AdMob/AdMob-dev.xcconfig
 ios/AdMob/AdMob-prd.xcconfig
+
+# Firebase Hosting
+.firebase

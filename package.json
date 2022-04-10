@@ -1,0 +1,6 @@
+{
+  "name": "tatetsu",
+  "devDependencies": {
+    "firebase-tools": "^10.6.0"
+  }
+}
