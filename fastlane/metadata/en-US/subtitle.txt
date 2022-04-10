@@ -1,1 +1,1 @@
-
+Simple split bill calculator.
