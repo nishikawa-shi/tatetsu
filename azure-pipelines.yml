@@ -215,6 +215,18 @@ stages:
             $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
           displayName: 'Flutter build aab (scratch)'
         - script: |
+            echo '>> which which npm'
+            which npm
+            echo '>> npm install'
+            npm install
+            echo '>> npx firebase --version'
+            npx firebase --version
+          displayName: 'Install Firebase tools'
+        - script: |
+            echo '>> npx firebase deploy --token $(FIREBASE_TOKEN)'
+            npx firebase deploy --token $(FIREBASE_TOKEN)
+          displayName: 'Deploy to ntetz.com'
+        - script: |
             echo '>> bundle exec fastlane upload_ipa_to_store'
             bundle exec fastlane upload_ipa_to_store
           displayName: 'Deploy to AppStore'
