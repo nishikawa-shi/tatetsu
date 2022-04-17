@@ -4,5 +4,6 @@
 
 api_key_path("appstore_api_key.json")
 force(true)
+price_tier(0)
 ipa("build/ios/ipa/tatetsu.ipa")
 precheck_include_in_app_purchases(false)
