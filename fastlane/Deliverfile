@@ -4,6 +4,7 @@
 
 api_key_path("appstore_api_key.json")
 force(true)
+reject_if_possible(true)
 price_tier(0)
 automatic_release(false)
 submit_for_review(true)
