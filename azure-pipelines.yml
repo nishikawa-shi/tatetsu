@@ -1,0 +1,236 @@
+trigger:
+- main
+- develop
+- feature/*
+
+pool:
+  vmImage: macos-latest
+  demands: xcode
+
+variables:
+- group: Secrets
+
+stages:
+- stage: qa_stage
+  displayName: 動作検証ステージ
+  condition: always()
+  jobs:
+  - job: analysis_job
+    displayName: 静的解析
+    steps:
+    - task: DownloadSecureFile@1
+      displayName: 'Download configs'
+      name: Configs
+      inputs:
+        secureFile: configs.tar.gz
+    - script: |
+        echo '>> tar -zxvf $(Configs.secureFilePath) --strip-components=1'
+        tar -zxvf $(Configs.secureFilePath) --strip-components=1
+      displayName: 'Inflate configs'
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '11'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
+    - task: FlutterInstall@0
+      inputs:
+        mode: 'auto'
+        channel: 'stable'
+        version: 'latest'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
+        $FLUTTERTOOLPATH/flutter gen-l10n
+      displayName: 'Build l10n (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub get'
+        $FLUTTERTOOLPATH/flutter pub get
+        echo '>> $FLUTTERTOOLPATH/flutter analyze'
+        $FLUTTERTOOLPATH/flutter analyze
+      displayName: 'Flutter Analyze (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
+        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+      displayName: 'Build Icon (scratch)'
+    - task: FlutterTest@0
+      inputs:
+        projectDirectory: '.'
+- stage: beta_app_deploy_stage
+  displayName: β版アプリ配布ステージ
+  condition: in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main')
+  dependsOn: qa_stage
+  jobs:
+  - job: firebase_deploy_job
+    displayName: Firebaseへベータ版アプリ配布
+    steps:
+    - task: DownloadSecureFile@1
+      displayName: 'Download configs'
+      name: Configs
+      inputs:
+        secureFile: configs.tar.gz
+    - script: |
+        echo '>> tar -zxvf $(Configs.secureFilePath) --strip-components=1'
+        tar -zxvf $(Configs.secureFilePath) --strip-components=1
+      displayName: 'Inflate configs'
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '11'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
+    - task: FlutterInstall@0
+      inputs:
+        mode: 'auto'
+        channel: 'stable'
+        version: 'latest'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
+        $FLUTTERTOOLPATH/flutter gen-l10n
+      displayName: 'Build l10n (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub get'
+        $FLUTTERTOOLPATH/flutter pub get
+      displayName: 'Install Build Tools (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
+        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+      displayName: 'Build Icon (scratch)'
+    - script: |
+        echo '>> gem install bundler:1.17.2'
+        gem install bundler:1.17.2
+      displayName: 'Install bundler'
+    - script: |
+        echo '>> bundle install'
+        bundle install
+      displayName: 'Install iOS gem dependency'
+    - script: |
+        echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile'
+        echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile
+        echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
+        export MATCH_PASSWORD='$(MATCH_PASSWORD)'
+      displayName: 'Set configs for fastlane match'
+    - script: |
+        echo '>> bundle exec fastlane load_certs'
+        bundle exec fastlane load_certs
+      displayName: 'Fastlane match'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_dev.plist'
+        $FLUTTERTOOLPATH/flutter build ipa --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_dev.plist
+      displayName: 'Flutter build dev ipa (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_prd.plist'
+        $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppDistribution_prd.plist
+      displayName: 'Flutter build prd ipa (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter build apk --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildId)'
+        $FLUTTERTOOLPATH/flutter build apk --flavor dev -t lib/main_dev.dart --build-number=$(Build.BuildId)
+      displayName: 'Flutter build dev apk (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter build apk --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)'
+        $FLUTTERTOOLPATH/flutter build apk --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
+      displayName: 'Flutter build prd apk (scratch)'
+    - script: |
+        echo '>> which which npm'
+        which npm
+        echo '>> npm install'
+        npm install
+        echo '>> npx firebase --version'
+        npx firebase --version
+      displayName: 'Install Firebase tools'
+    - script: |
+        echo '>> ls -latr build/ios/ipa/'
+        ls -latr build/ios/ipa/
+        echo '>> ls -latr build/app/outputs/flutter-apk'
+        ls -latr build/app/outputs/flutter-apk
+        echo '>> npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
+        echo '>> npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
+        npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
+      displayName: 'Deploy to Firebase App Distribution'
+- stage: store_app_deploy_stage
+  displayName: ストアアプリ配布ステージ
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  dependsOn: qa_stage
+  jobs:
+    - job: store_deploy_job
+      displayName: ストアへアプリ配布
+      steps:
+        - task: DownloadSecureFile@1
+          displayName: 'Download configs'
+          name: Configs
+          inputs:
+            secureFile: configs.tar.gz
+        - script: |
+            echo '>> tar -zxvf $(Configs.secureFilePath) --strip-components=1'
+            tar -zxvf $(Configs.secureFilePath) --strip-components=1
+          displayName: 'Inflate configs'
+        - task: JavaToolInstaller@0
+          inputs:
+            versionSpec: '11'
+            jdkArchitectureOption: 'x64'
+            jdkSourceOption: 'PreInstalled'
+        - task: FlutterInstall@0
+          inputs:
+            mode: 'auto'
+            channel: 'stable'
+            version: 'latest'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
+            $FLUTTERTOOLPATH/flutter gen-l10n
+          displayName: 'Build l10n (scratch)'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter pub get'
+            $FLUTTERTOOLPATH/flutter pub get
+          displayName: 'Install Build Tools (scratch)'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
+            $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+          displayName: 'Build Icon (scratch)'
+        - script: |
+            echo '>> gem install bundler:1.17.2'
+            gem install bundler:1.17.2
+          displayName: 'Install bundler'
+        - script: |
+            echo '>> bundle install'
+            bundle install
+          displayName: 'Install iOS gem dependency'
+        - script: |
+            echo '>> echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile'
+            echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile
+            echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
+            export MATCH_PASSWORD='$(MATCH_PASSWORD)'
+          displayName: 'Set configs for fastlane match'
+        - script: |
+            echo '>> bundle exec fastlane load_certs'
+            bundle exec fastlane load_certs
+          displayName: 'Fastlane match'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppStore.plist'
+            $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppStore.plist
+          displayName: 'Flutter build store ipa (scratch)'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)'
+            $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
+          displayName: 'Flutter build aab (scratch)'
+        - script: |
+            echo '>> which which npm'
+            which npm
+            echo '>> npm install'
+            npm install
+            echo '>> npx firebase --version'
+            npx firebase --version
+          displayName: 'Install Firebase tools'
+        - script: |
+            echo '>> npx firebase deploy --token $(FIREBASE_TOKEN)'
+            npx firebase deploy --token $(FIREBASE_TOKEN)
+          displayName: 'Deploy to ntetz.com'
+        - script: |
+            echo '>> bundle exec fastlane upload_ipa_to_store'
+            bundle exec fastlane upload_ipa_to_store
+          displayName: 'Deploy to AppStore'
+        - script: |
+            echo '>> bundle exec fastlane upload_aab_to_store'
+            bundle exec fastlane upload_aab_to_store
+          displayName: 'Deploy to PlayStore'

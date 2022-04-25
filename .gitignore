@@ -31,6 +31,9 @@
 .pub/
 /build/
 
+# Flutter customize
+lib/l10n/built
+
 # Web related
 lib/generated_plugin_registrant.dart
 
@@ -39,3 +42,45 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# bundler
+
+.bundle
+
+# fastlane
+**/report.xml
+
+# npm
+node_modules
+
+# iOS deploy
+appstore_api_key.json
+fastlane/metadata/review_information/email_address.txt
+fastlane/metadata/review_information/phone_number.txt
+fastlane/Preview.html
+
+# Android deploy
+playstore_credential.json
+
+# configs
+lib/config/dev.dart
+lib/config/prd.dart
+
+# flutter_launcher_icons
+android/app/src/*/res/*/ic_launcher.png
+ios/Runner/Assets.xcassets/AppIcon-*.appiconset/
+
+# Firebase
+android/app/src/*/google-services.json
+ios/Firebase/GoogleService-Info-*.plist
+
+# Android Secret Build Config
+android/gradle_secret.properties
+android/app/tatetsu_android_release.jks
+
+# AdMob for iOS
+ios/AdMob/AdMob-dev.xcconfig
+ios/AdMob/AdMob-prd.xcconfig
+
+# Firebase Hosting
+.firebase

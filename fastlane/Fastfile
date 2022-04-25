@@ -1,0 +1,137 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  APP_IDENTIFIER_DEVELOP = "com.ntetz.flutter.tatetsu.dev"
+  APP_IDENTIFIER_PRODUCTION = "com.ntetz.flutter.tatetsu"
+
+  desc "provisioning profile読み取りlane"
+  lane :load_certs do
+    setup_ci
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_DEVELOP,
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "development",
+      readonly: true
+    )
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_DEVELOP,
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "adhoc",
+      readonly: true
+    )
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "appstore",
+      readonly: true
+    )
+  end
+
+  desc "provisioning profileへの端末追加lane"
+  lane :add_device_to_profiles do |options|
+    if (not options[:name]) || (not options[:udid])
+      raise("使い方: bundle exec fastlane add_device_to_profiles name:\"2019's_XSMax\" udid:\"00001111-00011112222A112E\"")
+    end
+
+    register_devices(
+      devices: {
+        options[:name] => options[:udid]
+      }
+    )
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_DEVELOP,
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "development",
+      force_for_new_devices: true
+    )
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_DEVELOP,
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "adhoc",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "provisioning profile生成lane"
+  lane :produce_certs do
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_DEVELOP,
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "development",
+      readonly: false
+    )
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_DEVELOP,
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "adhoc",
+      readonly: false
+    )
+
+    match(
+      app_identifier: [
+        APP_IDENTIFIER_PRODUCTION
+      ],
+      type: "appstore",
+      readonly: false
+    )
+  end
+
+  desc "AppStore向けipaアップロードlane"
+  lane :upload_ipa_to_store do
+    deliver(
+      app_identifier: APP_IDENTIFIER_PRODUCTION,
+      submission_information: {
+        export_compliance_platform: 'ios',
+        export_compliance_encryption_updated: false,
+        export_compliance_uses_encryption: true,
+        export_compliance_is_exempt: true,
+      }
+    )
+  end
+
+  desc "PlayStore向けaabアップロードlane"
+  lane :upload_aab_to_store do
+    supply(
+      aab: "build/app/outputs/bundle/prdRelease/app-prd-release.aab",
+      json_key: "playstore_credential.json",
+      package_name: APP_IDENTIFIER_PRODUCTION,
+      release_status: 'draft', # この記述がないと、未公開アプリに対してのaabアップロードがエラーしてしまう。アプリ公開後は消してもよさそう。
+      track: "internal"
+    )
+  end
+
+end
