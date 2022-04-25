@@ -113,7 +113,13 @@ platform :ios do
   desc "AppStore向けipaアップロードlane"
   lane :upload_ipa_to_store do
     deliver(
-      app_identifier: APP_IDENTIFIER_PRODUCTION
+      app_identifier: APP_IDENTIFIER_PRODUCTION,
+      submission_information: {
+        export_compliance_platform: 'ios',
+        export_compliance_encryption_updated: false,
+        export_compliance_uses_encryption: true,
+        export_compliance_is_exempt: true,
+      }
     )
   end
 
