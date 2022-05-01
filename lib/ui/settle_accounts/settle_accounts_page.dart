@@ -42,7 +42,13 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               onPressed: () {
                 final summaryMessage =
                     widget.transaction.toSummaryMessage(context: context);
-                Share.share(summaryMessage.body, subject: summaryMessage.title);
+                final Size size = MediaQuery.of(context).size;
+                Share.share(
+                  summaryMessage.body,
+                  subject: summaryMessage.title,
+                  sharePositionOrigin:
+                      Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+                );
               },
               child: Icon(
                 (Platform.isMacOS || Platform.isIOS)
