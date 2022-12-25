@@ -37,7 +37,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
                 final summaryMessage =

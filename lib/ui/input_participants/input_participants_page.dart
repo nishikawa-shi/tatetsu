@@ -36,7 +36,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
                 _toInputAccounting();
