@@ -106,8 +106,6 @@ stages:
         echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile
         echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
         export MATCH_PASSWORD='$(MATCH_PASSWORD)'
-      displayName: 'Set configs for fastlane match'
-    - script: |
         echo '>> bundle exec fastlane load_certs'
         bundle exec fastlane load_certs
       displayName: 'Fastlane match'
@@ -201,8 +199,6 @@ stages:
             echo $(GITHUB_ACCESS_TOKEN)@github.com | xargs -I {} sed -i '' s/github.com/{}/ fastlane/Matchfile
             echo '>> export MATCH_PASSWORD=$(MATCH_PASSWORD)'
             export MATCH_PASSWORD='$(MATCH_PASSWORD)'
-          displayName: 'Set configs for fastlane match'
-        - script: |
             echo '>> bundle exec fastlane load_certs'
             bundle exec fastlane load_certs
           displayName: 'Fastlane match'
