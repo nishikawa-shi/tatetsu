@@ -55,6 +55,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                     ? Icons.ios_share
                     : Icons.share,
                 size: 32,
+                color: Theme.of(context).colorScheme.primary,
               ),
             )
           ],

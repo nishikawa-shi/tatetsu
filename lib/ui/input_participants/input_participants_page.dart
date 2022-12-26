@@ -41,7 +41,11 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
               onPressed: () {
                 _toInputAccounting();
               },
-              child: const Icon(Icons.receipt_long, size: 32),
+              child: Icon(
+                Icons.receipt_long,
+                size: 32,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             )
           ],
         ),
