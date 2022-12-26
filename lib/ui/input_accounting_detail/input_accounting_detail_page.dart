@@ -36,12 +36,16 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.onPrimary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 ),
                 onPressed: () {
                   _toSettleAccounts();
                 },
-                child: const Icon(Icons.summarize, size: 32),
+                child: Icon(
+                  Icons.summarize,
+                  size: 32,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               )
             ],
           ),
@@ -105,7 +109,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         actions: [
           TextButton(
             style: TextButton.styleFrom(
-              primary: Theme.of(context).disabledColor,
+              foregroundColor: Theme.of(context).disabledColor,
             ),
             onPressed: () => Navigator.of(context).pop(false),
             child: Text(
@@ -290,7 +294,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         actions: [
           TextButton(
             style: TextButton.styleFrom(
-              primary: Theme.of(context).disabledColor,
+              foregroundColor: Theme.of(context).disabledColor,
             ),
             onPressed: () => Navigator.pop(context),
             child: Text(

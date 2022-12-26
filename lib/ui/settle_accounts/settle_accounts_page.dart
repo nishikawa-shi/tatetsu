@@ -37,7 +37,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
                 final summaryMessage =
@@ -55,6 +55,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
                     ? Icons.ios_share
                     : Icons.share,
                 size: 32,
+                color: Theme.of(context).colorScheme.primary,
               ),
             )
           ],

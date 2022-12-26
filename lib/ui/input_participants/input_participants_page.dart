@@ -36,12 +36,16 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
                 _toInputAccounting();
               },
-              child: const Icon(Icons.receipt_long, size: 32),
+              child: Icon(
+                Icons.receipt_long,
+                size: 32,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             )
           ],
         ),
