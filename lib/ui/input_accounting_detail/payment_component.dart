@@ -23,6 +23,13 @@ class PaymentComponent {
         payer = participants.first,
         owners = Map.fromIterables(participants, participants.map((_) => true));
 
+  PaymentComponent.of({
+    required this.title,
+    required this.payer,
+    required this.price,
+    required this.owners,
+  });
+
   PaymentComponent.sample({
     required List<Participant> participants,
     required BuildContext context,
