@@ -44,6 +44,12 @@ stages:
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get
+      displayName: 'Install Build Tools (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub run build_runner build'
+        $FLUTTERTOOLPATH/flutter pub run build_runner build
+      displayName: 'Build Dto (scratch)'
+    - script: |
         echo '>> $FLUTTERTOOLPATH/flutter analyze'
         $FLUTTERTOOLPATH/flutter analyze
       displayName: 'Flutter Analyze (scratch)'
@@ -89,6 +95,10 @@ stages:
         echo '>> $FLUTTERTOOLPATH/flutter pub get'
         $FLUTTERTOOLPATH/flutter pub get
       displayName: 'Install Build Tools (scratch)'
+    - script: |
+        echo '>> $FLUTTERTOOLPATH/flutter pub run build_runner build'
+        $FLUTTERTOOLPATH/flutter pub run build_runner build
+      displayName: 'Build Dto (scratch)'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
         $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
@@ -182,6 +192,10 @@ stages:
             echo '>> $FLUTTERTOOLPATH/flutter pub get'
             $FLUTTERTOOLPATH/flutter pub get
           displayName: 'Install Build Tools (scratch)'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter pub run build_runner build'
+            $FLUTTERTOOLPATH/flutter pub run build_runner build
+          displayName: 'Build Dto (scratch)'
         - script: |
             echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
             $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
