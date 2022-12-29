@@ -20,6 +20,7 @@ dependencies:
   flutter_flavor: ^3.0.3
   flutter_localizations:
     sdk: flutter
+  go_router: ^6.0.0
   google_mobile_ads: ^1.1.0
   intl: ^0.17.0
   japanese_family_name_generator: ^0.0.1
