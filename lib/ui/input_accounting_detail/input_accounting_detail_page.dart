@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
+import 'package:tatetsu/model/core/build_context_ext.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/transport/account_detail_dto.dart';
-import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
+import 'package:tatetsu/model/transport/payment_dto.dart';
 import 'package:tatetsu/ui/core/double_ext.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/accounting_detail_state.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
-import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
   const InputAccountingDetailPage() : super();
@@ -149,14 +149,14 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       );
 
   void _toSettleAccounts() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return SettleAccountsPage(
-            payments: state?.payments.map((e) => e.toPayment()).toList() ?? [],
-            advertisementUsecase: AdvertisementUsecase.shared(),
-          );
-        },
+    context.goTo(
+      path: "/accounting_detail/settle_accounts",
+      params: AccountDetailDto(
+        pNm: state?.participants.map((e) => e.displayName).toList() ?? [],
+        ps: state?.payments
+                .map((e) => PaymentDto.fromPayment(e.toPayment()))
+                .toList() ??
+            [],
       ),
     );
   }

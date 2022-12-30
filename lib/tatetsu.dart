@@ -5,6 +5,7 @@ import 'package:tatetsu/config/application_meta.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/ui/input_accounting_detail/input_accounting_detail_page.dart';
 import 'package:tatetsu/ui/input_participants/input_participants_page.dart';
+import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class Tatetsu extends StatelessWidget {
   @override
@@ -27,6 +28,16 @@ class Tatetsu extends StatelessWidget {
                 key: state.pageKey,
                 child: const InputAccountingDetailPage(),
               ),
+              routes: [
+                GoRoute(
+                  path: "settle_accounts",
+                  pageBuilder: (BuildContext context, GoRouterState state) =>
+                      MaterialPage(
+                    key: state.pageKey,
+                    child: const SettleAccountsPage(),
+                  ),
+                ),
+              ],
             )
           ],
         ),
