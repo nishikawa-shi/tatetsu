@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
@@ -14,9 +15,7 @@ import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
-  const InputAccountingDetailPage({required this.params}) : super();
-
-  final Map<String, String> params;
+  const InputAccountingDetailPage() : super();
 
   @override
   _InputAccountingDetailPageState createState() =>
@@ -28,7 +27,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    _initializeStateIfEmpty(widget.params);
+    _initializeStateIfEmpty(context);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -95,8 +94,8 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     );
   }
 
-  void _initializeStateIfEmpty(Map<String, String> params) {
-    final paramsValue = params["params"];
+  void _initializeStateIfEmpty(BuildContext context) {
+    final paramsValue = GoRouterState.of(context).queryParams["params"];
     if (paramsValue == null) return;
 
     state ??= AccountDetailDto.fromJson(
