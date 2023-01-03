@@ -91,7 +91,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   void _toInputAccounting() {
     context.goTo(
-      path: "/accounting_detail",
+      path: "/app/accounting_detail",
       params: AccountDetailDto(
         pNm: _participants.map((e) => e.displayName).toList(),
         ps: [],

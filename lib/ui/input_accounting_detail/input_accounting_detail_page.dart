@@ -150,7 +150,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   void _toSettleAccounts() {
     context.goTo(
-      path: "/accounting_detail/settle_accounts",
+      path: "/app/accounting_detail/settle_accounts",
       params: AccountDetailDto(
         pNm: state?.participants.map((e) => e.displayName).toList() ?? [],
         ps: state?.payments
