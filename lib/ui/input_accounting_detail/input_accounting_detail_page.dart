@@ -1,22 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
+import 'package:tatetsu/model/core/build_context_ext.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
-import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
+import 'package:tatetsu/model/transport/account_detail_dto.dart';
+import 'package:tatetsu/model/transport/payment_dto.dart';
 import 'package:tatetsu/ui/core/double_ext.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
+import 'package:tatetsu/ui/input_accounting_detail/accounting_detail_state.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
-import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
-  const InputAccountingDetailPage({
-    required this.participants,
-    required this.payments,
-  }) : super();
-
-  final List<Participant> participants;
-  final List<PaymentComponent> payments;
+  const InputAccountingDetailPage() : super();
 
   @override
   _InputAccountingDetailPageState createState() =>
@@ -24,8 +23,12 @@ class InputAccountingDetailPage extends StatefulWidget {
 }
 
 class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
+  AccountingDetailState? state;
+
   @override
   Widget build(BuildContext context) {
+    _initializeStateIfEmpty(context);
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: WillPopScope(
@@ -68,19 +71,20 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                 key: UniqueKey(),
                 expansionCallback: (int index, bool isExpanded) {
                   setState(() {
-                    widget.payments[index].isExpanded = !isExpanded;
+                    state?.payments[index].isExpanded = !isExpanded;
                   });
                 },
-                children: widget.payments
-                    .map<ExpansionPanel>((PaymentComponent payment) {
-                  return ExpansionPanel(
-                    headerBuilder: (BuildContext _, bool __) {
-                      return _paymentHeader(payment);
-                    },
-                    body: _paymentBody(payment),
-                    isExpanded: payment.isExpanded,
-                  );
-                }).toList(),
+                children: state?.payments
+                        .map<ExpansionPanel>((PaymentComponent payment) {
+                      return ExpansionPanel(
+                        headerBuilder: (BuildContext _, bool __) {
+                          return _paymentHeader(payment);
+                        },
+                        body: _paymentBody(payment),
+                        isExpanded: payment.isExpanded,
+                      );
+                    }).toList() ??
+                    [],
               );
             },
             itemCount: 2, // 入力部分と追加ボタンで、合計2
@@ -90,11 +94,30 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     );
   }
 
+  void _initializeStateIfEmpty(BuildContext context) {
+    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    if (paramsValue == null) return;
+
+    state ??= AccountDetailDto.fromJson(
+      jsonDecode(paramsValue) as Map<String, dynamic>,
+    ).toAccountingDetailState();
+
+    if (state?.payments.isEmpty ?? false) {
+      state?.payments.add(
+        PaymentComponent.sample(
+          participants: state?.participants ?? [],
+          context: context,
+        ),
+      );
+    }
+  }
+
   Future<bool> _showDiscardConfirmDialogIfNeeded() =>
-      widget.payments.hasOnlySampleElement(
-        onParticipants: widget.participants,
-        context: context,
-      )
+      state?.payments.hasOnlySampleElement(
+                onParticipants: state?.participants ?? [],
+                context: context,
+              ) ??
+              false
           ? Future(() => true)
           : showDialog<bool>(
               context: context,
@@ -126,23 +149,23 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       );
 
   void _toSettleAccounts() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return SettleAccountsPage(
-            payments: widget.payments.map((e) => e.toPayment()).toList(),
-            advertisementUsecase: AdvertisementUsecase.shared(),
-          );
-        },
+    context.goTo(
+      path: "/accounting_detail/settle_accounts",
+      params: AccountDetailDto(
+        pNm: state?.participants.map((e) => e.displayName).toList() ?? [],
+        ps: state?.payments
+                .map((e) => PaymentDto.fromPayment(e.toPayment()))
+                .toList() ??
+            [],
       ),
     );
   }
 
   void _insertPaymentToLast() {
     setState(() {
-      widget.payments.add(
+      state?.payments.add(
         PaymentComponent(
-          participants: widget.participants,
+          participants: state?.participants ?? [],
           context: context,
         ),
       );
@@ -151,7 +174,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   void _deletePayment(PaymentComponent payment) {
     setState(() {
-      widget.payments.remove(payment);
+      state?.payments.remove(payment);
     });
   }
 
@@ -248,7 +271,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   List<Widget> _actionsView(PaymentComponent payment) {
-    final bool isOnlyPayment = widget.payments.length <= 1;
+    final bool isOnlyPayment = (state?.payments.length ?? 0) <= 1;
     return [
       const SizedBox(height: 16),
       Row(

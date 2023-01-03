@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
+import 'package:tatetsu/model/core/build_context_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
+import 'package:tatetsu/model/transport/account_detail_dto.dart';
 import 'package:tatetsu/model/usecase/participants_usecase.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
-import 'package:tatetsu/ui/input_accounting_detail/input_accounting_detail_page.dart';
-import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
 
 class InputParticipantsPage extends StatefulWidget {
   const InputParticipantsPage({required this.titlePrefix}) : super();
@@ -90,19 +90,11 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
       );
 
   void _toInputAccounting() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return InputAccountingDetailPage(
-            participants: _participants,
-            payments: [
-              PaymentComponent.sample(
-                participants: _participants,
-                context: context,
-              )
-            ],
-          );
-        },
+    context.goTo(
+      path: "/accounting_detail",
+      params: AccountDetailDto(
+        pNm: _participants.map((e) => e.displayName).toList(),
+        ps: [],
       ),
     );
   }

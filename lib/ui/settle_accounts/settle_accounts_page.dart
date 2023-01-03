@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
@@ -10,68 +12,81 @@ import 'package:tatetsu/model/entity/payment.dart';
 import 'package:tatetsu/model/entity/procedure.dart';
 import 'package:tatetsu/model/entity/settlement.dart';
 import 'package:tatetsu/model/entity/transaction.dart';
+import 'package:tatetsu/model/transport/account_detail_dto.dart';
 import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
+import 'package:tatetsu/ui/settle_accounts/settle_accounts_state.dart';
 
 class SettleAccountsPage extends StatefulWidget {
-  SettleAccountsPage({
-    required this.payments,
-    required this.advertisementUsecase,
-  })  : transaction = Transaction(payments),
-        super();
-
-  final List<Payment> payments;
-  final Transaction transaction;
-  final AdvertisementUsecase advertisementUsecase;
+  const SettleAccountsPage() : super();
 
   @override
   _SettleAccountsPageState createState() => _SettleAccountsPageState();
 }
 
 class _SettleAccountsPageState extends State<SettleAccountsPage> {
+  SettleAccountsState? state;
+  Transaction? transaction;
+  final AdvertisementUsecase advertisementUsecase =
+      AdvertisementUsecase.shared();
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(
-            AppLocalizations.of(context)?.creditSummaries ?? "Credit Summaries",
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              ),
-              onPressed: () {
-                final summaryMessage =
-                    widget.transaction.toSummaryMessage(context: context);
-                final Size size = MediaQuery.of(context).size;
-                Share.share(
-                  summaryMessage.body,
-                  subject: summaryMessage.title,
-                  sharePositionOrigin:
-                      Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
-                );
-              },
-              child: Icon(
-                (Platform.isMacOS || Platform.isIOS)
-                    ? Icons.ios_share
-                    : Icons.share,
-                size: 32,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )
-          ],
+  Widget build(BuildContext context) {
+    _initializeStateIfEmpty(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)?.creditSummaries ?? "Credit Summaries",
         ),
-        body: ListView(
-          children: _settleAccountsComponents(this),
-        ),
-      );
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            ),
+            onPressed: () {
+              final summaryMessage =
+                  transaction?.toSummaryMessage(context: context);
+              final Size size = MediaQuery.of(context).size;
+              Share.share(
+                summaryMessage?.body ?? "",
+                subject: summaryMessage?.title ?? "",
+                sharePositionOrigin:
+                    Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+              );
+            },
+            child: Icon(
+              (Platform.isMacOS || Platform.isIOS)
+                  ? Icons.ios_share
+                  : Icons.share,
+              size: 32,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          )
+        ],
+      ),
+      body: ListView(
+        children: _settleAccountsComponents(this),
+      ),
+    );
+  }
+
+  void _initializeStateIfEmpty(BuildContext context) {
+    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    if (paramsValue == null) return;
+
+    state ??= AccountDetailDto.fromJson(
+      jsonDecode(paramsValue) as Map<String, dynamic>,
+    ).toSettleAccountsState();
+
+    transaction ??= Transaction(state?.payments ?? []);
+  }
 
   List<Card> _settleAccountsComponents(State<SettleAccountsPage> state) {
     final components = <Card>[];
-    if (state.widget.advertisementUsecase
-        .isSettleAccountsTopBannerSuccessfullyLoaded()) {
+    if (advertisementUsecase.isSettleAccountsTopBannerSuccessfullyLoaded()) {
       components.add(
         Card(
-          child: _adTopBannerComponent(state.widget.advertisementUsecase),
+          child: _adTopBannerComponent(advertisementUsecase),
         ),
       );
     }
@@ -91,9 +106,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: state.widget.transaction.payments
-                    .map((e) => _paymentComponent(e))
-                    .toList(),
+                children: transaction?.payments
+                        .map((e) => _paymentComponent(e))
+                        .toList() ??
+                    [],
               ),
               const SizedBox(
                 height: 16,
@@ -102,10 +118,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           ),
         ),
         Card(
-          child: _creditorsComponent(state.widget.transaction.creditor),
+          child: _creditorsComponent(transaction?.creditor),
         ),
         Card(
-          child: _settlementComponent(state.widget.transaction.settlement),
+          child: _settlementComponent(transaction?.settlement),
         ),
       ]);
   }
@@ -187,7 +203,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _creditorsComponent(Creditor creditor) {
+  Column _creditorsComponent(Creditor? creditor) {
     final List<Widget> baseCreditorsElements = [
       _titleComponent(
         AppLocalizations.of(context)?.summaryCreditorsTitle ?? "Creditors",
@@ -201,22 +217,23 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       ListView(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        children: creditor.entries.entries
-            .toList()
-            .map((e) => _creditorComponent(e))
-            .toList(),
+        children: creditor?.entries.entries
+                .toList()
+                .map((e) => _creditorComponent(e))
+                .toList() ??
+            [],
       ),
       const SizedBox(
         height: 16,
       )
     ]);
 
-    if (creditor.hasError()) {
+    if (creditor?.hasError() ?? false) {
       baseCreditorsElements.addAll([
         _labelComponent(
           AppLocalizations.of(context)?.summaryCreditorsErrorLabel ?? "Error",
         ),
-        _creditorErrorComponent(creditor.getError()),
+        _creditorErrorComponent(creditor?.getError() ?? 0),
         const SizedBox(
           height: 8,
         )
@@ -296,7 +313,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ],
       );
 
-  Column _settlementComponent(Settlement settlement) {
+  Column _settlementComponent(Settlement? settlement) {
     final List<Widget> baseSettlementElements = [
       _titleComponent(
         AppLocalizations.of(context)?.summarySettlementsTitle ?? "Settlements",
@@ -311,15 +328,17 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       ListView(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        children:
-            settlement.procedures.map((e) => _proceduresComponent(e)).toList(),
+        children: settlement?.procedures
+                .map((e) => _proceduresComponent(e))
+                .toList() ??
+            [],
       ),
       const SizedBox(
         height: 8,
       )
     ]);
 
-    if (settlement.errors.isNotEmpty) {
+    if (settlement?.errors.isNotEmpty ?? false) {
       baseSettlementElements.addAll([
         _labelComponent(
           AppLocalizations.of(context)?.summarySettlementsErrorRestsLabel ??
@@ -328,9 +347,10 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ListView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          children: settlement.errors.entries
-              .map((e) => _settlementErrorComponent(e))
-              .toList(),
+          children: settlement?.errors.entries
+                  .map((e) => _settlementErrorComponent(e))
+                  .toList() ??
+              [],
         ),
         const SizedBox(
           height: 8,
