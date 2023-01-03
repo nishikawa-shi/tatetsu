@@ -24,7 +24,9 @@ extension AccountDetailDtoExt on AccountDetailDto {
                 value,
               ),
             ),
-          ),
+          )
+            ..hasUserSpecifiedTitle = true
+            ..hasUserSpecifiedPrice = true,
         )
         .toList();
     return AccountingDetailState(
