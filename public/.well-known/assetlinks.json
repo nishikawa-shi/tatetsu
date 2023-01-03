@@ -1,0 +1,26 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ntetz.flutter.tatetsu.dev",
+      "sha256_cert_fingerprints": [
+        "17:7D:8E:EF:27:EA:81:A7:C3:D4:DE:7C:B8:AC:7F:D1:1A:B4:8B:85:8F:EF:8B:F0:FF:13:30:41:D5:02:1C:72"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ntetz.flutter.tatetsu",
+      "sha256_cert_fingerprints": [
+        "17:7D:8E:EF:27:EA:81:A7:C3:D4:DE:7C:B8:AC:7F:D1:1A:B4:8B:85:8F:EF:8B:F0:FF:13:30:41:D5:02:1C:72"
+      ]
+    }
+  }
+]

@@ -11,9 +11,10 @@ class Tatetsu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _router = GoRouter(
+      initialLocation: "/app",
       routes: [
         GoRoute(
-          path: "/",
+          path: "/app",
           pageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
             child: InputParticipantsPage(
