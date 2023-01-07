@@ -19,6 +19,8 @@
   "paymentDeleteConfirmDescriptionPrefix": "会計 [",
   "paymentDeleteConfirmDescriptionSuffix": "] を削除してもよろしいですか?",
   "paymentDiscardConfirmDialogBody": "編集内容を破棄してもよろしいですか？",
+  "requestPaymentAdditionMessageTitlePrefix": "支払入力依頼( ",
+  "requestPaymentAdditionMessageTitleSuffix": " など)",
   "summaryPaymentsTitle": "会計",
   "summaryPaymentsItemLabel": "品目",
   "summaryCreditorsTitle": "立替",
