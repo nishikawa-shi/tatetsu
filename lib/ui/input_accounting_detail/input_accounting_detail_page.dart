@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/build_context_ext.dart';
 import 'package:tatetsu/model/core/double_ext.dart';
@@ -13,6 +14,8 @@ import 'package:tatetsu/ui/core/string_ext.dart';
 import 'package:tatetsu/ui/input_accounting_detail/accounting_detail_state.dart';
 import 'package:tatetsu/ui/input_accounting_detail/exclude_participants_dialog.dart';
 import 'package:tatetsu/ui/input_accounting_detail/payment_component.dart';
+import 'package:tatetsu/ui/util/expandable_fab.dart';
+import 'package:tatetsu/ui/util/expandable_fab_child_button.dart';
 
 class InputAccountingDetailPage extends StatefulWidget {
   const InputAccountingDetailPage() : super();
@@ -53,41 +56,43 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             ],
           ),
           body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              if (index == 1) {
-                return Center(
-                  child: Wrap(
-                    children: [
-                      TextButton(
-                        onPressed: _insertPaymentToLast,
-                        child: const Icon(Icons.add_circle, size: 32),
-                      )
-                    ],
-                  ),
-                );
-              }
-
-              return ExpansionPanelList(
-                key: UniqueKey(),
-                expansionCallback: (int index, bool isExpanded) {
-                  setState(() {
-                    state?.payments[index].isExpanded = !isExpanded;
-                  });
-                },
-                children: state?.payments
-                        .map<ExpansionPanel>((PaymentComponent payment) {
-                      return ExpansionPanel(
-                        headerBuilder: (BuildContext _, bool __) {
-                          return _paymentHeader(payment);
-                        },
-                        body: _paymentBody(payment),
-                        isExpanded: payment.isExpanded,
-                      );
-                    }).toList() ??
-                    [],
-              );
-            },
-            itemCount: 2, // 入力部分と追加ボタンで、合計2
+            itemBuilder: (BuildContext context, int index) =>
+                ExpansionPanelList(
+              key: UniqueKey(),
+              expansionCallback: (int index, bool isExpanded) {
+                setState(() {
+                  state?.payments[index].isExpanded = !isExpanded;
+                });
+              },
+              children: state?.payments
+                      .map<ExpansionPanel>((PaymentComponent payment) {
+                    return ExpansionPanel(
+                      headerBuilder: (BuildContext _, bool __) {
+                        return _paymentHeader(payment);
+                      },
+                      body: _paymentBody(payment),
+                      isExpanded: payment.isExpanded,
+                    );
+                  }).toList() ??
+                  [],
+            ),
+            itemCount: 1,
+          ),
+          floatingActionButton: ExpandableFab(
+            distance: 128,
+            children: [
+              ExpandableFabChildButton(
+                onPressed: _insertPaymentToLast,
+                icon: const Icon(Icons.create, size: 32),
+              ),
+              ExpandableFabChildButton(
+                onPressed: _showShareModal,
+                icon: const Icon(
+                  Icons.shortcut,
+                  size: 32,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -299,6 +304,25 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         ],
       )
     ];
+  }
+
+  void _showShareModal() {
+    final pageUrlText = state
+            ?.toUri(path: GoRouterState.of(context).fullpath ?? "")
+            .toString() ??
+        "";
+    final requestSubject = [
+      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitlePrefix,
+      state?.payments[0].title,
+      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix
+    ].join();
+    final size = MediaQuery.of(context).size;
+    Share.share(
+      pageUrlText,
+      subject: requestSubject,
+      sharePositionOrigin:
+          Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+    );
   }
 
   AlertDialog _paymentDeleteConfirmDialog(PaymentComponent payment) =>
