@@ -56,45 +56,35 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             ],
           ),
           body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              if (index == 1) {
-                return Center(
-                  child: Wrap(
-                    children: [
-                      TextButton(
-                        onPressed: _insertPaymentToLast,
-                        child: const Icon(Icons.add_circle, size: 32),
-                      )
-                    ],
-                  ),
-                );
-              }
-
-              return ExpansionPanelList(
-                key: UniqueKey(),
-                expansionCallback: (int index, bool isExpanded) {
-                  setState(() {
-                    state?.payments[index].isExpanded = !isExpanded;
-                  });
-                },
-                children: state?.payments
-                        .map<ExpansionPanel>((PaymentComponent payment) {
-                      return ExpansionPanel(
-                        headerBuilder: (BuildContext _, bool __) {
-                          return _paymentHeader(payment);
-                        },
-                        body: _paymentBody(payment),
-                        isExpanded: payment.isExpanded,
-                      );
-                    }).toList() ??
-                    [],
-              );
-            },
-            itemCount: 2, // 入力部分と追加ボタンで、合計2
+            itemBuilder: (BuildContext context, int index) =>
+                ExpansionPanelList(
+              key: UniqueKey(),
+              expansionCallback: (int index, bool isExpanded) {
+                setState(() {
+                  state?.payments[index].isExpanded = !isExpanded;
+                });
+              },
+              children: state?.payments
+                      .map<ExpansionPanel>((PaymentComponent payment) {
+                    return ExpansionPanel(
+                      headerBuilder: (BuildContext _, bool __) {
+                        return _paymentHeader(payment);
+                      },
+                      body: _paymentBody(payment),
+                      isExpanded: payment.isExpanded,
+                    );
+                  }).toList() ??
+                  [],
+            ),
+            itemCount: 1,
           ),
           floatingActionButton: ExpandableFab(
             distance: 128,
             children: [
+              ExpandableFabChildButton(
+                onPressed: _insertPaymentToLast,
+                icon: const Icon(Icons.create, size: 32),
+              ),
               ExpandableFabChildButton(
                 onPressed: _showShareModal,
                 icon: const Icon(
