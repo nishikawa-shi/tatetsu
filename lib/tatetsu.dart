@@ -10,7 +10,7 @@ import 'package:tatetsu/ui/settle_accounts/settle_accounts_page.dart';
 class Tatetsu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _router = GoRouter(
+    final routerConfig = GoRouter(
       initialLocation: "/app",
       routes: [
         GoRoute(
@@ -46,7 +46,7 @@ class Tatetsu extends StatelessWidget {
     );
 
     return MaterialApp.router(
-      routerConfig: _router,
+      routerConfig: routerConfig,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
