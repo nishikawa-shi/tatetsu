@@ -129,7 +129,6 @@ platform :ios do
       aab: "build/app/outputs/bundle/prdRelease/app-prd-release.aab",
       json_key: "playstore_credential.json",
       package_name: APP_IDENTIFIER_PRODUCTION,
-      release_status: 'draft', # この記述がないと、未公開アプリに対してのaabアップロードがエラーしてしまう。アプリ公開後は消してもよさそう。
       track: "internal"
     )
   end
