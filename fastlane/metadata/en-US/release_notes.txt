@@ -1,2 +1,4 @@
-Published.
-Able to view and share summary of the payments, creditors and settlement procedure.
+Thank you for using.
+
+- design updated.
+- added input request feature.

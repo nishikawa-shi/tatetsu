@@ -1,0 +1,19 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "K85M397W48.com.ntetz.flutter.tatetsu.dev",
+                "paths": [
+                    "/app/*"
+                ]
+            },
+            {
+                "appID": "K85M397W48.com.ntetz.flutter.tatetsu",
+                "paths": [
+                    "/app/*"
+                ]
+            }
+        ]
+    }
+}

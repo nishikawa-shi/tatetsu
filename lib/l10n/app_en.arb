@@ -79,6 +79,14 @@
   "@paymentDiscardConfirmDialogBody": {
     "description": "payment support dialog body"
   },
+  "requestPaymentAdditionMessageTitlePrefix": "Payment addition request to [ ",
+  "@requestPaymentAdditionMessageTitlePrefix": {
+    "description": "request payment addition message title prefix"
+  },
+  "requestPaymentAdditionMessageTitleSuffix": " ] ...etc",
+  "@requestPaymentAdditionMessageTitleSuffix": {
+    "description": "request payment addition message title suffix"
+  },
   "summaryPaymentsTitle": "Payments",
   "@summaryPaymentsTitle": {
     "description": "summary title"

@@ -70,6 +70,9 @@ lib/config/prd.dart
 android/app/src/*/res/*/ic_launcher.png
 ios/Runner/Assets.xcassets/AppIcon-*.appiconset/
 
+# flutter build_runner
+*.g.dart
+
 # Firebase
 android/app/src/*/google-services.json
 ios/Firebase/GoogleService-Info-*.plist
