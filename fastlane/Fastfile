@@ -115,6 +115,11 @@ platform :ios do
     deliver(
       app_identifier: APP_IDENTIFIER_PRODUCTION,
       submission_information: {
+        add_id_info_uses_idfa: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_install: true,
+        add_id_info_tracks_action: true,
+        add_id_info_limits_tracking: true,
         export_compliance_platform: 'ios',
         export_compliance_encryption_updated: false,
         export_compliance_uses_encryption: true,
