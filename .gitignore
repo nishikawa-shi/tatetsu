@@ -35,6 +35,7 @@
 lib/l10n/built
 
 # Web related
+public/app
 
 # Symbolication related
 app.*.symbols
