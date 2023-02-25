@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -55,7 +56,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               );
             },
             child: Icon(
-              (Platform.isMacOS || Platform.isIOS)
+              !kIsWeb && (Platform.isMacOS || Platform.isIOS)
                   ? Icons.ios_share
                   : Icons.share,
               size: 32,

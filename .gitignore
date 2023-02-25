@@ -35,7 +35,7 @@
 lib/l10n/built
 
 # Web related
-lib/generated_plugin_registrant.dart
+public/app
 
 # Symbolication related
 app.*.symbols
