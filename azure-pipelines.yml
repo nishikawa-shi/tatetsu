@@ -217,6 +217,10 @@ stages:
             bundle exec fastlane load_certs
           displayName: 'Fastlane match'
         - script: |
+            echo '>> $FLUTTERTOOLPATH/flutter build web -t lib/main_prd.dart --base-href "/app/" --output public/app --release --build-number=$(Build.BuildId)'
+            $FLUTTERTOOLPATH/flutter build web -t lib/main_prd.dart --base-href "/app/" --output public/app --release --build-number=$(Build.BuildNumber)
+          displayName: 'Flutter build web (scratch)'
+        - script: |
             echo '>> $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppStore.plist'
             $FLUTTERTOOLPATH/flutter build ipa --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildNumber) --export-options-plist=ios/ExportOptions_AppStore.plist
           displayName: 'Flutter build store ipa (scratch)'
