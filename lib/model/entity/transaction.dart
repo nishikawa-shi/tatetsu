@@ -52,7 +52,7 @@ extension PaymentsExt on List<Payment> {
   String toSummary(String label) => [
         "[$label]",
         ...map(
-          (e) => "${e.title}(${e.payer.displayName}): ${e.price.toString()}",
+          (e) => "${e.title}(${e.payer.displayName}): ${e.price}",
         ),
       ].join("\n");
 }
