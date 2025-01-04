@@ -24,22 +24,22 @@ void main() {
   final Map<Participant, double> twoMinusOnePlusEntries = {
     testParticipant1: 20,
     testParticipant2: -10,
-    testParticipant3: -10
+    testParticipant3: -10,
   };
   final Map<Participant, double> oneMinusTwoPlusEntries = {
     testParticipant1: 10,
     testParticipant2: 10,
-    testParticipant3: -20
+    testParticipant3: -20,
   };
   final Map<Participant, double> oneMinusOnePlusOneZeroEntries = {
     testParticipant1: 10,
     testParticipant2: -10,
-    testParticipant3: 0
+    testParticipant3: 0,
   };
   final Map<Participant, double> threeZeroEntries = {
     testParticipant1: 0,
     testParticipant2: 0,
-    testParticipant3: 0
+    testParticipant3: 0,
   };
 
   final List<Payment> dummyPayments = [
@@ -50,7 +50,7 @@ void main() {
       owners: {
         testParticipant1: true,
       },
-    )
+    ),
   ];
 
   group('Creditor', () {
@@ -170,7 +170,7 @@ void main() {
         mapEquals(testCreditor.entries, {
           testParticipant1: 120.0,
           testParticipant2: 0,
-          testParticipant3: -120.0
+          testParticipant3: -120.0,
         }),
         true,
       );
@@ -234,7 +234,7 @@ void main() {
         mapEquals(testCreditor.entries, {
           testParticipant1: -230.0,
           testParticipant2: 0,
-          testParticipant3: 230.0
+          testParticipant3: 230.0,
         }),
         true,
       );
@@ -288,7 +288,7 @@ void main() {
         mapEquals(testCreditor.entries, {
           testParticipant1: -20.994999999999997,
           testParticipant2: -0.005,
-          testParticipant3: 21.0
+          testParticipant3: 21.0,
         }),
         true,
       );
@@ -429,16 +429,16 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
       final Creditor testCreditor = Creditor(payments: testPayments);
 
       expect((testCreditor..getCreditors()).entries, {
         testParticipant1: 4000,
         testParticipant2: -2000,
-        testParticipant3: -2000
+        testParticipant3: -2000,
       });
     });
 
@@ -511,16 +511,16 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
       final Creditor testCreditor = Creditor(payments: testPayments);
 
       expect((testCreditor..getDebtors()).entries, {
         testParticipant1: 4000,
         testParticipant2: -2000,
-        testParticipant3: -2000
+        testParticipant3: -2000,
       });
     });
 
@@ -545,7 +545,7 @@ void main() {
               ..entries = {
                 testParticipant1: 10,
                 testParticipant2: 200,
-                testParticipant3: 3000
+                testParticipant3: 3000,
               })
             .getError(),
         equals(3210),
@@ -582,7 +582,7 @@ void main() {
               ..entries = {
                 testParticipant1: 13.33,
                 testParticipant2: -6.66,
-                testParticipant3: -6.66
+                testParticipant3: -6.66,
               })
             .hasError(),
         equals(true),
@@ -596,7 +596,7 @@ void main() {
               ..entries = {
                 testParticipant1: 20,
                 testParticipant2: -10,
-                testParticipant3: -10
+                testParticipant3: -10,
               })
             .hasError(),
         equals(false),
@@ -609,7 +609,7 @@ void main() {
               ..entries = {
                 testParticipant1: 6.66,
                 testParticipant2: 6.66,
-                testParticipant3: -13.33
+                testParticipant3: -13.33,
               })
             .hasError(),
         equals(true),
@@ -625,7 +625,7 @@ void main() {
           owners: {
             testParticipant1: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -644,7 +644,7 @@ void main() {
           owners: {
             testParticipant1: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -663,7 +663,7 @@ void main() {
           owners: {
             testParticipant1: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -671,7 +671,7 @@ void main() {
               ..entries = {
                 testParticipant1: 30,
                 testParticipant2: -100,
-                testParticipant3: 4000
+                testParticipant3: 4000,
               })
             .toSummary("Creditors"),
         equals(
@@ -695,9 +695,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -718,9 +718,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -728,7 +728,7 @@ void main() {
         equals({
           testParticipant1: 4000.0,
           testParticipant2: -2000.0,
-          testParticipant3: -2000.0
+          testParticipant3: -2000.0,
         }),
       );
     });
@@ -742,7 +742,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -752,9 +752,9 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -775,7 +775,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -785,9 +785,9 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -795,7 +795,7 @@ void main() {
         equals({
           testParticipant1: 4000.0,
           testParticipant2: -1550.0,
-          testParticipant3: -2450.0
+          testParticipant3: -2450.0,
         }),
       );
     });
@@ -809,7 +809,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -819,7 +819,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -829,9 +829,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -852,7 +852,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -862,7 +862,7 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -872,9 +872,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -882,7 +882,7 @@ void main() {
         equals({
           testParticipant1: -6000.0,
           testParticipant2: -11550.0,
-          testParticipant3: 17550.0
+          testParticipant3: 17550.0,
         }),
       );
     });
@@ -896,7 +896,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -906,7 +906,7 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -916,9 +916,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -926,7 +926,7 @@ void main() {
         equals({
           testParticipant1: -9333.33,
           testParticipant2: -14883.33,
-          testParticipant3: 24216.67
+          testParticipant3: 24216.67,
         }),
       );
     });
@@ -978,7 +978,7 @@ void main() {
         () {
       final creditorEntries = {
         testParticipant1: -500.0,
-        testParticipant2: 500.0
+        testParticipant2: 500.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1039,7 +1039,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
-        testParticipant3: 0.0
+        testParticipant3: 0.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1048,7 +1048,7 @@ void main() {
         owners: {
           testParticipant1: true,
           testParticipant2: true,
-          testParticipant3: true
+          testParticipant3: true,
         },
       );
 
@@ -1057,7 +1057,7 @@ void main() {
         equals({
           testParticipant1: 4000.0,
           testParticipant2: -2000.0,
-          testParticipant3: -2000.0
+          testParticipant3: -2000.0,
         }),
       );
     });
@@ -1068,7 +1068,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: -200.0,
         testParticipant2: -200.0,
-        testParticipant3: 400.0
+        testParticipant3: 400.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1077,7 +1077,7 @@ void main() {
         owners: {
           testParticipant1: true,
           testParticipant2: true,
-          testParticipant3: true
+          testParticipant3: true,
         },
       );
 
@@ -1086,7 +1086,7 @@ void main() {
         equals({
           testParticipant1: 3800.0,
           testParticipant2: -2200.0,
-          testParticipant3: -1600.0
+          testParticipant3: -1600.0,
         }),
       );
     });
@@ -1095,7 +1095,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
-        testParticipant3: 0.0
+        testParticipant3: 0.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1104,7 +1104,7 @@ void main() {
         owners: {
           testParticipant1: true,
           testParticipant2: true,
-          testParticipant3: false
+          testParticipant3: false,
         },
       );
 
@@ -1113,7 +1113,7 @@ void main() {
         equals({
           testParticipant1: 3000.0,
           testParticipant2: -3000.0,
-          testParticipant3: 0.0
+          testParticipant3: 0.0,
         }),
       );
     });
@@ -1123,7 +1123,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
-        testParticipant3: 0.0
+        testParticipant3: 0.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1132,7 +1132,7 @@ void main() {
         owners: {
           testParticipant1: false,
           testParticipant2: true,
-          testParticipant3: true
+          testParticipant3: true,
         },
       );
 
@@ -1141,7 +1141,7 @@ void main() {
         equals({
           testParticipant1: 6000.0,
           testParticipant2: -3000.0,
-          testParticipant3: -3000.0
+          testParticipant3: -3000.0,
         }),
       );
     });
@@ -1150,7 +1150,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
-        testParticipant3: 0.0
+        testParticipant3: 0.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1159,7 +1159,7 @@ void main() {
         owners: {
           testParticipant1: true,
           testParticipant2: false,
-          testParticipant3: false
+          testParticipant3: false,
         },
       );
 
@@ -1168,7 +1168,7 @@ void main() {
         equals({
           testParticipant1: 0.0,
           testParticipant2: 0.0,
-          testParticipant3: 0.0
+          testParticipant3: 0.0,
         }),
       );
     });
@@ -1177,7 +1177,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
-        testParticipant3: 0.0
+        testParticipant3: 0.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1186,7 +1186,7 @@ void main() {
         owners: {
           testParticipant1: false,
           testParticipant2: true,
-          testParticipant3: false
+          testParticipant3: false,
         },
       );
 
@@ -1195,7 +1195,7 @@ void main() {
         equals({
           testParticipant1: 6000.0,
           testParticipant2: -6000.0,
-          testParticipant3: 0.0
+          testParticipant3: 0.0,
         }),
       );
     });
@@ -1204,7 +1204,7 @@ void main() {
       final creditorEntries = {
         testParticipant1: 0.0,
         testParticipant2: 0.0,
-        testParticipant3: 0.0
+        testParticipant3: 0.0,
       };
       final testPayment = Payment(
         title: "testPaymentA",
@@ -1213,7 +1213,7 @@ void main() {
         owners: {
           testParticipant1: false,
           testParticipant2: false,
-          testParticipant3: false
+          testParticipant3: false,
         },
       );
 

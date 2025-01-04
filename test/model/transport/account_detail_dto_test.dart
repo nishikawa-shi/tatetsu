@@ -18,7 +18,7 @@ void main() {
         AccountDetailDto(pNm: ["suzuki"], ps: []).toJson(),
         {
           "pNm": ["suzuki"],
-          "ps": []
+          "ps": [],
         },
       );
     });
@@ -28,7 +28,7 @@ void main() {
         AccountDetailDto(pNm: ["suzuki", "tanaka"], ps: []).toJson(),
         {
           "pNm": ["suzuki", "tanaka"],
-          "ps": []
+          "ps": [],
         },
       );
     });
@@ -38,7 +38,7 @@ void main() {
         AccountDetailDto(pNm: ["suzuki", "tanaka", "sato"], ps: []).toJson(),
         {
           "pNm": ["suzuki", "tanaka", "sato"],
-          "ps": []
+          "ps": [],
         },
       );
     });
@@ -55,7 +55,7 @@ void main() {
                     pN: "sato",
                     prc: 49800,
                     ons: {"suzuki": true, "tanaka": true, "sato": true},
-                  )
+                  ),
                 ],
               ).toJson(),
             ),
@@ -67,9 +67,9 @@ void main() {
                 "ttl": "会計タイトル",
                 "pN": "sato",
                 "prc": 49800,
-                "ons": {"suzuki": true, "tanaka": true, "sato": true}
+                "ons": {"suzuki": true, "tanaka": true, "sato": true},
               }
-            ]
+            ],
           });
     });
 
@@ -91,7 +91,7 @@ void main() {
                     pN: "tanaka",
                     prc: 7980,
                     ons: {"suzuki": true, "tanaka": false, "sato": true},
-                  )
+                  ),
                 ],
               ).toJson(),
             ),
@@ -103,15 +103,15 @@ void main() {
                 "ttl": "会計タイトル",
                 "pN": "sato",
                 "prc": 49800,
-                "ons": {"suzuki": true, "tanaka": true, "sato": true}
+                "ons": {"suzuki": true, "tanaka": true, "sato": true},
               },
               {
                 "ttl": "会計タイトル2",
                 "pN": "tanaka",
                 "prc": 7980,
-                "ons": {"suzuki": true, "tanaka": false, "sato": true}
+                "ons": {"suzuki": true, "tanaka": false, "sato": true},
               }
-            ]
+            ],
           });
     });
 
@@ -127,7 +127,7 @@ void main() {
                     pN: "sato",
                     prc: 49800,
                     ons: {"takano": true, "nakagi": true, "yamao": true},
-                  )
+                  ),
                 ],
               ).toJson(),
             ),
@@ -139,9 +139,9 @@ void main() {
                 "ttl": "会計タイトル",
                 "pN": "sato",
                 "prc": 49800,
-                "ons": {"takano": true, "nakagi": true, "yamao": true}
+                "ons": {"takano": true, "nakagi": true, "yamao": true},
               }
-            ]
+            ],
           });
     });
 
@@ -149,7 +149,7 @@ void main() {
       expect(
         AccountDetailDto.fromJson({
           "pNm": ["suzuki"],
-          "ps": []
+          "ps": [],
         }).pNm,
         ["suzuki"],
       );
@@ -159,7 +159,7 @@ void main() {
       expect(
         AccountDetailDto.fromJson({
           "pNm": ["suzuki", "tanaka"],
-          "ps": []
+          "ps": [],
         }).pNm,
         ["suzuki", "tanaka"],
       );
@@ -169,7 +169,7 @@ void main() {
       expect(
         AccountDetailDto.fromJson({
           "pNm": ["suzuki", "tanaka", "sato"],
-          "ps": []
+          "ps": [],
         }).pNm,
         ["suzuki", "tanaka", "sato"],
       );
@@ -184,9 +184,9 @@ void main() {
               "ttl": "会計タイトル1",
               "pN": "sato",
               "prc": 47800,
-              "ons": {"suzuki": true, "tanaka": true, "sato": true}
+              "ons": {"suzuki": true, "tanaka": true, "sato": true},
             }
-          ]
+          ],
         }).ps[0].ttl,
         "会計タイトル1",
       );
@@ -201,15 +201,15 @@ void main() {
               "ttl": "会計タイトル1",
               "pN": "sato",
               "prc": 47800,
-              "ons": {"suzuki": true, "tanaka": true, "sato": true}
+              "ons": {"suzuki": true, "tanaka": true, "sato": true},
             },
             {
               "ttl": "会計タイトル2",
               "pN": "tanaka",
               "prc": 7980,
-              "ons": {"suzuki": true, "tanaka": true, "sato": true}
+              "ons": {"suzuki": true, "tanaka": true, "sato": true},
             }
-          ]
+          ],
         }).ps[1].ttl,
         "会計タイトル2",
       );
@@ -226,7 +226,7 @@ void main() {
               "prc": 47800,
               "ons": {"takano": true, "nakagi": true, "yamao": true},
             }
-          ]
+          ],
         }).ps[0].ttl,
         "会計タイトル",
       );

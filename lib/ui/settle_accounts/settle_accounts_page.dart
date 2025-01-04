@@ -62,7 +62,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               size: 32,
               color: Theme.of(context).colorScheme.primary,
             ),
-          )
+          ),
         ],
       ),
       body: ListView(
@@ -114,7 +114,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
               const SizedBox(
                 height: 16,
-              )
+              ),
             ],
           ),
         ),
@@ -160,7 +160,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           width: banner.size.width.toDouble(),
           height: banner.size.height.toDouble(),
           child: AdWidget(ad: banner),
-        )
+        ),
       ],
     );
   }
@@ -226,7 +226,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       ),
       const SizedBox(
         height: 16,
-      )
+      ),
     ]);
 
     if (creditor?.hasError() ?? false) {
@@ -237,7 +237,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         _creditorErrorComponent(creditor?.getError() ?? 0),
         const SizedBox(
           height: 8,
-        )
+        ),
       ]);
     }
 
@@ -336,7 +336,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       ),
       const SizedBox(
         height: 8,
-      )
+      ),
     ]);
 
     if (settlement?.errors.isNotEmpty ?? false) {
@@ -355,7 +355,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ),
         const SizedBox(
           height: 8,
-        )
+        ),
       ]);
     }
 

@@ -27,7 +27,7 @@ class Transaction {
         title: [
           AppLocalizations.of(context)?.summaryMessageTitle ??
               "Settlements summary",
-          "[ ${DateFormat.yMd(Localizations.localeOf(context).languageCode).add_Hm().format(datetime ?? DateTime.now())} ]"
+          "[ ${DateFormat.yMd(Localizations.localeOf(context).languageCode).add_Hm().format(datetime ?? DateTime.now())} ]",
         ].join(" "),
         body: [
           payments.toSummary(
@@ -41,7 +41,7 @@ class Transaction {
           settlement.toSummary(
             AppLocalizations.of(context)?.summaryMessageSettlementLabel ??
                 "Settlement",
-          )
+          ),
         ].join("\n\n"),
       );
 }

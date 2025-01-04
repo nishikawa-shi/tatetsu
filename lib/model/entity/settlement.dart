@@ -11,6 +11,6 @@ class Settlement {
         "[$label]",
         ...procedures.map(
           (e) => "${e.from.displayName} -> ${e.to.displayName}: ${e.amount}",
-        )
+        ),
       ].join("\n");
 }

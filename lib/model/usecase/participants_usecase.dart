@@ -24,7 +24,7 @@ class ParticipantsUsecase {
       Participant(
         AppLocalizations.of(context)?.sampleCommonParticipantsNameThird ??
             "Williams",
-      )
+      ),
     ];
   }
 

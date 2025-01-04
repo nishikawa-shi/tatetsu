@@ -52,7 +52,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                   size: 32,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-              )
+              ),
             ],
           ),
           body: ListView.builder(
@@ -149,7 +149,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(
               AppLocalizations.of(context)?.dialogDiscardLabel ?? "Discard",
             ),
-          )
+          ),
         ],
       );
 
@@ -302,7 +302,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: const Icon(Icons.delete_forever, size: 32),
           ),
         ],
-      )
+      ),
     ];
   }
 
@@ -314,7 +314,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     final requestSubject = [
       AppLocalizations.of(context)?.requestPaymentAdditionMessageTitlePrefix,
       state?.payments[0].title,
-      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix
+      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix,
     ].join();
     final size = MediaQuery.of(context).size;
     Share.share(
@@ -356,7 +356,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(
               AppLocalizations.of(context)?.dialogDeleteLabel ?? "Delete",
             ),
-          )
+          ),
         ],
       );
 }

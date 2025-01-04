@@ -12,7 +12,7 @@ extension ContextExt on BuildContext {
         queryParameters: {
           "params": json.encode(
             params.toJson(),
-          )
+          ),
         },
       ).toString(),
     );
