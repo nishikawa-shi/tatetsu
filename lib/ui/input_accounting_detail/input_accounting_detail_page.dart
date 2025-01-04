@@ -100,7 +100,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   void _initializeStateIfEmpty(BuildContext context) {
-    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    final paramsValue = GoRouterState.of(context).uri.queryParameters["params"];
     if (paramsValue == null) return;
 
     state ??= AccountDetailDto.fromJson(
@@ -308,7 +308,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
   void _showShareModal() {
     final pageUrlText = state
-            ?.toUri(path: GoRouterState.of(context).fullpath ?? "")
+            ?.toUri(path: GoRouterState.of(context).uri.toString())
             .toString() ??
         "";
     final requestSubject = [

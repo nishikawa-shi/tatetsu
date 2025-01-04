@@ -72,7 +72,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
   }
 
   void _initializeStateIfEmpty(BuildContext context) {
-    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    final paramsValue = GoRouterState.of(context).uri.queryParameters["params"];
     if (paramsValue == null) return;
 
     state ??= AccountDetailDto.fromJson(
