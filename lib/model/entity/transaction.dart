@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
@@ -89,7 +88,7 @@ extension CreditorExt on Creditor {
               to: creditor,
             ),
           )
-          .whereNotNull()
+          .nonNulls
           .toList();
 }
 
