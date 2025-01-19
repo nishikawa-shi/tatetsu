@@ -34,8 +34,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: _showDiscardConfirmDialogIfNeeded,
+      child: PopScope(
+        canPop: state?.payments.hasOnlySampleElement(
+              onParticipants: state?.participants ?? [],
+              context: context,
+            ) ??
+            false,
+        onPopInvokedWithResult: _popWithModifiedConfirmDialog,
         child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)?.payments ?? "Payments"),
@@ -117,17 +122,23 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     }
   }
 
-  Future<bool> _showDiscardConfirmDialogIfNeeded() =>
-      state?.payments.hasOnlySampleElement(
-                onParticipants: state?.participants ?? [],
-                context: context,
-              ) ??
-              false
-          ? Future(() => true)
-          : showDialog<bool>(
-              context: context,
-              builder: (context) => _discardConfirmDialog(),
-            ).then((value) => value ?? false);
+  Future<void> _popWithModifiedConfirmDialog(
+    bool didPop,
+    Object? result,
+  ) async {
+    if (didPop) return;
+
+    final bool shouldPop = await showDialog(
+          context: context,
+          builder: (context) => _discardConfirmDialog(),
+        ) ??
+        false;
+
+    if (shouldPop) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    }
+  }
 
   AlertDialog _discardConfirmDialog() => AlertDialog(
         content: Text(
@@ -194,6 +205,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         onChanged: (String value) {
           payment.hasUserSpecifiedTitle = true;
           payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
+          setState(() {});
         },
       ),
     );
@@ -269,6 +281,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           payment.price = value.isNotEmpty
               ? double.parse(value).roundAtSecondDecimal()
               : defaultPaymentPriceValue;
+          setState(() {});
         },
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
