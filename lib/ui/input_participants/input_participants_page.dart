@@ -30,7 +30,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
           title: Text(
             [
               widget.titlePrefix,
-              AppLocalizations.of(context)?.participants ?? "Participants"
+              AppLocalizations.of(context)?.participants ?? "Participants",
             ].join(" "),
           ),
           actions: <Widget>[
@@ -46,7 +46,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
                 size: 32,
                 color: Theme.of(context).colorScheme.primary,
               ),
-            )
+            ),
           ],
         ),
         body: Center(
@@ -84,7 +84,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
             TextButton(
               onPressed: _insertParticipantToLast,
               child: const Icon(Icons.person_add, size: 32),
-            )
+            ),
           ],
         ),
       );

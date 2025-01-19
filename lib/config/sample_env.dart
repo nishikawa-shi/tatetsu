@@ -22,6 +22,6 @@ void setConfig() => FlavorConfig(
         "settle_accounts_top_banner_id_ios":
             "ca-app-pub-3940256099942544/2934735716",
         "settle_accounts_top_banner_id_android":
-            "ca-app-pub-3940256099942544/2934735716"
+            "ca-app-pub-3940256099942544/2934735716",
       },
     );

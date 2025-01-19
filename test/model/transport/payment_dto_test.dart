@@ -21,7 +21,7 @@ void main() {
           "ttl": "会計タイトル",
           "pN": "suzuki",
           "prc": 76800,
-          "ons": {"suzuki": true, "yamamoto": true, "sato": true}
+          "ons": {"suzuki": true, "yamamoto": true, "sato": true},
         },
       );
     });
@@ -32,7 +32,7 @@ void main() {
           "ttl": "会計タイトル",
           "pN": "suzuki",
           "prc": 76800,
-          "ons": {"suzuki": true, "yamamoto": true, "sato": true}
+          "ons": {"suzuki": true, "yamamoto": true, "sato": true},
         }).ttl,
         "会計タイトル",
       );

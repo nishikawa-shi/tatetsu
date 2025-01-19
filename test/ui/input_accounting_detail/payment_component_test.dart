@@ -305,7 +305,7 @@ void main() {
                     ..title = "Lunch at the nice cafe"
                     ..payer = testParticipant1
                     ..price = 66.0
-                    ..owners = {testParticipant1: true, testParticipant2: true}
+                    ..owners = {testParticipant1: true, testParticipant2: true},
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -336,7 +336,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..title = "modified title"
+                  )..title = "modified title",
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -367,7 +367,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..payer = testParticipant2
+                  )..payer = testParticipant2,
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -397,7 +397,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..price = 0.01
+                  )..price = 0.01,
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -428,7 +428,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..owners = {testParticipant1: true, testParticipant2: false}
+                  )..owners = {testParticipant1: true, testParticipant2: false},
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -459,7 +459,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )
+                  ),
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1],
                   context: context,
@@ -493,7 +493,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )
+                  ),
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,

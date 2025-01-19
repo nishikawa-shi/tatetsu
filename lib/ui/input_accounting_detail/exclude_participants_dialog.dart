@@ -27,7 +27,7 @@ class _ExcludeParticipantsDialogState extends State<ExcludeParticipantsDialog> {
               AppLocalizations.of(context)?.dialogOkLabel ?? "OK",
             ),
             onPressed: () => Navigator.pop(context),
-          )
+          ),
         ],
       );
 
@@ -53,7 +53,7 @@ class _ExcludeParticipantsDialogState extends State<ExcludeParticipantsDialog> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  )
+                  ),
                 ],
               ),
             )

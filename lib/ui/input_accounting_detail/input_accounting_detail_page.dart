@@ -34,8 +34,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: _showDiscardConfirmDialogIfNeeded,
+      child: PopScope(
+        canPop: state?.payments.hasOnlySampleElement(
+              onParticipants: state?.participants ?? [],
+              context: context,
+            ) ??
+            false,
+        onPopInvokedWithResult: _popWithModifiedConfirmDialog,
         child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)?.payments ?? "Payments"),
@@ -52,7 +57,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                   size: 32,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-              )
+              ),
             ],
           ),
           body: ListView.builder(
@@ -100,7 +105,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   void _initializeStateIfEmpty(BuildContext context) {
-    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    final paramsValue = GoRouterState.of(context).uri.queryParameters["params"];
     if (paramsValue == null) return;
 
     state ??= AccountDetailDto.fromJson(
@@ -117,17 +122,23 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     }
   }
 
-  Future<bool> _showDiscardConfirmDialogIfNeeded() =>
-      state?.payments.hasOnlySampleElement(
-                onParticipants: state?.participants ?? [],
-                context: context,
-              ) ??
-              false
-          ? Future(() => true)
-          : showDialog<bool>(
-              context: context,
-              builder: (context) => _discardConfirmDialog(),
-            ).then((value) => value ?? false);
+  Future<void> _popWithModifiedConfirmDialog(
+    bool didPop,
+    Object? result,
+  ) async {
+    if (didPop) return;
+
+    final bool shouldPop = await showDialog(
+          context: context,
+          builder: (context) => _discardConfirmDialog(),
+        ) ??
+        false;
+
+    if (shouldPop) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    }
+  }
 
   AlertDialog _discardConfirmDialog() => AlertDialog(
         content: Text(
@@ -149,7 +160,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(
               AppLocalizations.of(context)?.dialogDiscardLabel ?? "Discard",
             ),
-          )
+          ),
         ],
       );
 
@@ -194,6 +205,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         onChanged: (String value) {
           payment.hasUserSpecifiedTitle = true;
           payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
+          setState(() {});
         },
       ),
     );
@@ -269,6 +281,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           payment.price = value.isNotEmpty
               ? double.parse(value).roundAtSecondDecimal()
               : defaultPaymentPriceValue;
+          setState(() {});
         },
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
@@ -302,19 +315,19 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: const Icon(Icons.delete_forever, size: 32),
           ),
         ],
-      )
+      ),
     ];
   }
 
   void _showShareModal() {
     final pageUrlText = state
-            ?.toUri(path: GoRouterState.of(context).fullpath ?? "")
+            ?.toUri(path: GoRouterState.of(context).uri.toString())
             .toString() ??
         "";
     final requestSubject = [
       AppLocalizations.of(context)?.requestPaymentAdditionMessageTitlePrefix,
       state?.payments[0].title,
-      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix
+      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix,
     ].join();
     final size = MediaQuery.of(context).size;
     Share.share(
@@ -356,7 +369,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(
               AppLocalizations.of(context)?.dialogDeleteLabel ?? "Delete",
             ),
-          )
+          ),
         ],
       );
 }

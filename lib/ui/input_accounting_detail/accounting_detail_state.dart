@@ -23,7 +23,7 @@ class AccountingDetailState {
                   .map((e) => PaymentDto.fromPayment(e.toPayment()))
                   .toList(),
             ).toJson(),
-          )
+          ),
         },
       );
 }
