@@ -36,7 +36,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.ntetz.flutter.tatetsu"
     compileSdkVersion 34
-    android.ndkVersion "21.4.7075529"
+    android.ndkVersion "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
