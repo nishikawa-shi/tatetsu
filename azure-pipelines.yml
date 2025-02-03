@@ -136,7 +136,7 @@ stages:
         $FLUTTERTOOLPATH/flutter build apk --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
       displayName: 'Flutter build prd apk (scratch)'
     - script: |
-        echo '>> which which npm'
+        echo '>> which npm'
         which npm
         echo '>> npm install'
         npm install
@@ -229,7 +229,7 @@ stages:
             $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
           displayName: 'Flutter build aab (scratch)'
         - script: |
-            echo '>> which which npm'
+            echo '>> which npm'
             which npm
             echo '>> npm install'
             npm install
