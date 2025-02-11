@@ -27,9 +27,9 @@ stages:
         echo '>> tar -zxvf $(Configs.secureFilePath) --strip-components=1'
         tar -zxvf $(Configs.secureFilePath) --strip-components=1
       displayName: 'Inflate configs'
-    - task: JavaToolInstaller@0
+    - task: JavaToolInstaller@1
       inputs:
-        versionSpec: '11'
+        versionSpec: '21'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
     - task: FlutterInstall@0
@@ -77,9 +77,9 @@ stages:
         echo '>> tar -zxvf $(Configs.secureFilePath) --strip-components=1'
         tar -zxvf $(Configs.secureFilePath) --strip-components=1
       displayName: 'Inflate configs'
-    - task: JavaToolInstaller@0
+    - task: JavaToolInstaller@1
       inputs:
-        versionSpec: '11'
+        versionSpec: '21'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
     - task: FlutterInstall@0
@@ -104,8 +104,8 @@ stages:
         $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
       displayName: 'Build Icon (scratch)'
     - script: |
-        echo '>> gem install bundler:1.17.2'
-        gem install bundler:1.17.2
+        echo '>> gem install bundler:2.3.7'
+        gem install bundler:2.3.7
       displayName: 'Install bundler'
     - script: |
         echo '>> bundle install'
@@ -136,7 +136,7 @@ stages:
         $FLUTTERTOOLPATH/flutter build apk --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
       displayName: 'Flutter build prd apk (scratch)'
     - script: |
-        echo '>> which which npm'
+        echo '>> which npm'
         which npm
         echo '>> npm install'
         npm install
@@ -174,9 +174,9 @@ stages:
             echo '>> tar -zxvf $(Configs.secureFilePath) --strip-components=1'
             tar -zxvf $(Configs.secureFilePath) --strip-components=1
           displayName: 'Inflate configs'
-        - task: JavaToolInstaller@0
+        - task: JavaToolInstaller@1
           inputs:
-            versionSpec: '11'
+            versionSpec: '21'
             jdkArchitectureOption: 'x64'
             jdkSourceOption: 'PreInstalled'
         - task: FlutterInstall@0
@@ -201,8 +201,8 @@ stages:
             $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
           displayName: 'Build Icon (scratch)'
         - script: |
-            echo '>> gem install bundler:1.17.2'
-            gem install bundler:1.17.2
+            echo '>> gem install bundler:2.3.7'
+            gem install bundler:2.3.7
           displayName: 'Install bundler'
         - script: |
             echo '>> bundle install'
@@ -229,7 +229,7 @@ stages:
             $FLUTTERTOOLPATH/flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number=$(Build.BuildId)
           displayName: 'Flutter build aab (scratch)'
         - script: |
-            echo '>> which which npm'
+            echo '>> which npm'
             which npm
             echo '>> npm install'
             npm install
