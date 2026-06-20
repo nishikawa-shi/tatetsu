@@ -35,8 +35,8 @@ class Creditor {
     if (dealValue == 0) {
       return null;
     }
-    entries.update(from, (value) => value += dealValue);
-    entries.update(to, (value) => value -= dealValue);
+    entries.update(from, (value) => value + dealValue);
+    entries.update(to, (value) => value - dealValue);
     return Procedure(from: from, to: to, amount: dealValue);
   }
 
