@@ -48,11 +48,13 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               final summaryMessage =
                   transaction?.toSummaryMessage(context: context);
               final Size size = MediaQuery.of(context).size;
-              Share.share(
-                summaryMessage?.body ?? "",
-                subject: summaryMessage?.title ?? "",
-                sharePositionOrigin:
-                    Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+              SharePlus.instance.share(
+                ShareParams(
+                  text: summaryMessage?.body ?? "",
+                  subject: summaryMessage?.title ?? "",
+                  sharePositionOrigin:
+                      Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+                ),
               );
             },
             child: Icon(

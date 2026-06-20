@@ -72,7 +72,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
               children: state?.payments
                       .map<ExpansionPanel>((PaymentComponent payment) {
                     return ExpansionPanel(
-                      headerBuilder: (BuildContext _, bool __) {
+                      headerBuilder: (BuildContext _, bool _) {
                         return _paymentHeader(payment);
                       },
                       body: _paymentBody(payment),
@@ -330,11 +330,13 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix,
     ].join();
     final size = MediaQuery.of(context).size;
-    Share.share(
-      pageUrlText,
-      subject: requestSubject,
-      sharePositionOrigin:
-          Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+    SharePlus.instance.share(
+      ShareParams(
+        text: pageUrlText,
+        subject: requestSubject,
+        sharePositionOrigin:
+            Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+      ),
     );
   }
 
