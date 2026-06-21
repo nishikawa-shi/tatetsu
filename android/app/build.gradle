@@ -35,7 +35,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.ntetz.flutter.tatetsu"
-    compileSdkVersion 34
+    compileSdkVersion 35
     compileOptions {
         sourceCompatibility = 21
         targetCompatibility = 21
