@@ -39,6 +39,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  config:
+    # google_mobile_ads が CocoaPods のみ対応のため、SPM との競合で pod install が失敗する。
+    # google_mobile_ads が SPM に対応したタイミングで本設定を削除すること。
+    enable-swift-package-manager: false
 
 flutter_icons:
   android: true
