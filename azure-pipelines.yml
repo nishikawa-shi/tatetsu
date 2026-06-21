@@ -148,14 +148,14 @@ stages:
         ls -latr build/ios/ipa/
         echo '>> ls -latr build/app/outputs/flutter-apk'
         ls -latr build/app/outputs/flutter-apk
-        echo '>> npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
-        npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
-        echo '>> npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
-        npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
-        echo '>> npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)'
-        npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV) --token $(FIREBASE_TOKEN)
-        echo '>> npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD --token $(FIREBASE_TOKEN)'
-        npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD) --token $(FIREBASE_TOKEN)
+        echo '>> GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-dev-bd6064eefd64.json npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV)'
+        GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-dev-bd6064eefd64.json npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app $(FIREBASE_APP_ID_IOS_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV)
+        echo '>> GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-prd-19b46b1d474e.json npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD)'
+        GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-prd-19b46b1d474e.json npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app $(FIREBASE_APP_ID_IOS_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD)
+        echo '>> GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-dev-bd6064eefd64.json npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV)'
+        GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-dev-bd6064eefd64.json npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app $(FIREBASE_APP_ID_ANDROID_DEV) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_DEV)
+        echo '>> GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-prd-19b46b1d474e.json npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD)'
+        GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-prd-19b46b1d474e.json npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app $(FIREBASE_APP_ID_ANDROID_PRD) --groups $(FIREBASE_BETA_TESTER_GROUP_NAME_PRD)
       displayName: 'Deploy to Firebase App Distribution'
 - stage: store_app_deploy_stage
   displayName: ストアアプリ配布ステージ
@@ -237,8 +237,8 @@ stages:
             npx firebase --version
           displayName: 'Install Firebase tools'
         - script: |
-            echo '>> npx firebase deploy --token $(FIREBASE_TOKEN)'
-            npx firebase deploy --token $(FIREBASE_TOKEN)
+            echo '>> GOOGLE_APPLICATION_CREDENTIALS=firebase_hosting_sa_tatetsu.json npx firebase deploy'
+            GOOGLE_APPLICATION_CREDENTIALS=firebase_hosting_sa_tatetsu.json npx firebase deploy
           displayName: 'Deploy to ntetz.com'
         - script: |
             echo '>> bundle exec fastlane upload_ipa_to_store'
