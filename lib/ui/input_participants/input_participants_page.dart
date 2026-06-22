@@ -111,7 +111,7 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
             decoration: InputDecoration(
               hintText: defaultParticipantName.toHintText(context),
             ),
-            key: UniqueKey(),
+            key: ObjectKey(participant),
             initialValue: participant.hasUserSpecifiedDisplayName
                 ? participant.displayName
                 : null,

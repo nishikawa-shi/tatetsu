@@ -63,7 +63,6 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
           body: ListView.builder(
             itemBuilder: (BuildContext context, int index) =>
                 ExpansionPanelList(
-              key: UniqueKey(),
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
                   state?.payments[index].isExpanded = !isExpanded;
@@ -201,7 +200,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         decoration:
             InputDecoration(hintText: defaultPaymentTitle.toHintText(context)),
         initialValue: payment.hasUserSpecifiedTitle ? payment.title : null,
-        key: UniqueKey(),
+        key: ObjectKey(payment),
         onChanged: (String value) {
           payment.hasUserSpecifiedTitle = true;
           payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
@@ -275,7 +274,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         ),
         initialValue:
             payment.hasUserSpecifiedPrice ? payment.price.toString() : null,
-        key: UniqueKey(),
+        key: ObjectKey(payment),
         onChanged: (String value) {
           payment.hasUserSpecifiedPrice = true;
           payment.price = value.isNotEmpty
