@@ -57,7 +57,7 @@ flutter test
 `lib/config/env.dart` is not tracked. Copy `lib/config/sample_env.dart`
 to `lib/config/env.dart` and fill in real values before building.
 
-## Known workaround
+## Design decisions
 
-`enable-swift-package-manager: false` in `pubspec.yaml`: `google_mobile_ads`
-does not yet support SPM and conflicts with CocoaPods. Remove when resolved.
+- State management: `setState` is sufficient. Riverpod is over-engineering for this app's scale.
+  Each screen owns its own state; inter-screen data is passed via DTOs.
