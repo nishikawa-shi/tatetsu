@@ -55,8 +55,8 @@ stages:
         $FLUTTERTOOLPATH/flutter analyze
       displayName: 'Flutter Analyze (scratch)'
     - script: |
-        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
-        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons'
+        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons
       displayName: 'Build Icon (scratch)'
     - task: FlutterTest@0
       inputs:
@@ -102,8 +102,8 @@ stages:
         $FLUTTERTOOLPATH/flutter pub run build_runner build
       displayName: 'Build Dto (scratch)'
     - script: |
-        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
-        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons'
+        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons
       displayName: 'Build Icon (scratch)'
     - script: |
         echo '>> $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli'
@@ -204,8 +204,8 @@ stages:
             $FLUTTERTOOLPATH/flutter pub run build_runner build
           displayName: 'Build Dto (scratch)'
         - script: |
-            echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
-            $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+            echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons'
+            $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons
           displayName: 'Build Icon (scratch)'
         - script: |
             echo '>> $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli'
