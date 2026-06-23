@@ -21,7 +21,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   go_router: ^17.0.1
-  google_mobile_ads: ^7.0.0
+  google_mobile_ads: ^9.0.0
   intl: ^0.20.2
   japanese_family_name_generator: ^0.0.1
   json_annotation: ^4.7.0
@@ -39,10 +39,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  config:
-    # google_mobile_ads が CocoaPods のみ対応のため、SPM との競合で pod install が失敗する。
-    # google_mobile_ads が SPM に対応したタイミングで本設定を削除すること。
-    enable-swift-package-manager: false
 
 flutter_icons:
   android: true
