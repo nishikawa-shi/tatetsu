@@ -278,7 +278,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
         onChanged: (String value) {
           payment.hasUserSpecifiedPrice = true;
           payment.price = value.isNotEmpty
-              ? double.parse(value).roundAtSecondDecimal()
+              ? (double.tryParse(value) ?? 0).roundAtSecondDecimal()
               : defaultPaymentPriceValue;
           setState(() {});
         },

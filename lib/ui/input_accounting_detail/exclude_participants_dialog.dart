@@ -31,21 +31,28 @@ class _ExcludeParticipantsDialogState extends State<ExcludeParticipantsDialog> {
         ],
       );
 
-  Column _checkBoxComponent() => Column(
-        children: widget.payment.owners.entries
-            .map(
-              (e) => Row(
+  Column _checkBoxComponent() {
+    final int checkedCount =
+        widget.payment.owners.values.where((v) => v).length;
+    return Column(
+      children: widget.payment.owners.entries
+          .map(
+            (e) {
+              final bool isLastChecked = e.value && checkedCount == 1;
+              return Row(
                 children: [
                   Checkbox(
                     value: e.value,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        if (value == null) {
-                          return;
-                        }
-                        widget.payment.owners[e.key] = value;
-                      });
-                    },
+                    onChanged: isLastChecked
+                        ? null
+                        : (bool? value) {
+                            setState(() {
+                              if (value == null) {
+                                return;
+                              }
+                              widget.payment.owners[e.key] = value;
+                            });
+                          },
                   ),
                   Expanded(
                     child: Text(
@@ -55,8 +62,10 @@ class _ExcludeParticipantsDialogState extends State<ExcludeParticipantsDialog> {
                     ),
                   ),
                 ],
-              ),
-            )
-            .toList(),
-      );
+              );
+            },
+          )
+          .toList(),
+    );
+  }
 }
