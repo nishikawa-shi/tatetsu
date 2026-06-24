@@ -217,3 +217,6 @@ ios/AdMob/AdMob-prd.xcconfig
 
 # Firebase Hosting
 .firebase
+
+# Claude Code
+.claude/settings.local.json
