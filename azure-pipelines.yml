@@ -104,6 +104,10 @@ stages:
         $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
       displayName: 'Build Icon (scratch)'
     - script: |
+        echo '>> $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli'
+        $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli
+      displayName: 'Install FlutterFire CLI (scratch)'
+    - script: |
         echo '>> gem install bundler:2.3.7'
         gem install bundler:2.3.7
       displayName: 'Install bundler'
@@ -200,6 +204,10 @@ stages:
             echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
             $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
           displayName: 'Build Icon (scratch)'
+        - script: |
+            echo '>> $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli'
+            $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli
+          displayName: 'Install FlutterFire CLI (scratch)'
         - script: |
             echo '>> gem install bundler:2.3.7'
             gem install bundler:2.3.7
