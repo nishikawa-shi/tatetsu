@@ -36,7 +36,8 @@ stages:
       inputs:
         mode: 'auto'
         channel: 'stable'
-        version: 'latest'
+        version: 'custom'
+        customVersion: '3.44.4'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
         $FLUTTERTOOLPATH/flutter gen-l10n
@@ -86,7 +87,8 @@ stages:
       inputs:
         mode: 'auto'
         channel: 'stable'
-        version: 'latest'
+        version: 'custom'
+        customVersion: '3.44.4'
     - script: |
         echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
         $FLUTTERTOOLPATH/flutter gen-l10n
@@ -187,7 +189,8 @@ stages:
           inputs:
             mode: 'auto'
             channel: 'stable'
-            version: 'latest'
+            version: 'custom'
+            customVersion: '3.44.4'
         - script: |
             echo '>> $FLUTTERTOOLPATH/flutter gen-l10n'
             $FLUTTERTOOLPATH/flutter gen-l10n
