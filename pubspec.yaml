@@ -39,6 +39,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  # SPM を明示的に有効化し、ローカル/CI とも Firebase SDK の解決方法を SPM に固定する。
+  # まっさらな CI VM と手元環境で解決経路が食い違い、CI 限定のビルド失敗を生むのを防ぐ。
+  config:
+    enable-swift-package-manager: true
 
 flutter_icons:
   android: true
