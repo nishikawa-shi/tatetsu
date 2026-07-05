@@ -47,6 +47,21 @@ flutter analyze                         # must pass
 flutter test
 ```
 
+## Local CI verification
+
+`azure-pipelines.yml` is the single source of truth for CI steps. Never
+create a local script that duplicates its step list.
+
+Before proposing a commit preview for changes touching any of `ios/`,
+`android/`, `pubspec.yaml`, `l10n.yaml`, `firebase.json`, or
+`azure-pipelines.yml`, run `/ci-preflight`. It reads the pipeline definition
+and translates the build steps into locally runnable equivalents
+(e.g. `flutter build ipa` → `flutter build ios --no-codesign`), so build
+breakage is caught in minutes locally instead of after a one-hour CI run.
+
+Deploy steps (Firebase App Distribution / Hosting, App Store, Play Store)
+cannot be verified locally and remain CI-verified.
+
 ## Do not edit — generated files
 
 - `lib/l10n/built/` — `flutter gen-l10n` output
