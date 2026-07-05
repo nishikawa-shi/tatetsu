@@ -4,7 +4,7 @@ trigger:
 - feature/*
 
 pool:
-  vmImage: macos-latest
+  vmImage: macos-26
   demands: xcode
 
 variables:
@@ -55,8 +55,8 @@ stages:
         $FLUTTERTOOLPATH/flutter analyze
       displayName: 'Flutter Analyze (scratch)'
     - script: |
-        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
-        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons'
+        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons
       displayName: 'Build Icon (scratch)'
     - task: FlutterTest@0
       inputs:
@@ -102,8 +102,8 @@ stages:
         $FLUTTERTOOLPATH/flutter pub run build_runner build
       displayName: 'Build Dto (scratch)'
     - script: |
-        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
-        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+        echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons'
+        $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons
       displayName: 'Build Icon (scratch)'
     - script: |
         echo '>> $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli'
@@ -204,8 +204,8 @@ stages:
             $FLUTTERTOOLPATH/flutter pub run build_runner build
           displayName: 'Build Dto (scratch)'
         - script: |
-            echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main'
-            $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons:main
+            echo '>> $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons'
+            $FLUTTERTOOLPATH/flutter pub run flutter_launcher_icons
           displayName: 'Build Icon (scratch)'
         - script: |
             echo '>> $FLUTTERTOOLPATH/dart pub global activate flutterfire_cli'
@@ -255,7 +255,9 @@ stages:
             echo '>> bundle exec fastlane upload_ipa_to_store'
             bundle exec fastlane upload_ipa_to_store
           displayName: 'Deploy to AppStore'
-        - script: |
-            echo '>> bundle exec fastlane upload_aab_to_store'
-            bundle exec fastlane upload_aab_to_store
-          displayName: 'Deploy to PlayStore'
+        # Google Play 開発者アカウント閉鎖（2024年3月）のため一時停止
+        # 新アカウント開設後に復活させること
+        # - script: |
+        #     echo '>> bundle exec fastlane upload_aab_to_store'
+        #     bundle exec fastlane upload_aab_to_store
+        #   displayName: 'Deploy to PlayStore'
