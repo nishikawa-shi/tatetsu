@@ -255,7 +255,9 @@ stages:
             echo '>> bundle exec fastlane upload_ipa_to_store'
             bundle exec fastlane upload_ipa_to_store
           displayName: 'Deploy to AppStore'
-        - script: |
-            echo '>> bundle exec fastlane upload_aab_to_store'
-            bundle exec fastlane upload_aab_to_store
-          displayName: 'Deploy to PlayStore'
+        # Google Play 開発者アカウント閉鎖（2024年3月）のため一時停止
+        # 新アカウント開設後に復活させること
+        # - script: |
+        #     echo '>> bundle exec fastlane upload_aab_to_store'
+        #     bundle exec fastlane upload_aab_to_store
+        #   displayName: 'Deploy to PlayStore'
