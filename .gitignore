@@ -207,6 +207,8 @@ ios/Runner/Assets.xcassets/AppIcon-*.appiconset/
 android/app/src/*/google-services.json
 ios/Firebase/*/GoogleService-Info.plist
 lib/firebase_options_*.dart
+app_distribution_sa_*.json
+firebase_hosting_sa_tatetsu.json
 
 # Android Secret Build Config
 android/gradle_secret.properties
