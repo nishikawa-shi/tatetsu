@@ -1,6 +1,6 @@
 {
   "name": "tatetsu",
   "devDependencies": {
-    "firebase-tools": "^13.29.3"
+    "firebase-tools": "^15.22.4"
   }
 }
