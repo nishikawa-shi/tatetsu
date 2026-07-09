@@ -1,4 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tatetsu/config/application_meta.dart';
 
@@ -28,6 +29,9 @@ class AdvertisementUsecase {
         );
 
   void initialize() {
+    // google_mobile_adsはweb未対応のため、webでは初期化とバナー読込を行わない
+    if (kIsWeb) return;
+
     MobileAds.instance.initialize();
     _loadAllAdBanner();
   }
