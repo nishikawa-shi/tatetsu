@@ -69,8 +69,10 @@ cannot be verified locally and remain CI-verified.
 
 ## Environment
 
-`lib/config/env.dart` is not tracked. Copy `lib/config/sample_env.dart`
-to `lib/config/env.dart` and fill in real values before building.
+`lib/config/dev.dart` and `lib/config/prd.dart` are not tracked (each is
+imported directly by `main_dev.dart` / `main_prd.dart` respectively). Copy
+`lib/config/sample_env.dart` to both `lib/config/dev.dart` and
+`lib/config/prd.dart`, then fill in real values before building.
 
 ## Design decisions
 
