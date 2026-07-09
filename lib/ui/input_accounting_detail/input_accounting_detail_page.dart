@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/build_context_ext.dart';
-import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/transport/account_detail_dto.dart';
 import 'package:tatetsu/model/transport/payment_dto.dart';
@@ -27,6 +26,14 @@ class InputAccountingDetailPage extends StatefulWidget {
 
 class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   AccountingDetailState? state;
+
+  @override
+  void dispose() {
+    for (final payment in state?.payments ?? <PaymentComponent>[]) {
+      payment.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,21 +198,17 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     setState(() {
       state?.payments.remove(payment);
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) => payment.dispose());
   }
 
   ListTile _paymentHeader(PaymentComponent payment) {
-    final String defaultPaymentTitle = payment.title;
     return ListTile(
       title: TextFormField(
-        decoration:
-            InputDecoration(hintText: defaultPaymentTitle.toHintText(context)),
-        initialValue: payment.hasUserSpecifiedTitle ? payment.title : null,
-        key: ObjectKey(payment),
-        onChanged: (String value) {
-          payment.hasUserSpecifiedTitle = true;
-          payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
-          setState(() {});
-        },
+        decoration: InputDecoration(
+          hintText: payment.defaultTitle.toHintText(context),
+        ),
+        controller: payment.titleController,
+        onChanged: (_) => setState(() {}),
       ),
     );
   }
@@ -261,7 +264,6 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   List<Widget> _priceView(PaymentComponent payment) {
-    final double defaultPaymentPriceValue = payment.price;
     return [
       const SizedBox(height: 16),
       Text(
@@ -270,18 +272,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       ),
       TextFormField(
         decoration: InputDecoration(
-          hintText: defaultPaymentPriceValue.toHintText(context),
+          hintText: payment.defaultPrice.toHintText(context),
         ),
-        initialValue:
-            payment.hasUserSpecifiedPrice ? payment.price.toString() : null,
-        key: ObjectKey(payment),
-        onChanged: (String value) {
-          payment.hasUserSpecifiedPrice = true;
-          payment.price = value.isNotEmpty
-              ? (double.tryParse(value) ?? 0).roundAtSecondDecimal()
-              : defaultPaymentPriceValue;
-          setState(() {});
-        },
+        controller: payment.priceController,
+        onChanged: (_) => setState(() {}),
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     ];

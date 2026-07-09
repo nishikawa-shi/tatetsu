@@ -1,48 +1,70 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
+import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/entity/payment.dart';
 
 class PaymentComponent {
   bool isExpanded = true;
 
-  String title;
+  final String defaultTitle;
+  final double defaultPrice;
   Participant payer;
-  double price = 0.0;
   Map<Participant, bool> owners;
 
-  bool hasUserSpecifiedTitle = false;
-  bool hasUserSpecifiedPrice = false;
+  final TextEditingController titleController;
+  final TextEditingController priceController;
 
   PaymentComponent({
     required List<Participant> participants,
     required BuildContext context,
-  })  : title = AppLocalizations.of(context)?.sampleMeaninglessPaymentTitle ??
-            "Some payment",
+  })  : defaultTitle =
+            AppLocalizations.of(context)?.sampleMeaninglessPaymentTitle ??
+                "Some payment",
+        defaultPrice = 0.0,
         payer = participants.first,
-        owners = Map.fromIterables(participants, participants.map((_) => true));
+        owners = Map.fromIterables(participants, participants.map((_) => true)),
+        titleController = TextEditingController(),
+        priceController = TextEditingController();
 
   PaymentComponent.of({
-    required this.title,
+    required String title,
     required this.payer,
-    required this.price,
+    required double price,
     required this.owners,
-  });
+  })  : defaultTitle = title,
+        defaultPrice = price,
+        titleController = TextEditingController(text: title),
+        priceController = TextEditingController(text: price.toString());
 
   PaymentComponent.sample({
     required List<Participant> participants,
     required BuildContext context,
-  })  : title = AppLocalizations.of(context)?.samplePaymentTitle ??
+  })  : defaultTitle = AppLocalizations.of(context)?.samplePaymentTitle ??
             "Lunch at the nice cafe",
-        payer = participants.first,
-        price = double.parse(
+        defaultPrice = double.parse(
           AppLocalizations.of(context)?.samplePaymentPrice ?? "66",
         ),
-        owners = Map.fromIterables(participants, participants.map((_) => true));
+        payer = participants.first,
+        owners = Map.fromIterables(participants, participants.map((_) => true)),
+        titleController = TextEditingController(),
+        priceController = TextEditingController();
+
+  String get title =>
+      titleController.text.isNotEmpty ? titleController.text : defaultTitle;
+
+  double get price => priceController.text.isNotEmpty
+      ? (double.tryParse(priceController.text) ?? 0).roundAtSecondDecimal()
+      : defaultPrice;
 
   Payment toPayment() =>
       Payment(title: title, payer: payer, price: price, owners: owners);
+
+  void dispose() {
+    titleController.dispose();
+    priceController.dispose();
+  }
 }
 
 extension PaymentComponentsExt on List<PaymentComponent> {
