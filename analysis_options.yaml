@@ -3,3 +3,4 @@ analyzer:
   exclude:
   - 'lib/l10n/built'
   - 'build/**'
+  - 'node_modules/**'
