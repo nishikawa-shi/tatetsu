@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/build_context_ext.dart';
-import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/transport/account_detail_dto.dart';
 import 'package:tatetsu/model/usecase/participants_usecase.dart';
 import 'package:tatetsu/ui/core/string_ext.dart';
+import 'package:tatetsu/ui/input_participants/participant_component.dart';
 
 class InputParticipantsPage extends StatefulWidget {
   const InputParticipantsPage({required this.titlePrefix}) : super();
@@ -16,12 +16,24 @@ class InputParticipantsPage extends StatefulWidget {
 }
 
 class _InputParticipantsPageState extends State<InputParticipantsPage> {
-  final List<Participant> _participants = [];
+  final List<ParticipantComponent> _participants = [];
+
+  @override
+  void dispose() {
+    for (final participant in _participants) {
+      participant.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (_participants.isEmpty) {
-      _participants.addAll(ParticipantsUsecase.shared().getDefaults(context));
+      _participants.addAll(
+        ParticipantsUsecase.shared()
+            .getDefaults(context)
+            .map(ParticipantComponent.new),
+      );
     }
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -68,14 +80,19 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
 
   void _insertParticipantToLast() {
     setState(() {
-      _participants.add(ParticipantsUsecase.shared().createDummy(context));
+      _participants.add(
+        ParticipantComponent(ParticipantsUsecase.shared().createDummy(context)),
+      );
     });
   }
 
   void _removeParticipant(int participantIndex) {
+    final removedParticipant = _participants[participantIndex];
     setState(() {
       _participants.removeAt(participantIndex);
     });
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => removedParticipant.dispose());
   }
 
   Widget _createFooter() => Center(
@@ -102,25 +119,15 @@ class _InputParticipantsPageState extends State<InputParticipantsPage> {
   Row _createParticipantInputArea(int participantIndex) {
     final bool hasOnlyParticipants = _participants.length <= 1;
     final participant = _participants[participantIndex];
-    final String defaultParticipantName = participant.displayName;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Expanded(
           child: TextFormField(
             decoration: InputDecoration(
-              hintText: defaultParticipantName.toHintText(context),
+              hintText: participant.defaultDisplayName.toHintText(context),
             ),
-            key: ObjectKey(participant),
-            initialValue: participant.hasUserSpecifiedDisplayName
-                ? participant.displayName
-                : null,
-            onChanged: (String value) {
-              participant.hasUserSpecifiedDisplayName = true;
-              // テキストエリアに表示されている値を引き継ぎたい
-              participant.displayName =
-                  value.isNotEmpty ? value : defaultParticipantName;
-            },
+            controller: participant.displayNameController,
           ),
         ),
         TextButton(
