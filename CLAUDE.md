@@ -44,6 +44,7 @@ flutter gen-l10n                        # generate l10n
 flutter pub get
 flutter pub run build_runner build      # generate *.g.dart
 flutter analyze                         # must pass
+flutter pub run flutter_launcher_icons  # regenerate app icons
 flutter test
 ```
 
@@ -53,7 +54,7 @@ flutter test
 create a local script that duplicates its step list.
 
 Before proposing a commit preview for changes touching any of `ios/`,
-`android/`, `pubspec.yaml`, `l10n.yaml`, `firebase.json`, or
+`android/`, `pubspec.yaml`, `package.json`, `l10n.yaml`, `firebase.json`, or
 `azure-pipelines.yml`, run `/ci-preflight`. It reads the pipeline definition
 and translates the build steps into locally runnable equivalents
 (e.g. `flutter build ipa` → `flutter build ios --no-codesign`), so build
@@ -66,11 +67,15 @@ cannot be verified locally and remain CI-verified.
 
 - `lib/l10n/built/` — `flutter gen-l10n` output
 - `lib/model/transport/*.g.dart` — `build_runner` output
+- `android/app/src/*/res/*/ic_launcher.png` — `flutter_launcher_icons` output
+- `ios/Runner/Assets.xcassets/AppIcon-*.appiconset/` — `flutter_launcher_icons` output
 
 ## Environment
 
-`lib/config/env.dart` is not tracked. Copy `lib/config/sample_env.dart`
-to `lib/config/env.dart` and fill in real values before building.
+`lib/config/dev.dart` and `lib/config/prd.dart` are not tracked (each is
+imported directly by `main_dev.dart` / `main_prd.dart` respectively). Copy
+`lib/config/sample_env.dart` to both `lib/config/dev.dart` and
+`lib/config/prd.dart`, then fill in real values before building.
 
 ## Design decisions
 
