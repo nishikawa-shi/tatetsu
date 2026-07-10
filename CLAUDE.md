@@ -77,6 +77,22 @@ imported directly by `main_dev.dart` / `main_prd.dart` respectively). Copy
 `lib/config/sample_env.dart` to both `lib/config/dev.dart` and
 `lib/config/prd.dart`, then fill in real values before building.
 
+`lib/firebase_options_dev.dart` and `lib/firebase_options_prd.dart` are not
+tracked either (imported by `main_dev.dart` / `main_prd.dart`). Generate them
+with the FlutterFire CLI:
+
+```sh
+dart pub global activate flutterfire_cli
+flutterfire configure --project=tatetsu-dev --out=lib/firebase_options_dev.dart --platforms=web --yes
+flutterfire configure --project=tatetsu-prd --out=lib/firebase_options_prd.dart --platforms=web --yes
+```
+
+Do not pass `ios`/`android` to `--platforms`: reconfiguring iOS would wipe the
+hand-patched `upload-crashlytics-symbols` build phase in
+`ios/Runner.xcodeproj/project.pbxproj` (workaround for
+invertase/flutterfire_cli#443, applied in PR #132). CI gets these files from
+the `configs.tar.gz` secure file, not from this command.
+
 ## Design decisions
 
 - State management: `setState` is sufficient. Riverpod is over-engineering for this app's scale.
