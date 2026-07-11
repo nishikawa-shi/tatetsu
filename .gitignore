@@ -223,3 +223,6 @@ ios/AdMob/AdMob-prd.xcconfig
 
 # Claude Code
 .claude/settings.local.json
+
+# Antigravity local rules
+GEMINI.local.md
