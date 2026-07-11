@@ -72,7 +72,8 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                 ExpansionPanelList(
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
-                  state?.payments[index].isExpanded = !isExpanded;
+                  // Flutter 3.13以降、isExpandedは「変更後の状態」が渡る（flutter/flutter#128082）
+                  state?.payments[index].isExpanded = isExpanded;
                 });
               },
               children: state?.payments
