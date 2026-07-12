@@ -11,10 +11,12 @@ class AccountingDetailState {
 
   AccountingDetailState({required this.participants, required this.payments});
 
-  Uri toUri({required String path}) => Uri(
+  // locationのうちpathのみを使う。クエリまで含めると、共有リンク経由で開いた
+  // 画面（?params=付き）から再共有した時にparamsが二重化し復元不能なURLになる
+  Uri toUri({required Uri location}) => Uri(
         scheme: "https",
         host: "tatetsu.ntetz.com",
-        path: path,
+        path: location.path,
         queryParameters: {
           "params": jsonEncode(
             AccountDetailDto(
