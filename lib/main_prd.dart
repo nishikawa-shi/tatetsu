@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tatetsu/config/prd.dart';
 import 'package:tatetsu/firebase_options_prd.dart';
 import 'package:tatetsu/model/usecase/advertisement_usecase.dart';
+import 'package:tatetsu/model/usecase/analytics_usecase.dart';
 import 'package:tatetsu/model/usecase/crashlytics_usecase.dart';
 import 'package:tatetsu/tatetsu.dart';
 
@@ -16,5 +17,6 @@ void main() async {
   );
   CrashlyticsUsecase.shared().initialize();
   AdvertisementUsecase.shared().initialize();
+  AnalyticsUsecase.shared().initialize();
   runApp(Tatetsu());
 }
