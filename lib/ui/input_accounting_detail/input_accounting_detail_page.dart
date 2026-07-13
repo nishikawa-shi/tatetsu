@@ -314,10 +314,8 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   void _showShareModal() {
-    final pageUrlText = state
-            ?.toUri(path: GoRouterState.of(context).uri.toString())
-            .toString() ??
-        "";
+    final pageUrlText =
+        state?.toUri(location: GoRouterState.of(context).uri).toString() ?? "";
     final requestSubject = [
       AppLocalizations.of(context)?.requestPaymentAdditionMessageTitlePrefix,
       state?.payments[0].title,
