@@ -1,0 +1,217 @@
+# tatetsu CI（Azure Pipelinesから移行。ステージ構成・ステップ順は旧azure-pipelines.ymlを踏襲）
+#
+# 検証の思想:
+# - main以外のrefで実行されたbeta/storeジョブは自動で安全モードになる
+#   （App Store審査提出なし、Hostingはプレビューチャンネルへのデプロイ）
+# - workflow_dispatchで任意ブランチからbeta/storeジョブを検証実行できる
+#   （mainマージ前にデプロイ経路まで実証するため。無料枠の心配はpublicリポジトリのため不要）
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_beta:
+        description: 'β版アプリ配布ステージを実行する'
+        type: boolean
+        default: false
+      run_store:
+        description: 'ストアアプリ配布ステージを実行する（main以外は審査提出なしの安全モード）'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  FLUTTER_VERSION: 3.44.4
+
+jobs:
+  qa:
+    name: 動作検証ステージ / 静的解析
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v7
+      - name: Inflate configs
+        env:
+          CONFIGS_TAR_B64: ${{ secrets.CONFIGS_TAR_B64 }}
+        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Build l10n (scratch)
+        run: flutter gen-l10n
+      - name: Install Build Tools (scratch)
+        run: flutter pub get
+      - name: Build Dto (scratch)
+        run: flutter pub run build_runner build
+      - name: Flutter Analyze (scratch)
+        run: flutter analyze
+      - name: Build Icon (scratch)
+        run: flutter pub run flutter_launcher_icons
+      - name: Flutter Test
+        run: flutter test
+
+  beta:
+    name: β版アプリ配布ステージ / Firebaseへベータ版アプリ配布
+    needs: qa
+    if: >-
+      (github.event_name == 'push' && contains(fromJSON('["refs/heads/develop", "refs/heads/main"]'), github.ref)) ||
+      (github.event_name == 'workflow_dispatch' && inputs.run_beta)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v7
+      - name: Inflate configs
+        env:
+          CONFIGS_TAR_B64: ${{ secrets.CONFIGS_TAR_B64 }}
+        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Build l10n (scratch)
+        run: flutter gen-l10n
+      - name: Install Build Tools (scratch)
+        run: flutter pub get
+      - name: Build Dto (scratch)
+        run: flutter pub run build_runner build
+      - name: Build Icon (scratch)
+        run: flutter pub run flutter_launcher_icons
+      - name: Install FlutterFire CLI (scratch)
+        run: dart pub global activate flutterfire_cli
+      - name: Install iOS gem dependency
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Setup SSH for match repo
+        # tatetsu_iOS_certs（private）の読み取り専用Deploy Keyをssh-agentへ投入する
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_REPO_DEPLOY_KEY }}
+      - name: Fastlane match
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: bundle exec fastlane load_certs
+      - name: Resolve build numbers
+        run: |
+          echo "IOS_BUILD_NUMBER=$(date -u +%Y%m%d).${{ github.run_number }}" >> "$GITHUB_ENV"
+          # Android versionCodeはint上限(21億)があるためrun_numberを使う。
+          # 旧Azure CIのBuild.BuildId(最終1634)を下回らないよう2000を底上げする
+          echo "ANDROID_BUILD_NUMBER=$((2000 + ${{ github.run_number }}))" >> "$GITHUB_ENV"
+      - name: Flutter build dev ipa (scratch)
+        run: flutter build ipa --flavor dev -t lib/main_dev.dart --build-number="$IOS_BUILD_NUMBER" --export-options-plist=ios/ExportOptions_AppDistribution_dev.plist
+      - name: Flutter build prd ipa (scratch)
+        run: flutter build ipa --flavor prd -t lib/main_prd.dart --build-number="$IOS_BUILD_NUMBER" --export-options-plist=ios/ExportOptions_AppDistribution_prd.plist
+      - name: Flutter build dev apk (scratch)
+        run: flutter build apk --flavor dev -t lib/main_dev.dart --build-number="$ANDROID_BUILD_NUMBER"
+      - name: Flutter build prd apk (scratch)
+        run: flutter build apk --flavor prd -t lib/main_prd.dart --build-number="$ANDROID_BUILD_NUMBER"
+      - name: Install Firebase tools
+        run: |
+          npm install
+          npx firebase --version
+      - name: Deploy to Firebase App Distribution
+        env:
+          FIREBASE_APP_ID_IOS_DEV: ${{ secrets.FIREBASE_APP_ID_IOS_DEV }}
+          FIREBASE_APP_ID_IOS_PRD: ${{ secrets.FIREBASE_APP_ID_IOS_PRD }}
+          FIREBASE_APP_ID_ANDROID_DEV: ${{ secrets.FIREBASE_APP_ID_ANDROID_DEV }}
+          FIREBASE_APP_ID_ANDROID_PRD: ${{ secrets.FIREBASE_APP_ID_ANDROID_PRD }}
+          FIREBASE_BETA_TESTER_GROUP_NAME_DEV: ${{ secrets.FIREBASE_BETA_TESTER_GROUP_NAME_DEV }}
+          FIREBASE_BETA_TESTER_GROUP_NAME_PRD: ${{ secrets.FIREBASE_BETA_TESTER_GROUP_NAME_PRD }}
+        run: |
+          ls -latr build/ios/ipa/
+          ls -latr build/app/outputs/flutter-apk
+          GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-dev-bd6064eefd64.json npx firebase appdistribution:distribute build/ios/ipa/T-RelDev.ipa --app "$FIREBASE_APP_ID_IOS_DEV" --groups "$FIREBASE_BETA_TESTER_GROUP_NAME_DEV"
+          GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-prd-19b46b1d474e.json npx firebase appdistribution:distribute build/ios/ipa/tatetsu.ipa --app "$FIREBASE_APP_ID_IOS_PRD" --groups "$FIREBASE_BETA_TESTER_GROUP_NAME_PRD"
+          GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-dev-bd6064eefd64.json npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-dev-release.apk --app "$FIREBASE_APP_ID_ANDROID_DEV" --groups "$FIREBASE_BETA_TESTER_GROUP_NAME_DEV"
+          GOOGLE_APPLICATION_CREDENTIALS=app_distribution_sa_tatetsu-prd-19b46b1d474e.json npx firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prd-release.apk --app "$FIREBASE_APP_ID_ANDROID_PRD" --groups "$FIREBASE_BETA_TESTER_GROUP_NAME_PRD"
+
+  store:
+    name: ストアアプリ配布ステージ / ストアへアプリ配布
+    needs: qa
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && inputs.run_store)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v7
+      - name: Inflate configs
+        env:
+          CONFIGS_TAR_B64: ${{ secrets.CONFIGS_TAR_B64 }}
+        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Build l10n (scratch)
+        run: flutter gen-l10n
+      - name: Install Build Tools (scratch)
+        run: flutter pub get
+      - name: Build Dto (scratch)
+        run: flutter pub run build_runner build
+      - name: Build Icon (scratch)
+        run: flutter pub run flutter_launcher_icons
+      - name: Install FlutterFire CLI (scratch)
+        run: dart pub global activate flutterfire_cli
+      - name: Install iOS gem dependency
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Setup SSH for match repo
+        # tatetsu_iOS_certs（private）の読み取り専用Deploy Keyをssh-agentへ投入する
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_REPO_DEPLOY_KEY }}
+      - name: Fastlane match
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: bundle exec fastlane load_certs
+      - name: Resolve build numbers
+        run: |
+          echo "IOS_BUILD_NUMBER=$(date -u +%Y%m%d).${{ github.run_number }}" >> "$GITHUB_ENV"
+          echo "ANDROID_BUILD_NUMBER=$((2000 + ${{ github.run_number }}))" >> "$GITHUB_ENV"
+      - name: Flutter build web (scratch)
+        run: flutter build web -t lib/main_prd.dart --base-href "/app/" --output public/app --release --build-number="$IOS_BUILD_NUMBER"
+      - name: Flutter build store ipa (scratch)
+        run: flutter build ipa --flavor prd -t lib/main_prd.dart --build-number="$IOS_BUILD_NUMBER" --export-options-plist=ios/ExportOptions_AppStore.plist
+      - name: Flutter build aab (scratch)
+        run: flutter build appbundle --flavor prd -t lib/main_prd.dart --build-number="$ANDROID_BUILD_NUMBER"
+      - name: Install Firebase tools
+        run: |
+          npm install
+          npx firebase --version
+      - name: Deploy to ntetz.com
+        if: github.ref == 'refs/heads/main'
+        run: GOOGLE_APPLICATION_CREDENTIALS=firebase_hosting_sa_tatetsu.json npx firebase deploy
+      - name: Deploy to ntetz.com (preview channel / 検証モード)
+        if: github.ref != 'refs/heads/main'
+        run: GOOGLE_APPLICATION_CREDENTIALS=firebase_hosting_sa_tatetsu.json npx firebase hosting:channel:deploy gha-verify --expires 1d
+      - name: Deploy to AppStore
+        # main以外は審査提出なし（バイナリ・メタデータのアップロードまで）
+        run: bundle exec fastlane upload_ipa_to_store submit:${{ github.ref == 'refs/heads/main' }}
+      # Google Play 開発者アカウント閉鎖（2024年3月）のため一時停止
+      # 新アカウント開設後に復活させること
+      # - name: Deploy to PlayStore
+      #   run: bundle exec fastlane upload_aab_to_store

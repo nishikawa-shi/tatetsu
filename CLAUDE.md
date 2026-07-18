@@ -50,18 +50,21 @@ flutter test
 
 ## Local CI verification
 
-`azure-pipelines.yml` is the single source of truth for CI steps. Never
+`.github/workflows/ci.yml` is the single source of truth for CI steps. Never
 create a local script that duplicates its step list.
 
 Before proposing a commit preview for changes touching any of `ios/`,
 `android/`, `pubspec.yaml`, `package.json`, `l10n.yaml`, `firebase.json`, or
-`azure-pipelines.yml`, run `/ci-preflight`. It reads the pipeline definition
+`.github/workflows/`, run `/ci-preflight`. It reads the workflow definition
 and translates the build steps into locally runnable equivalents
 (e.g. `flutter build ipa` → `flutter build ios --no-codesign`), so build
 breakage is caught in minutes locally instead of after a one-hour CI run.
 
 Deploy steps (Firebase App Distribution / Hosting, App Store, Play Store)
-cannot be verified locally and remain CI-verified.
+can additionally be exercised from any branch via `workflow_dispatch`
+(`run_beta` / `run_store` inputs). Jobs run outside `main` switch to a safe
+mode: no App Store review submission, and Hosting deploys go to a preview
+channel. The repository is public, so GitHub-hosted macOS runners are free.
 
 ## Do not edit — generated files
 
