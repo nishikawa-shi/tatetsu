@@ -4,7 +4,7 @@
 
 ### Preparation
 
-see [azure-pipelines.yml](azure-pipelines.yml)
+see [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
 ### Run App
 

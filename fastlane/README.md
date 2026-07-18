@@ -47,14 +47,6 @@ provisioning profile生成lane
 
 AppStore向けipaアップロードlane
 
-### ios upload_aab_to_store
-
-```sh
-[bundle exec] fastlane ios upload_aab_to_store
-```
-
-PlayStore向けaabアップロードlane
-
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
