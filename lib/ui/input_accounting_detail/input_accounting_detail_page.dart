@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
 import 'package:tatetsu/model/core/build_context_ext.dart';
-import 'package:tatetsu/model/core/double_ext.dart';
 import 'package:tatetsu/model/entity/participant.dart';
 import 'package:tatetsu/model/transport/account_detail_dto.dart';
 import 'package:tatetsu/model/transport/payment_dto.dart';
@@ -29,13 +28,26 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   AccountingDetailState? state;
 
   @override
+  void dispose() {
+    for (final payment in state?.payments ?? <PaymentComponent>[]) {
+      payment.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _initializeStateIfEmpty(context);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: _showDiscardConfirmDialogIfNeeded,
+      child: PopScope(
+        canPop: state?.payments.hasOnlySampleElement(
+              onParticipants: state?.participants ?? [],
+              context: context,
+            ) ??
+            false,
+        onPopInvokedWithResult: _popWithModifiedConfirmDialog,
         child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)?.payments ?? "Payments"),
@@ -52,22 +64,22 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
                   size: 32,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-              )
+              ),
             ],
           ),
           body: ListView.builder(
             itemBuilder: (BuildContext context, int index) =>
                 ExpansionPanelList(
-              key: UniqueKey(),
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
-                  state?.payments[index].isExpanded = !isExpanded;
+                  // Flutter 3.13以降、isExpandedは「変更後の状態」が渡る（flutter/flutter#128082）
+                  state?.payments[index].isExpanded = isExpanded;
                 });
               },
               children: state?.payments
                       .map<ExpansionPanel>((PaymentComponent payment) {
                     return ExpansionPanel(
-                      headerBuilder: (BuildContext _, bool __) {
+                      headerBuilder: (BuildContext _, bool _) {
                         return _paymentHeader(payment);
                       },
                       body: _paymentBody(payment),
@@ -100,7 +112,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   void _initializeStateIfEmpty(BuildContext context) {
-    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    final paramsValue = GoRouterState.of(context).uri.queryParameters["params"];
     if (paramsValue == null) return;
 
     state ??= AccountDetailDto.fromJson(
@@ -117,17 +129,23 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     }
   }
 
-  Future<bool> _showDiscardConfirmDialogIfNeeded() =>
-      state?.payments.hasOnlySampleElement(
-                onParticipants: state?.participants ?? [],
-                context: context,
-              ) ??
-              false
-          ? Future(() => true)
-          : showDialog<bool>(
-              context: context,
-              builder: (context) => _discardConfirmDialog(),
-            ).then((value) => value ?? false);
+  Future<void> _popWithModifiedConfirmDialog(
+    bool didPop,
+    Object? result,
+  ) async {
+    if (didPop) return;
+
+    final bool shouldPop = await showDialog(
+          context: context,
+          builder: (context) => _discardConfirmDialog(),
+        ) ??
+        false;
+
+    if (shouldPop) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    }
+  }
 
   AlertDialog _discardConfirmDialog() => AlertDialog(
         content: Text(
@@ -149,7 +167,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(
               AppLocalizations.of(context)?.dialogDiscardLabel ?? "Discard",
             ),
-          )
+          ),
         ],
       );
 
@@ -181,20 +199,17 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
     setState(() {
       state?.payments.remove(payment);
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) => payment.dispose());
   }
 
   ListTile _paymentHeader(PaymentComponent payment) {
-    final String defaultPaymentTitle = payment.title;
     return ListTile(
       title: TextFormField(
-        decoration:
-            InputDecoration(hintText: defaultPaymentTitle.toHintText(context)),
-        initialValue: payment.hasUserSpecifiedTitle ? payment.title : null,
-        key: UniqueKey(),
-        onChanged: (String value) {
-          payment.hasUserSpecifiedTitle = true;
-          payment.title = value.isNotEmpty ? value : defaultPaymentTitle;
-        },
+        decoration: InputDecoration(
+          hintText: payment.defaultTitle.toHintText(context),
+        ),
+        controller: payment.titleController,
+        onChanged: (_) => setState(() {}),
       ),
     );
   }
@@ -250,7 +265,6 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
   }
 
   List<Widget> _priceView(PaymentComponent payment) {
-    final double defaultPaymentPriceValue = payment.price;
     return [
       const SizedBox(height: 16),
       Text(
@@ -259,17 +273,10 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
       ),
       TextFormField(
         decoration: InputDecoration(
-          hintText: defaultPaymentPriceValue.toHintText(context),
+          hintText: payment.defaultPrice.toHintText(context),
         ),
-        initialValue:
-            payment.hasUserSpecifiedPrice ? payment.price.toString() : null,
-        key: UniqueKey(),
-        onChanged: (String value) {
-          payment.hasUserSpecifiedPrice = true;
-          payment.price = value.isNotEmpty
-              ? double.parse(value).roundAtSecondDecimal()
-              : defaultPaymentPriceValue;
-        },
+        controller: payment.priceController,
+        onChanged: (_) => setState(() {}),
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     ];
@@ -302,26 +309,26 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: const Icon(Icons.delete_forever, size: 32),
           ),
         ],
-      )
+      ),
     ];
   }
 
   void _showShareModal() {
-    final pageUrlText = state
-            ?.toUri(path: GoRouterState.of(context).fullpath ?? "")
-            .toString() ??
-        "";
+    final pageUrlText =
+        state?.toUri(location: GoRouterState.of(context).uri).toString() ?? "";
     final requestSubject = [
       AppLocalizations.of(context)?.requestPaymentAdditionMessageTitlePrefix,
       state?.payments[0].title,
-      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix
+      AppLocalizations.of(context)?.requestPaymentAdditionMessageTitleSuffix,
     ].join();
     final size = MediaQuery.of(context).size;
-    Share.share(
-      pageUrlText,
-      subject: requestSubject,
-      sharePositionOrigin:
-          Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+    SharePlus.instance.share(
+      ShareParams(
+        text: pageUrlText,
+        subject: requestSubject,
+        sharePositionOrigin:
+            Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+      ),
     );
   }
 
@@ -356,7 +363,7 @@ class _InputAccountingDetailPageState extends State<InputAccountingDetailPage> {
             child: Text(
               AppLocalizations.of(context)?.dialogDeleteLabel ?? "Delete",
             ),
-          )
+          ),
         ],
       );
 }

@@ -231,6 +231,67 @@ void main() {
       );
     });
 
+    test('of_title引数とprice引数の値が、各コントローラの初期値として設定される', () {
+      final component = PaymentComponent.of(
+        title: "restored title",
+        payer: testParticipant1,
+        price: 66,
+        owners: {testParticipant1: true, testParticipant2: true},
+      );
+      expect(component.titleController.text, "restored title");
+      expect(component.priceController.text, "66.0");
+    });
+
+    test('title_コントローラに入力がある時、入力値を返す', () {
+      final component = PaymentComponent.of(
+        title: "restored title",
+        payer: testParticipant1,
+        price: 66,
+        owners: {testParticipant1: true, testParticipant2: true},
+      )..titleController.text = "user input title";
+      expect(component.title, "user input title");
+    });
+
+    test('title_コントローラの入力を全て消した時、デフォルト値に戻る', () {
+      final component = PaymentComponent.of(
+        title: "restored title",
+        payer: testParticipant1,
+        price: 66,
+        owners: {testParticipant1: true, testParticipant2: true},
+      )..titleController.text = "";
+      expect(component.title, "restored title");
+    });
+
+    test('price_コントローラの入力を全て消した時、デフォルト値に戻る', () {
+      final component = PaymentComponent.of(
+        title: "restored title",
+        payer: testParticipant1,
+        price: 66,
+        owners: {testParticipant1: true, testParticipant2: true},
+      )..priceController.text = "";
+      expect(component.price, 66.0);
+    });
+
+    test('price_コントローラに小数第3位以下を含む数値を入力した時、小数第2位に丸めた値を返す', () {
+      final component = PaymentComponent.of(
+        title: "restored title",
+        payer: testParticipant1,
+        price: 66,
+        owners: {testParticipant1: true, testParticipant2: true},
+      )..priceController.text = "12.345";
+      expect(component.price, 12.35);
+    });
+
+    test('price_コントローラに数値でない文字列を入力した時、0を返す', () {
+      final component = PaymentComponent.of(
+        title: "restored title",
+        payer: testParticipant1,
+        price: 66,
+        owners: {testParticipant1: true, testParticipant2: true},
+      )..priceController.text = "not a number";
+      expect(component.price, 0.0);
+    });
+
     testWidgets(
         'toPayment_プロパティを外部から操作しなかった時、クラス内で指定したデフォルト値を含むPaymentオブジェクトを返す',
         (WidgetTester tester) async {
@@ -272,7 +333,7 @@ void main() {
                 (PaymentComponent(
                   participants: [testParticipant1, testParticipant2],
                   context: context,
-                )..title = "Modified Test Payment")
+                )..titleController.text = "Modified Test Payment")
                     .toPayment()
                     .title,
                 equals("Modified Test Payment"),
@@ -302,10 +363,10 @@ void main() {
                     participants: [testParticipant1, testParticipant2],
                     context: context,
                   )
-                    ..title = "Lunch at the nice cafe"
+                    ..titleController.text = "Lunch at the nice cafe"
                     ..payer = testParticipant1
-                    ..price = 66.0
-                    ..owners = {testParticipant1: true, testParticipant2: true}
+                    ..priceController.text = "66.0"
+                    ..owners = {testParticipant1: true, testParticipant2: true},
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -336,7 +397,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..title = "modified title"
+                  )..titleController.text = "modified title",
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -367,7 +428,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..payer = testParticipant2
+                  )..payer = testParticipant2,
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -397,7 +458,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..price = 0.01
+                  )..priceController.text = "0.01",
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -428,7 +489,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )..owners = {testParticipant1: true, testParticipant2: false}
+                  )..owners = {testParticipant1: true, testParticipant2: false},
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,
@@ -459,7 +520,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )
+                  ),
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1],
                   context: context,
@@ -493,7 +554,7 @@ void main() {
                   PaymentComponent(
                     participants: [testParticipant1, testParticipant2],
                     context: context,
-                  )
+                  ),
                 ].hasOnlySampleElement(
                   onParticipants: [testParticipant1, testParticipant2],
                   context: context,

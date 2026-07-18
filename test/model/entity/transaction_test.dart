@@ -41,9 +41,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -51,7 +51,7 @@ void main() {
         equals({
           testParticipant1: 4000.0,
           testParticipant2: -2000.0,
-          testParticipant3: -2000.0
+          testParticipant3: -2000.0,
         }),
       );
     });
@@ -65,7 +65,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -75,16 +75,16 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
       expect(
         Transaction(testPayments).creditor.entries,
         equals({
           testParticipant1: 4000.0,
           testParticipant2: -1550.0,
-          testParticipant3: -2450.0
+          testParticipant3: -2450.0,
         }),
       );
     });
@@ -98,7 +98,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -108,7 +108,7 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -118,9 +118,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -128,7 +128,7 @@ void main() {
         equals({
           testParticipant1: -6000.0,
           testParticipant2: -11550.0,
-          testParticipant3: 17550.0
+          testParticipant3: 17550.0,
         }),
       );
     });
@@ -142,7 +142,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -152,7 +152,7 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -162,9 +162,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -172,7 +172,7 @@ void main() {
         equals({
           testParticipant1: -9333.33,
           testParticipant2: -14883.33,
-          testParticipant3: 24216.67
+          testParticipant3: 24216.67,
         }),
       );
     });
@@ -188,7 +188,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -199,7 +199,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('en'),
           child: Builder(
@@ -228,7 +228,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -239,7 +239,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('ja'),
           child: Builder(
@@ -269,7 +269,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -280,7 +280,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('kn'),
           child: Builder(
@@ -309,7 +309,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -320,7 +320,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('en'),
           child: Builder(
@@ -351,7 +351,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -362,7 +362,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('ja'),
           child: Builder(
@@ -393,7 +393,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -404,7 +404,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('es'),
           child: Builder(
@@ -436,7 +436,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -447,7 +447,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('en'),
           child: Builder(
@@ -468,7 +468,7 @@ void main() {
                     '\n\n',
                     '[Settlement]\n',
                     'testName2 -> testName1: 2000.0\n',
-                    'testName3 -> testName1: 2000.0'
+                    'testName3 -> testName1: 2000.0',
                   ].join(),
                 ),
               );
@@ -490,7 +490,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -500,7 +500,7 @@ void main() {
           owners: {
             testParticipant1: false,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
         Payment(
@@ -510,9 +510,9 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
-        )
+        ),
       ];
 
       await tester.pumpWidget(
@@ -521,7 +521,7 @@ void main() {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
           ],
           locale: const Locale('en'),
           child: Builder(
@@ -544,7 +544,7 @@ void main() {
                     '\n\n',
                     '[Settlement]\n',
                     'testName1 -> testName3: 6000.0\n',
-                    'testName2 -> testName3: 11550.0'
+                    'testName2 -> testName3: 11550.0',
                   ].join(),
                 ),
               );
@@ -567,7 +567,7 @@ void main() {
             testParticipant2: true,
             testParticipant3: true,
           },
-        )
+        ),
       ];
       expect(
         testPayments.toCreditor().payments,
@@ -597,7 +597,7 @@ void main() {
               testParticipant2: true,
               testParticipant3: true,
             },
-          )
+          ),
         ].toSummary("Payments"),
         equals("[Payments]\ntestPaymentA(testName1): 20.0"),
       );
@@ -636,7 +636,7 @@ void main() {
               testParticipant2: true,
               testParticipant3: true,
             },
-          )
+          ),
         ].toSummary("Payments"),
         equals(
           "[Payments]\ntestPaymentA(testName1): 20.0\ntestPaymentB(testName2): 300.0\ntestPaymentC(testName3): 4000.0",
@@ -656,7 +656,7 @@ void main() {
             testParticipant2: true,
             testParticipant3: true,
           },
-        )
+        ),
       ];
       final testSettlement = Creditor(payments: testPayments).toSettlement();
       expect(
@@ -671,7 +671,7 @@ void main() {
               from: testParticipant3,
               to: testParticipant1,
               amount: 6.66,
-            )
+            ),
           ],
         ),
         equals(true),
@@ -691,7 +691,7 @@ void main() {
           owners: {
             testParticipant1: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -712,7 +712,7 @@ void main() {
             testParticipant1: true,
             testParticipant2: true,
           },
-        )
+        ),
       ];
 
       expect(
@@ -725,7 +725,7 @@ void main() {
               from: testParticipant2,
               to: testParticipant1,
               amount: 3000,
-            )
+            ),
           ],
         ),
         equals(true),
@@ -969,7 +969,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1037,7 +1037,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1105,7 +1105,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1173,7 +1173,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1241,7 +1241,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1309,7 +1309,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1377,7 +1377,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1445,7 +1445,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1513,7 +1513,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1581,7 +1581,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1649,7 +1649,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1717,7 +1717,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1785,7 +1785,7 @@ void main() {
           payer: testParticipant5,
           price: 10,
           owners: fiveParticipantsTrueMap,
-        )
+        ),
       ];
 
       expect(
@@ -1829,7 +1829,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -1855,7 +1855,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -1871,7 +1871,7 @@ void main() {
           {
             testParticipant1: 20 - 5,
             testParticipant2: -10 + 5,
-            testParticipant3: -10
+            testParticipant3: -10,
           },
         ),
         equals(true),
@@ -1887,7 +1887,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -1905,7 +1905,7 @@ void main() {
           {
             testParticipant1: 20 - 5 - 2 - 9,
             testParticipant2: -10 + 5 + 2,
-            testParticipant3: -10 + 9
+            testParticipant3: -10 + 9,
           },
         ),
         equals(true),
@@ -1923,7 +1923,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];
@@ -1939,7 +1939,7 @@ void main() {
           {
             testParticipant1: 20 - 5.01,
             testParticipant2: -10 + 5.01,
-            testParticipant3: -10
+            testParticipant3: -10,
           },
         ),
         equals(true),
@@ -1957,7 +1957,7 @@ void main() {
           owners: {
             testParticipant1: true,
             testParticipant2: true,
-            testParticipant3: true
+            testParticipant3: true,
           },
         ),
       ];

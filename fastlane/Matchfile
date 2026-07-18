@@ -1,4 +1,6 @@
-git_url("https://github.com/nishikawa-shi/tatetsu_iOS_certs.git")
+# SSH URLに固定する。ローカルは開発者の通常のSSH鍵、CIは読み取り専用Deploy Key
+# （webfactory/ssh-agentでssh-agentに投入）で認証され、トークン埋め込みの書き換えが不要になる
+git_url("git@github.com:nishikawa-shi/tatetsu_iOS_certs.git")
 
 storage_mode("git")
 

@@ -39,7 +39,7 @@ class Tatetsu extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ],

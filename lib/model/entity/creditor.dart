@@ -35,8 +35,8 @@ class Creditor {
     if (dealValue == 0) {
       return null;
     }
-    entries.update(from, (value) => value += dealValue);
-    entries.update(to, (value) => value -= dealValue);
+    entries.update(from, (value) => value + dealValue);
+    entries.update(to, (value) => value - dealValue);
     return Procedure(from: from, to: to, amount: dealValue);
   }
 
@@ -57,7 +57,7 @@ class Creditor {
 
   String toSummary(String label) => [
         "[$label]",
-        ...entries.entries.map((e) => "${e.key.displayName}: ${e.value}")
+        ...entries.entries.map((e) => "${e.key.displayName}: ${e.value}"),
       ].join("\n");
 }
 
@@ -81,7 +81,7 @@ extension CreditorEntriesExt on Map<Participant, double> {
   void _addCredit(Payment payment) => update(
         payment.payer,
         (value) =>
-            (value.plusAtSecondDecimal(payment.price)).roundAtSecondDecimal(),
+            value.plusAtSecondDecimal(payment.price).roundAtSecondDecimal(),
       );
 
   void _addDebt(Payment payment) {

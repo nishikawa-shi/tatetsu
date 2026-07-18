@@ -1,4 +1,6 @@
 Thank you for using.
 
-- design updated.
-- added input request feature.
+- Updated for the latest OS versions.
+- Fixed a crash caused by certain inputs in the price field.
+- Fixed issues where the keyboard did not appear or inputs were lost.
+- Fixed an issue where payment detail panels could not be collapsed.

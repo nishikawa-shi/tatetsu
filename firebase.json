@@ -8,13 +8,69 @@
     ],
     "rewrites": [
       {
-        "source": "/links/**",
-        "dynamicLinks": true
-      },
-      {
-        "source": "!/links/**",
+        "source": "**",
         "destination": "/index.html"
       }
     ]
+  },
+  "flutter": {
+    "platforms": {
+      "ios": {
+        "buildConfigurations": {
+          "Debug-dev": {
+            "projectId": "tatetsu-dev",
+            "appId": "1:445700705158:ios:585fdf444c1c175147fa07",
+            "uploadDebugSymbols": true,
+            "fileOutput": "ios/Firebase/dev/GoogleService-Info.plist"
+          },
+          "Release-dev": {
+            "projectId": "tatetsu-dev",
+            "appId": "1:445700705158:ios:585fdf444c1c175147fa07",
+            "uploadDebugSymbols": true,
+            "fileOutput": "ios/Firebase/dev/GoogleService-Info.plist"
+          },
+          "Profile-dev": {
+            "projectId": "tatetsu-dev",
+            "appId": "1:445700705158:ios:585fdf444c1c175147fa07",
+            "uploadDebugSymbols": true,
+            "fileOutput": "ios/Firebase/dev/GoogleService-Info.plist"
+          },
+          "Debug-prd": {
+            "projectId": "tatetsu-prd",
+            "appId": "1:993624346292:ios:2e46a12f69955c2f1311e1",
+            "uploadDebugSymbols": true,
+            "fileOutput": "ios/Firebase/prd/GoogleService-Info.plist"
+          },
+          "Release-prd": {
+            "projectId": "tatetsu-prd",
+            "appId": "1:993624346292:ios:2e46a12f69955c2f1311e1",
+            "uploadDebugSymbols": true,
+            "fileOutput": "ios/Firebase/prd/GoogleService-Info.plist"
+          },
+          "Profile-prd": {
+            "projectId": "tatetsu-prd",
+            "appId": "1:993624346292:ios:2e46a12f69955c2f1311e1",
+            "uploadDebugSymbols": true,
+            "fileOutput": "ios/Firebase/prd/GoogleService-Info.plist"
+          }
+        }
+      },
+      "dart": {
+        "lib/firebase_options_dev.dart": {
+          "projectId": "tatetsu-dev",
+          "configurations": {
+            "ios": "1:445700705158:ios:585fdf444c1c175147fa07",
+            "web": "1:445700705158:web:63dad74af7e212c647fa07"
+          }
+        },
+        "lib/firebase_options_prd.dart": {
+          "projectId": "tatetsu-prd",
+          "configurations": {
+            "ios": "1:993624346292:ios:2e46a12f69955c2f1311e1",
+            "web": "1:993624346292:web:1593d334ed0ed1121311e1"
+          }
+        }
+      }
+    }
   }
 }

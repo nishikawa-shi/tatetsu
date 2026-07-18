@@ -110,9 +110,12 @@ platform :ios do
     )
   end
 
-  desc "AppStore向けipaアップロードlane"
-  lane :upload_ipa_to_store do
+  desc "AppStore向けipaアップロードlane。submit:false で審査提出だけを行わない（CI検証用の安全モード）"
+  lane :upload_ipa_to_store do |options|
+    # CLIからは文字列で渡るため、未指定=true・"false"のみfalseに正規化する
+    submit = options[:submit].to_s.empty? ? true : options[:submit].to_s == "true"
     deliver(
+      submit_for_review: submit,
       app_identifier: APP_IDENTIFIER_PRODUCTION,
       submission_information: {
         add_id_info_uses_idfa: true,
@@ -128,14 +131,16 @@ platform :ios do
     )
   end
 
-  desc "PlayStore向けaabアップロードlane"
-  lane :upload_aab_to_store do
-    supply(
-      aab: "build/app/outputs/bundle/prdRelease/app-prd-release.aab",
-      json_key: "playstore_credential.json",
-      package_name: APP_IDENTIFIER_PRODUCTION,
-      track: "internal"
-    )
-  end
+  # Google Play 開発者アカウント閉鎖（2024年3月）のため一時停止
+  # 新アカウント開設後に復活させること
+  # desc "PlayStore向けaabアップロードlane"
+  # lane :upload_aab_to_store do
+  #   supply(
+  #     aab: "build/app/outputs/bundle/prdRelease/app-prd-release.aab",
+  #     json_key: "playstore_credential.json",
+  #     package_name: APP_IDENTIFIER_PRODUCTION,
+  #     track: "internal"
+  #   )
+  # end
 
 end

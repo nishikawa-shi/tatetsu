@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tatetsu/l10n/built/app_localizations.dart';
@@ -27,7 +26,7 @@ class Transaction {
         title: [
           AppLocalizations.of(context)?.summaryMessageTitle ??
               "Settlements summary",
-          "[ ${DateFormat.yMd(Localizations.localeOf(context).languageCode).add_Hm().format(datetime ?? DateTime.now())} ]"
+          "[ ${DateFormat.yMd(Localizations.localeOf(context).languageCode).add_Hm().format(datetime ?? DateTime.now())} ]",
         ].join(" "),
         body: [
           payments.toSummary(
@@ -41,7 +40,7 @@ class Transaction {
           settlement.toSummary(
             AppLocalizations.of(context)?.summaryMessageSettlementLabel ??
                 "Settlement",
-          )
+          ),
         ].join("\n\n"),
       );
 }
@@ -52,7 +51,7 @@ extension PaymentsExt on List<Payment> {
   String toSummary(String label) => [
         "[$label]",
         ...map(
-          (e) => "${e.title}(${e.payer.displayName}): ${e.price.toString()}",
+          (e) => "${e.title}(${e.payer.displayName}): ${e.price}",
         ),
       ].join("\n");
 }
@@ -89,7 +88,7 @@ extension CreditorExt on Creditor {
               to: creditor,
             ),
           )
-          .whereNotNull()
+          .nonNulls
           .toList();
 }
 

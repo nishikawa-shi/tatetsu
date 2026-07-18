@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -47,21 +48,23 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               final summaryMessage =
                   transaction?.toSummaryMessage(context: context);
               final Size size = MediaQuery.of(context).size;
-              Share.share(
-                summaryMessage?.body ?? "",
-                subject: summaryMessage?.title ?? "",
-                sharePositionOrigin:
-                    Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+              SharePlus.instance.share(
+                ShareParams(
+                  text: summaryMessage?.body ?? "",
+                  subject: summaryMessage?.title ?? "",
+                  sharePositionOrigin:
+                      Rect.fromLTWH(0, 0, size.width * 2, size.height / 16),
+                ),
               );
             },
             child: Icon(
-              (Platform.isMacOS || Platform.isIOS)
+              !kIsWeb && (Platform.isMacOS || Platform.isIOS)
                   ? Icons.ios_share
                   : Icons.share,
               size: 32,
               color: Theme.of(context).colorScheme.primary,
             ),
-          )
+          ),
         ],
       ),
       body: ListView(
@@ -71,7 +74,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
   }
 
   void _initializeStateIfEmpty(BuildContext context) {
-    final paramsValue = GoRouterState.of(context).queryParams["params"];
+    final paramsValue = GoRouterState.of(context).uri.queryParameters["params"];
     if (paramsValue == null) return;
 
     state ??= AccountDetailDto.fromJson(
@@ -113,7 +116,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
               ),
               const SizedBox(
                 height: 16,
-              )
+              ),
             ],
           ),
         ),
@@ -159,7 +162,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
           width: banner.size.width.toDouble(),
           height: banner.size.height.toDouble(),
           child: AdWidget(ad: banner),
-        )
+        ),
       ],
     );
   }
@@ -225,7 +228,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       ),
       const SizedBox(
         height: 16,
-      )
+      ),
     ]);
 
     if (creditor?.hasError() ?? false) {
@@ -236,7 +239,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         _creditorErrorComponent(creditor?.getError() ?? 0),
         const SizedBox(
           height: 8,
-        )
+        ),
       ]);
     }
 
@@ -335,7 +338,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
       ),
       const SizedBox(
         height: 8,
-      )
+      ),
     ]);
 
     if (settlement?.errors.isNotEmpty ?? false) {
@@ -354,7 +357,7 @@ class _SettleAccountsPageState extends State<SettleAccountsPage> {
         ),
         const SizedBox(
           height: 8,
-        )
+        ),
       ]);
     }
 

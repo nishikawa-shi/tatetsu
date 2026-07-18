@@ -15,7 +15,7 @@ void main() {
               pN: "sato",
               prc: 49800,
               ons: {"suzuki": true, "tanaka": true, "sato": true},
-            )
+            ),
           ],
         ).toSettleAccountsState().payments[0].title,
         "会計タイトル",
@@ -33,7 +33,7 @@ void main() {
             pN: "sato",
             prc: 49800,
             ons: {"suzuki": true, "tanaka": true, "sato": true},
-          )
+          ),
         ],
       ).toSettleAccountsState();
       expect(
@@ -53,7 +53,7 @@ void main() {
               pN: "nakamoto",
               prc: 49800,
               ons: {"suzuki": true, "tanaka": true, "sato": true},
-            )
+            ),
           ],
         ).toSettleAccountsState(),
         throwsStateError,
@@ -70,7 +70,7 @@ void main() {
               pN: "sato",
               prc: 49800,
               ons: {"suzuki": true, "tanaka": true, "sato": true},
-            )
+            ),
           ],
         ).toSettleAccountsState().payments[0].price,
         49800,
@@ -88,7 +88,7 @@ void main() {
             pN: "sato",
             prc: 49800,
             ons: {"suzuki": true, "tanaka": true, "sato": true},
-          )
+          ),
         ],
       ).toSettleAccountsState();
 
@@ -113,7 +113,7 @@ void main() {
             pN: "sato",
             prc: 49800,
             ons: {"suzuki": true, "tanaka": true},
-          )
+          ),
         ],
       ).toSettleAccountsState();
 
@@ -139,9 +139,9 @@ void main() {
                 "suzuki": true,
                 "tanaka": true,
                 "sato": true,
-                "murashita": true
+                "murashita": true,
               },
-            )
+            ),
           ],
         ).toSettleAccountsState(),
         throwsStateError,
