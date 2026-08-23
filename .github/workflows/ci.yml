@@ -41,7 +41,7 @@ jobs:
       - name: Inflate configs
         env:
           CONFIGS_TAR_B64: ${{ secrets.CONFIGS_TAR_B64 }}
-        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv
+        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv --strip-components=1
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -76,7 +76,7 @@ jobs:
       - name: Inflate configs
         env:
           CONFIGS_TAR_B64: ${{ secrets.CONFIGS_TAR_B64 }}
-        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv
+        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv --strip-components=1
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -155,7 +155,7 @@ jobs:
       - name: Inflate configs
         env:
           CONFIGS_TAR_B64: ${{ secrets.CONFIGS_TAR_B64 }}
-        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv
+        run: printf '%s' "$CONFIGS_TAR_B64" | base64 -d | tar -zxv --strip-components=1
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
